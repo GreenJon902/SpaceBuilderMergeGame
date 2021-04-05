@@ -2,8 +2,8 @@ import os
 import appdirs
 
 appname: str = "SpaceBuilderMergeGame"
-appauthor: str = "[Author]"
-version: str = "[Version]"
+appauthor: str = "GreenJon902"
+version: str = "V0.0.1"
 roaming: bool = False
 
 array: {str: any} = {"appname": appname,
@@ -26,7 +26,7 @@ graphics_file: str = os.path.join(resources_dir, "graphicsConfig.ini")
 texts_file: str = os.path.join(resources_dir, "texts.ini")
 kv_language_dir: str = os.path.join(resources_dir, "kv_language")
 log_dir: str = AppDirs.user_log_dir
-log_name: str = appname + "_log"
+log_name: str = appname + "_%y-%m-%d_%_.log"
 log_class_length: int = 32
 
 default_size: [int] = 700, 500
