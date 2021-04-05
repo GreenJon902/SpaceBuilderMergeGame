@@ -27,7 +27,7 @@ texts_file: str = os.path.join(resources_dir, "texts.ini")
 kv_language_dir: str = os.path.join(resources_dir, "kv_language")
 log_dir: str = AppDirs.user_log_dir
 log_name: str = appname + "_log"
-log_class_length: int = 64
+log_class_length: int = 32
 
 default_size: [int] = 700, 500
 
