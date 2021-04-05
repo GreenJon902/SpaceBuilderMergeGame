@@ -21,8 +21,12 @@ if __name__ == "__main__":
 
     import kivy
     from kivy.logger import Logger
-
     Logger.info("Base: kivy module fully loaded")
+
+    from misc.betterLogger import redo_logger_formatting
+    redo_logger_formatting()
+    Logger.info("Base: kivy logger overwritten")
+
 
     import Graphics
 
