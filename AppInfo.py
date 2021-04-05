@@ -1,7 +1,7 @@
 import os
 import appdirs
 
-appname: str = "[AppName]"
+appname: str = "SpaceBuilderMergeGame"
 appauthor: str = "[Author]"
 version: str = "[Version]"
 roaming: bool = False
@@ -26,6 +26,7 @@ graphics_file: str = os.path.join(resources_dir, "graphicsConfig.ini")
 texts_file: str = os.path.join(resources_dir, "texts.ini")
 kv_language_dir: str = os.path.join(resources_dir, "kv_language")
 log_dir: str = AppDirs.user_log_dir
+log_name: str = appname + "_log"
 
 default_size: [int] = 700, 500
 
@@ -33,4 +34,4 @@ __all__ = ["appname", "appauthor", "version", "roaming",
            "array",
            "user_data_dir", "kivy_home_dir", "config_dir", "code_dir", "default_settings_file", "settings_file",
            "log_dir", "resources_dir", "texture_link_file", "kv_language_dir", "graphics_file", "font_link_file",
-           "default_size", "texts_file"]
+           "default_size", "texts_file", "log_name"]
