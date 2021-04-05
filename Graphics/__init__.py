@@ -16,12 +16,12 @@ def load_kv():
 
 
 def setup():
-    from Graphics.Screens.exampleScreen import ExampleScreen
+    from Graphics.Screens.baseBuildScreen import BaseBuildScreen
     from Graphics.spaceBuilderMergeGameScreenManager import SpaceBuilderMergeGameScreenManager
 
 
     Factory.register("DrawSwapScreenManager", cls=SpaceBuilderMergeGameScreenManager)
-    Factory.register("ExampleScreen", cls=ExampleScreen)
+    Factory.register("BaseBuildScreen", cls=BaseBuildScreen)
 
     Logger.info("All classes have been assigned to Factory")
 
