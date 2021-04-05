@@ -18,7 +18,6 @@ class BetterLogger:
 
 
 def redo_logger_formatting():
-    import traceback
     from AppInfo import log_class_length
     from kivy.logger import formatter_message, COLOR_SEQ, COLORS, RESET_SEQ, ColoredFormatter as _ColoredFormatter
     import logging
