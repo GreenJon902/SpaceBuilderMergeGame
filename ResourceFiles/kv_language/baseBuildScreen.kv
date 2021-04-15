@@ -1,1 +1,28 @@
 <BaseBuildScreen>:
+    FloatLayout:
+        id: background
+
+        canvas.before:
+            Color:
+                rgb: get_color_from_hex(Graphics.get("BaseBuildScreen", "crater_outside_color"))
+
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+
+        Image:
+            id: canyon_floor
+            texture: Textures.BaseLayout.canyon_floor
+
+        Image:
+            id: crater_walls
+            texture: Textures.BaseLayout.crater_walls
+
+        Image:
+            id: crater_floor
+            texture: Textures.BaseLayout.crater_floor
+
+        Image:
+            id: crater_outside
+            texture: Textures.BaseLayout.crater_outside

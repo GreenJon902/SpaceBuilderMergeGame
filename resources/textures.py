@@ -2,7 +2,7 @@ from kivy.core.image import Image as CoreImage
 from kivy.logger import Logger
 
 
-class Textures:
+class _Textures:
     pass
 
 
@@ -14,12 +14,12 @@ def load(path, section, option):
     Logger.debug("TextureLoader: Converted to texture")
 
     if section not in Textures.__dict__:
-        Textures.__dict__[section] = {}
+        Textures.__dict__[section] = _Textures()
 
-    Textures.__dict__[section][option] = texture
+    Textures.__dict__[section].__dict__[option] = texture
     Logger.info("TextureLoader: Loaded " + str(path) + " for " + str(section) + " | " + str(option))
 
-    return Textures.__dict__[section][option]
+    return Textures.__dict__[section].__dict__[option]
 
 
-Textures = Textures()
+Textures = _Textures()
