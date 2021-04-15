@@ -5,7 +5,10 @@ from configparser import ExtendedInterpolation
 from AppInfo import resources_dir
 from lib.betterLogger import BetterLogger
 from lib.pathConfigParser import PathConfigParser
+
 from resources.lang import Lang
+from resources.textures import Textures
+from resources import textures
 
 
 class ResourceLinks(BetterLogger):
@@ -84,6 +87,9 @@ class Resources(BetterLogger):
 
                         self.loaded[resource_type][section][option] = Lang.get_all(option)
 
+                    if resource_type == "textures":
+                        self.loaded[resource_type][section][option] = textures.load(path, section, option)
+
 
         # self.log_debug("")
 
@@ -94,3 +100,5 @@ def setup():
 
 Resources = Resources()
 ResourceLinks = ResourceLinks()
+
+__all__ = ["Resources", "Lang", "Textures"]
