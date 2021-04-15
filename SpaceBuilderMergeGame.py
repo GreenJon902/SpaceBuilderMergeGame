@@ -1,6 +1,5 @@
 import os
 import pathlib
-import sys
 from shutil import copyfile
 
 import AppInfo
@@ -20,7 +19,6 @@ if __name__ == "__main__":
     os.environ["KCFG_KIVY_LOG_DIR"] = AppInfo.log_dir
     os.environ["KCFG_KIVY_LOG_LEVEL"] = settings.get("Debug", "log_level")
 
-    import kivy
     from kivy.logger import Logger
     Logger.info("Base: kivy module fully loaded")
 
@@ -28,14 +26,11 @@ if __name__ == "__main__":
     redo_logger_formatting()
     Logger.info("Base: kivy logger overwritten")
 
-
-    import resources
     from resources import Resources, setup
 
     setup()
     Resources.load_all()
     Logger.info("Base: resources setup and loaded")
-    sys.exit()
 
 
     import graphics

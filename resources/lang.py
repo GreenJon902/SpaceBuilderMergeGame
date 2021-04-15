@@ -28,7 +28,7 @@ language_codes = ["af-ZA", "am-ET", "ar-AE", "ar-BH", "ar-DZ", "ar-EG", "ar-IQ",
 
 
 class Lang(BetterLogger, EventDispatcher):
-    language = OptionProperty("en-gb", options=language_codes)
+    language_code = OptionProperty("en-gb", options=language_codes)
     languages = {}
 
     def register_array(self, array, language_code):
@@ -48,6 +48,12 @@ class Lang(BetterLogger, EventDispatcher):
 
     def get_all(self, language_code):
         return self.languages[language_code]
+
+    def get(self, text_id):
+        try:
+            return self.languages[self.language_code][text_id]
+        except KeyError:
+            return self.languages[self.language_code]["General.InvalidTextId"]
 
 
 Lang = Lang()

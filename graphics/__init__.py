@@ -18,6 +18,7 @@ def setup():
     from graphics.spaceBuilderMergeGameApp import SpaceBuilderMergeGameApp
     from graphics.spaceBuilderMergeGameScreenManager import SpaceBuilderMergeGameScreenManager
     from graphics.screens.baseBuildScreen import BaseBuildScreen
+    from graphics.customWidgets.multiLangLabel import MultiLangLabel
 
 
     Factory.register("SpaceBuilderMergeGameApp",
@@ -31,6 +32,10 @@ def setup():
     Factory.register("BaseBuildScreen",
                      cls=BaseBuildScreen,
                      module="graphics.screens.baseBuildScreen")
+
+    Factory.register("MultiLangLabel",
+                     cls=MultiLangLabel,
+                     module="graphics.customWidget.multiLangLabel")
 
 
     Logger.info("All classes have been assigned to Factory")
