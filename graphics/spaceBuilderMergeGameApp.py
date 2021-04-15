@@ -1,6 +1,5 @@
 from kivy.app import App
 from kivy.factory import Factory
-from kivy.properties import StringProperty
 
 from lib.betterLogger import BetterLogger
 from resources import Lang
