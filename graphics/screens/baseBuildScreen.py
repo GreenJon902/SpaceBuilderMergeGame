@@ -1,6 +1,6 @@
 from kivy.uix.screenmanager import Screen
 
-from misc.betterLogger import BetterLogger
+from lib.betterLogger import BetterLogger
 
 
 class BaseBuildScreen(Screen, BetterLogger):

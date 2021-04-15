@@ -22,24 +22,24 @@ def setup():
 
     Factory.register("SpaceBuilderMergeGameApp",
                      cls=SpaceBuilderMergeGameApp,
-                     module="Graphics.spaceBuilderMergeGameApp")
+                     module="graphics.spaceBuilderMergeGameApp")
 
     Factory.register("DrawSwapScreenManager",
                      cls=SpaceBuilderMergeGameScreenManager,
-                     module="Graphics.SpaceBuilderMergeGameScreenManager")
+                     module="graphics.SpaceBuilderMergeGameScreenManager")
 
     Factory.register("BaseBuildScreen",
                      cls=BaseBuildScreen,
-                     module="Graphics.Screens.baseBuildScreen")
+                     module="graphics.screens.baseBuildScreen")
 
 
     Logger.info("All classes have been assigned to Factory")
 
 
 def start():
-    Logger.info("Graphics are starting")
+    Logger.info("graphics are starting")
 
     app = Factory.SpaceBuilderMergeGameApp()
     app.run()
 
-    Logger.info("Graphics have ended")
+    Logger.info("graphics have ended")

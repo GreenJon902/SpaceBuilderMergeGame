@@ -1,7 +1,7 @@
 from kivy.app import App
 from kivy.factory import Factory
 
-from misc.betterLogger import BetterLogger
+from lib.betterLogger import BetterLogger
 
 
 class SpaceBuilderMergeGameApp(App, BetterLogger):

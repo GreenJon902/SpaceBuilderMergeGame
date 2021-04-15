@@ -2,7 +2,7 @@ from kivy.uix import screenmanager
 from kivy.uix.screenmanager import ScreenManager
 
 import staticConfigurables
-from misc.betterLogger import BetterLogger
+from lib.betterLogger import BetterLogger
 
 
 class SpaceBuilderMergeGameScreenManager(ScreenManager, BetterLogger):
