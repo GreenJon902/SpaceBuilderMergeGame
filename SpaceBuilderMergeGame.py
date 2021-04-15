@@ -1,5 +1,6 @@
 import os
 import pathlib
+import sys
 from shutil import copyfile
 
 import AppInfo
@@ -28,10 +29,18 @@ if __name__ == "__main__":
     Logger.info("Base: kivy logger overwritten")
 
 
-    import graphics
+    import resources
+    from resources import Resources, setup
 
+    setup()
+    Resources.load_all()
+    Logger.info("Base: resources setup and loaded")
+    sys.exit()
+
+
+    import graphics
     graphics.setup()
-    Logger.info("Base: graphics setup")
+    Logger.info("Base: graphics module setup")
 
     graphics.load_kv()
     Logger.info("Base: kv_language loaded")

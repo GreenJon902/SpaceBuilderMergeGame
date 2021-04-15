@@ -1,0 +1,11 @@
+{
+  "Testing": {
+    "FirstScreen": {
+      "Text": "Hello World!",
+      "secopnd text": "my name is not jeff!"
+    },
+    "SecondScreen": {
+      "text": "Sreem 2"
+    }
+  }
+}
