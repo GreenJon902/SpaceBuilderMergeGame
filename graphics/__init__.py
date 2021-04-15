@@ -15,9 +15,9 @@ def load_kv():
 
 
 def setup():
-    from Graphics.spaceBuilderMergeGameApp import SpaceBuilderMergeGameApp
-    from Graphics.spaceBuilderMergeGameScreenManager import SpaceBuilderMergeGameScreenManager
-    from Graphics.Screens.baseBuildScreen import BaseBuildScreen
+    from graphics.spaceBuilderMergeGameApp import SpaceBuilderMergeGameApp
+    from graphics.spaceBuilderMergeGameScreenManager import SpaceBuilderMergeGameScreenManager
+    from graphics.screens.baseBuildScreen import BaseBuildScreen
 
 
     Factory.register("SpaceBuilderMergeGameApp",

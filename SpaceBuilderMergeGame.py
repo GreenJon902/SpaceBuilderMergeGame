@@ -28,16 +28,16 @@ if __name__ == "__main__":
     Logger.info("Base: kivy logger overwritten")
 
 
-    import Graphics
+    import graphics
 
-    Graphics.setup()
+    graphics.setup()
     Logger.info("Base: graphics setup")
 
-    Graphics.load_kv()
+    graphics.load_kv()
     Logger.info("Base: kv_language loaded")
 
     Logger.info("Base: graphics fully loaded")
 
-    Graphics.start()
+    graphics.start()
 
     Logger.info("Base: App has finished!")
