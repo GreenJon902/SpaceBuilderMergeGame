@@ -4,9 +4,6 @@
     "NoTextId": "No text id was given",
     "InvalidTextId": "Text ID is invalid"
   },
-  "Testing": {
-    "FirstScreen": {
-      "Text": "Hello World!"
-    }
+  "BaseBuilder": {
   }
 }
