@@ -52,8 +52,8 @@ class Resources(BetterLogger):
                     self._load(link_name, section, option)
 
             self.log_debug("-"*100, "Finished loading from", link_name, "-"*50)
-            self.log_debug("\n")
-            self.log_debug("")
+            # self.log_debug("\n")
+            # self.log_debug("")
 
 
 
@@ -85,7 +85,7 @@ class Resources(BetterLogger):
                         self.loaded[resource_type][section][option] = Lang.get_all(option)
 
 
-        self.log_debug("")
+        # self.log_debug("")
 
 
 def setup():
