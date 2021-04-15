@@ -5,7 +5,6 @@ from kivy.factory import Factory
 from kivy.lang import Builder
 
 import AppInfo
-from Graphics.spaceBuilderMergeGameApp import SpaceBuilderMergeGameApp
 
 
 def load_kv():
@@ -16,12 +15,23 @@ def load_kv():
 
 
 def setup():
-    from Graphics.Screens.baseBuildScreen import BaseBuildScreen
+    from Graphics.spaceBuilderMergeGameApp import SpaceBuilderMergeGameApp
     from Graphics.spaceBuilderMergeGameScreenManager import SpaceBuilderMergeGameScreenManager
+    from Graphics.Screens.baseBuildScreen import BaseBuildScreen
 
 
-    Factory.register("DrawSwapScreenManager", cls=SpaceBuilderMergeGameScreenManager)
-    Factory.register("BaseBuildScreen", cls=BaseBuildScreen)
+    Factory.register("SpaceBuilderMergeGameApp",
+                     cls=SpaceBuilderMergeGameApp,
+                     module="Graphics.spaceBuilderMergeGameApp")
+
+    Factory.register("DrawSwapScreenManager",
+                     cls=SpaceBuilderMergeGameScreenManager,
+                     module="Graphics.SpaceBuilderMergeGameScreenManager")
+
+    Factory.register("BaseBuildScreen",
+                     cls=BaseBuildScreen,
+                     module="Graphics.Screens.baseBuildScreen")
+
 
     Logger.info("All classes have been assigned to Factory")
 
@@ -29,7 +39,7 @@ def setup():
 def start():
     Logger.info("Graphics are starting")
 
-    app = SpaceBuilderMergeGameApp()
+    app = Factory.SpaceBuilderMergeGameApp()
     app.run()
 
     Logger.info("Graphics have ended")
