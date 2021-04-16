@@ -4,6 +4,9 @@ from kivy.logger import Logger as _Logger
 
 
 class BetterLogger:
+    def log_trace(self, *args):
+        _Logger.trace(str(self.__class__.__name__) + ": " + " ".join([str(arg) for arg in args]))
+
     def log_debug(self, *args):
         _Logger.debug(str(self.__class__.__name__) + ": " + " ".join([str(arg) for arg in args]))
 
