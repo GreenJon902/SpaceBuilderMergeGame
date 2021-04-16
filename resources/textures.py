@@ -6,6 +6,7 @@ from kivy.logger import Logger
 from lib.betterLogger import BetterLogger
 import resources
 
+
 class _Textures:
     pass
 
@@ -34,7 +35,6 @@ class TextureHolder(BetterLogger):
             self._texture = self.coreImage.texture
             self.log_trace("Returning Texture")
             return self._texture
-
 
 
 def _load(path, section, option, t):
