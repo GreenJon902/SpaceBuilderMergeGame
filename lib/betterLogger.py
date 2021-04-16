@@ -4,20 +4,23 @@ from kivy.logger import Logger as _Logger
 
 
 class BetterLogger:
+    __log_name_prefix__ = ""
+    __log_name_suffix__ = ""
+
     def log_trace(self, *args):
-        _Logger.trace(str(self.__class__.__name__) + ": " + " ".join([str(arg) for arg in args]))
+        _Logger.trace(self.__log_name_prefix__ + str(self.__class__.__name__) + self.__log_name_suffix__ + ": " + " ".join([str(arg) for arg in args]))
 
     def log_debug(self, *args):
-        _Logger.debug(str(self.__class__.__name__) + ": " + " ".join([str(arg) for arg in args]))
+        _Logger.debug(self.__log_name_prefix__ + str(self.__class__.__name__) + self.__log_name_suffix__ + ": " + " ".join([str(arg) for arg in args]))
 
     def log_info(self, *args):
-        _Logger.info(str(self.__class__.__name__) + ": " + " ".join([str(arg) for arg in args]))
+        _Logger.info(self.__log_name_prefix__ + str(self.__class__.__name__) + self.__log_name_suffix__ + ": " + " ".join([str(arg) for arg in args]))
 
     def log_warning(self, *args):
-        _Logger.warning(str(self.__class__.__name__) + ": " + " ".join([str(arg) for arg in args]))
+        _Logger.warning(self.__log_name_prefix__ + str(self.__class__.__name__) + self.__log_name_suffix__ + ": " + " ".join([str(arg) for arg in args]))
 
     def log_critical(self, *args):
-        _Logger.critical(str(self.__class__.__name__) + ": " + " ".join([str(arg) for arg in args]))
+        _Logger.critical(self.__log_name_prefix__ + str(self.__class__.__name__) + self.__log_name_suffix__ + ": " + " ".join([str(arg) for arg in args]))
 
 
 def redo_logger_formatting():

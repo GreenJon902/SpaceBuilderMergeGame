@@ -17,7 +17,8 @@ if __name__ == "__main__":
     os.environ["KIVY_HOME"] = AppInfo.kivy_home_dir
     os.environ["KCFG_KIVY_LOG_NAME"] = AppInfo.log_name
     os.environ["KCFG_KIVY_LOG_DIR"] = AppInfo.log_dir
-    os.environ["KCFG_KIVY_LOG_LEVEL"] = settings.get("Debug", "log_level")
+    if os.environ.get('KCFG_KIVY_LOG_LEVEL') is None:
+        os.environ["KCFG_KIVY_LOG_LEVEL"] = settings.get("Debug", "log_level")
 
     import kivy
     import kivy.core.window  # Fixes sigsegv error when loading images because openGL was not initiated - https://github.com/kivy/kivy/issues/6173
