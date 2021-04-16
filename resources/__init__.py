@@ -64,7 +64,7 @@ class Resources(BetterLogger):
         self.log_info("-"*100, "Finished looping through resource files, waiting for threads to finish""-"*100)
         while len(current_threaded_tasks):
             self.log_trace("Threads left -", current_threaded_tasks)
-        self.log_info("-"*100, "All threads finished!""-"*100)
+        self.log_info("-"*100, "All threads finished!" + "-"*100)
 
 
 
