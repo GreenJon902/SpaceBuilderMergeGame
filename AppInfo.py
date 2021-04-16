@@ -24,7 +24,7 @@ graphics_file: str = os.path.join(resources_dir, "graphicsConfig.ini")
 kv_language_dir: str = os.path.join(resources_dir, "kv_language")
 log_dir: str = AppDirs.user_log_dir
 log_name: str = appname + "_%y-%m-%d_%_.log"
-log_class_length: int = 32
+log_class_length: int = 48
 
 default_size: [int] = 700, 500
 

@@ -11,6 +11,9 @@ from resources.textures import Textures
 from resources import textures
 
 
+current_threaded_tasks = list()
+
+
 class ResourceLinks(BetterLogger):
     audio = PathConfigParser(interpolation=ExtendedInterpolation())
     font = PathConfigParser(interpolation=ExtendedInterpolation())
@@ -58,9 +61,15 @@ class Resources(BetterLogger):
             # self.log_debug("\n")
             # self.log_debug("")
 
+        self.log_info("-"*100, "Finished looping through resource files, waiting for threads to finish""-"*100)
+        while len(current_threaded_tasks):
+            self.log_trace("Threads left -", current_threaded_tasks)
+        self.log_info("-"*100, "All threads finished!""-"*100)
+
 
 
     def _load(self, resource_type, section, option):
+        self.__log_name_suffix__ = "___" + str(resource_type) + "__" + str(section) + "__" + str(option)
         self.log_debug("Loading", resource_type, "with the .ini path", (section, option))
 
         if resource_type not in self.loaded:
@@ -92,6 +101,7 @@ class Resources(BetterLogger):
 
 
         # self.log_debug("")
+        self.__log_name_suffix__ = ""
 
 
 def setup():
