@@ -1,28 +1,32 @@
 <BaseBuildScreen>:
-    FloatLayout:
-        id: background
+    ScatterLayout:
+        scale_min: 0 # zoom out
+        scale_max: 2  # zoom out
 
-        canvas.before:
-            Color:
-                rgb: get_color_from_hex(Graphics.get("BaseBuildScreen", "crater_outside_color"))
+        FloatLayout:
+            id: background
 
-            Rectangle:
-                pos: self.pos
-                size: self.size
+            canvas.before:
+                Color:
+                    rgb: get_color_from_hex(Graphics.get("BaseBuildScreen", "crater_outside_color"))
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
 
 
-        Image:
-            id: canyon_floor
-            texture: Textures.BaseLayout.canyon_floor.texture
+            Image:
+                id: canyon_floor
+                texture: Textures.BaseLayout.canyon_floor.texture
 
-        Image:
-            id: crater_walls
-            texture: Textures.BaseLayout.crater_walls.texture
+            Image:
+                id: crater_walls
+                texture: Textures.BaseLayout.crater_walls.texture
 
-        Image:
-            id: crater_floor
-            texture: Textures.BaseLayout.crater_floor.texture
+            Image:
+                id: crater_floor
+                texture: Textures.BaseLayout.crater_floor.texture
 
-        Image:
-            id: crater_outside
-            texture: Textures.BaseLayout.crater_outside.texture
+            Image:
+                id: crater_outside
+                texture: Textures.BaseLayout.crater_outside.texture
