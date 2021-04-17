@@ -34,7 +34,7 @@
     timeTillNextSplashScreen: 2
 
 
-    Image:
+    AsyncImage:
         id: image_a
         source: AppInfo.splash_screen_images[0]
         opacity: 1
@@ -42,7 +42,7 @@
         size_hint_x: 1
         pos_hint: {"x": 1}
 
-    Image:
+    AsyncImage:
         id: image_b
         source: AppInfo.splash_screen_images[1]
         opacity: -1
@@ -51,15 +51,67 @@
         pos_hint: {"x": 1}
 
 <SplashScreen2>:
-    waitBeforeTitleStartShow: 0
-    titleShowAnimationLength: 0.5
+    waitBeforeTitleStartShow: 0.5
+    titleShowAnimationLength: 0.75
     titleShowLength: 0.5
-    titleFadeAnimationLength: 0.5
-    timeTillLoadingScreen: 2
+    titleFadeAnimationLength: 0.75
+    timeTillLoadingScreen: 2.5
 
-    Image:
+    AsyncImage:
         id: image_a
         source: AppInfo.splash_screen_images[2]
         opacity: 0
         allow_stretch: True
         keep_ratio: True
+
+<LoadingScreen>:
+    loadingScreenShowAnimationLength: 0.75
+
+    FloatLayout:
+        id: content
+
+        opacity: 0
+
+        AsyncImage:
+            source: AppInfo.loading_screen_background_image
+            allow_stretch: True
+            keep_ratio: True
+
+            size_hint_y: None
+            size_hint_x: None
+            width: self.parent.width
+            height: self.parent.width/self.image_ratio
+
+        AsyncImage:
+            source: AppInfo.loading_screen_title_image
+            allow_stretch: True
+            keep_ratio: True
+
+            size_hint_y: None
+            size_hint_x: None
+            width: self.parent.width / 1.5
+            height: self.parent.width / 1.5 / self.image_ratio
+
+            pos_hint: {"x": 0, "top": 1}
+
+        Label:
+            id: loading_label
+            text: "Loading..."
+            font_name: AppInfo.loading_screen_loading_text_font
+            font_size: "30sp"
+
+            size_hint_x: 1
+            size_hint_y: 0
+            pos_hint: {"center_x": 0.5}
+            top: loading_bar.y
+
+        ProgressBar:
+            id: loading_bar
+
+            max: 1000
+            value: 750
+
+            size_hint_x: 0.8
+            size_hint_y: 0.05
+
+            pos_hint: {"center_x": 0.5, "y": 0.1}

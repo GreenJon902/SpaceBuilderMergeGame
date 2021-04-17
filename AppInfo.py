@@ -30,6 +30,9 @@ pre_load_kv_lang_path: str = os.path.join(pre_load_dir, "pre_load_kv_lang.kv")
 splash_screen_images: [str] = os.path.join(pre_load_dir, "splash_screen_1_a.png"), \
                               os.path.join(pre_load_dir, "splash_screen_1_b.png"), \
                               os.path.join(pre_load_dir, "splash_screen_2_a.png")
+loading_screen_background_image: str = os.path.join(pre_load_dir, "loading_screen_background.png")
+loading_screen_title_image: str = os.path.join(pre_load_dir, "loading_screen_title.png")
+loading_screen_loading_text_font: str = os.path.join(pre_load_dir, "loading_screen_loading_text_font.otf")
 
 default_size: [int] = 700, 500
 
@@ -38,4 +41,5 @@ __all__ = ["appname", "appauthor", "version", "roaming",
            "user_data_dir", "kivy_home_dir", "config_dir", "code_dir", "default_settings_file", "settings_file",
            "log_dir", "resources_dir", "kv_language_dir", "graphics_file",
            "default_size", "log_name", "log_class_length",
-           "pre_load_dir", "pre_load_kv_lang_path", "splash_screen_images"]
+           "pre_load_dir", "pre_load_kv_lang_path", "splash_screen_images", "loading_screen_background_image",
+           "loading_screen_title_image", "loading_screen_loading_text_font"]
