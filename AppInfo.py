@@ -3,7 +3,7 @@ import appdirs
 
 appname: str = "SpaceBuilderMergeGame"
 appauthor: str = "GreenJon902"
-version: str = "ALPHA_V0.0.1"
+version: str = "ALPHA_V0.0.2"
 roaming: bool = False
 
 array: {str: any} = {"appname": appname,
