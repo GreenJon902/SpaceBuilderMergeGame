@@ -1,0 +1,65 @@
+#:import AppInfo AppInfo
+
+<SpaceBuilderMergeGameScreenManager>:
+    id: space_builder_merge_game_screen_manager
+
+    Screen:
+        id: dummy_screen
+        name: "DummyScreen"
+        manager: "space_builder_merge_game_screen_manager"
+
+    SplashScreen1:
+        id: splash_screen_1
+        name: "SplashScreen1"
+        manager: "space_builder_merge_game_screen_manager"
+
+    SplashScreen2:
+        id: splash_screen_2
+        name: "SplashScreen2"
+        manager: "space_builder_merge_game_screen_manager"
+
+    LoadingScreen:
+        id: loading_screen
+        name: "LoadingScreen"
+        manager: "space_builder_merge_game_screen_manager"
+
+    BaseBuildScreen:
+        id: base_build_screen
+        name: "BaseBuildScreen"
+        manager: "space_builder_merge_game_screen_manager"
+
+<SplashScreen1>:
+    timeBetweenImageSwitched: 0.1
+    rocketFlyDuration: 2.5
+    timeTillNextSplashScreen: 2
+
+
+    Image:
+        id: image_a
+        source: AppInfo.splash_screen_images[0]
+        opacity: 1
+
+        size_hint_x: 1
+        pos_hint: {"x": 1}
+
+    Image:
+        id: image_b
+        source: AppInfo.splash_screen_images[1]
+        opacity: -1
+
+        size_hint_x: 1
+        pos_hint: {"x": 1}
+
+<SplashScreen2>:
+    waitBeforeTitleStartShow: 0
+    titleShowAnimationLength: 0.5
+    titleShowLength: 0.5
+    titleFadeAnimationLength: 0.5
+    timeTillLoadingScreen: 2
+
+    Image:
+        id: image_a
+        source: AppInfo.splash_screen_images[2]
+        opacity: 0
+        allow_stretch: True
+        keep_ratio: True

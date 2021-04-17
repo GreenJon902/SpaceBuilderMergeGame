@@ -1,3 +1,4 @@
+import ntpath
 import os
 
 from kivy.logger import Logger
@@ -14,21 +15,42 @@ def load_kv():
         Logger.debug("kv_loader: Loaded " + str(filename))
 
 
+def load_pre_load_kv():
+    path = AppInfo.pre_load_kv_lang_path
+    Logger.debug("kv_loader: Loading " + str(ntpath.basename(path)))
+    Builder.load_file(path)
+    Logger.debug("kv_loader: Loaded " + str(ntpath.basename(path)))
+
+
 def setup():
     from graphics.spaceBuilderMergeGameApp import SpaceBuilderMergeGameApp
     from graphics.spaceBuilderMergeGameScreenManager import SpaceBuilderMergeGameScreenManager
+    from graphics.screens.splashScreen1 import SplashScreen1
+    from graphics.screens.splashScreen2 import SplashScreen2
+    from graphics.screens.loadingScreen import LoadingScreen
     from graphics.screens.baseBuildScreen import BaseBuildScreen
     from graphics.customWidgets.multiLangLabel import MultiLangLabel
     from graphics.customWidgets.baseLayout import BaseLayout
-
 
     Factory.register("SpaceBuilderMergeGameApp",
                      cls=SpaceBuilderMergeGameApp,
                      module="graphics.spaceBuilderMergeGameApp")
 
-    Factory.register("DrawSwapScreenManager",
+    Factory.register("SpaceBuilderMergeGameScreenManager",
                      cls=SpaceBuilderMergeGameScreenManager,
                      module="graphics.SpaceBuilderMergeGameScreenManager")
+
+    Factory.register("SplashScreen1",
+                     cls=SplashScreen1,
+                     module="graphics.screens.splashScreen")
+
+    Factory.register("SplashScreen2",
+                     cls=SplashScreen2,
+                     module="graphics.screens.splashScreen")
+
+    Factory.register("LoadingScreen",
+                     cls=LoadingScreen,
+                     module="graphics.screens.loadingScreen")
 
     Factory.register("BaseBuildScreen",
                      cls=BaseBuildScreen,
@@ -41,7 +63,6 @@ def setup():
     Factory.register("BaseLayout",
                      cls=BaseLayout,
                      module="graphics.customWidget.baseLayout")
-
 
     Logger.info("All classes have been assigned to Factory")
 

@@ -29,21 +29,22 @@ if __name__ == "__main__":
     redo_logger_formatting()
     Logger.info("Base: kivy logger overwritten")
 
+    """
     from resources import Resources, setup
 
     setup()
     Resources.load_all()
-    Logger.info("Base: resources setup and loaded")
+    Logger.info("Base: resources setup and loaded")"""
 
 
     import graphics
     graphics.setup()
     Logger.info("Base: graphics module setup")
 
-    graphics.load_kv()
-    Logger.info("Base: kv_language loaded")
+    graphics.load_pre_load_kv()
+    Logger.info("Base: pre load kv_language loaded")
 
-    Logger.info("Base: graphics fully loaded")
+    Logger.info("Base: graphics ready too start")
 
     graphics.start()
 
