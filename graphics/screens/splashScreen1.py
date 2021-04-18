@@ -24,7 +24,7 @@ class SplashScreen1(Screen, BetterLogger):
     timeTillNextSplashScreen: NumericProperty = NumericProperty(1)
 
     rocketSwitchClock: ClockEvent = None
-    rocketFlyAnimation: ClockEvent = None
+    rocketFlyAnimation: Animation = None
     timeTillNextSplashScreenClock: ClockEvent = None
 
     def on_enter(self, *args: any):

@@ -1,5 +1,5 @@
-import json
 import os
+import time
 from configparser import ExtendedInterpolation
 
 from AppInfo import resources_dir
@@ -43,7 +43,14 @@ class ResourceLinks(BetterLogger):
 
 
 class ResourceLoader(BetterLogger):
-    paths: list[str] = list()
+    paths_to_resources: dict[str, any] = {}
+    tasks_completed: int = -1
+    total_links: int = 0
+    tasks: list[dict[str, any]] = list()
+
+    @property
+    def number_of_tasks_to_do(self) -> int:
+        return self.total_links + len(self.paths_to_resources) + 1  # +1 is order task list
 
     def get_paths(self):
         self.log_info("Starting to load all paths")
@@ -59,16 +66,65 @@ class ResourceLoader(BetterLogger):
                     path: str = link.get(section, option)
                     self.log_trace("Path is", path)
 
-                    if path not in self.paths:
-                        self.paths.append(path)
+                    self.total_links += 1
+
+                    if path not in self.paths_to_resources:
+                        self.paths_to_resources[path] = None
+                        self.tasks.append({
+                            "type": "load_resource",
+                            "resource_type": link_name,
+                            "section": section,
+                            "option": option,
+                            "path": path
+                        })
                         self.log_trace("Appended to list")
                     else:
                         self.log_trace("Already in list, no changes!")
+                    self.tasks.append({
+                        "type": "associate_resource",
+                        "resource_type": link_name,
+                        "section": section,
+                        "option": option,
+                        "path": path
+                    })
                     self.log_trace()
 
         self.__log_name_suffix__ = ""
         self.log_info("Finished loading all paths")
-        self.log_info("Paths are -", self.paths)
+        self.log_info(self.total_links, "links found")
+
+
+    # def load_resource_from_path(self, path: str):
+    #   time.sleep(1)
+
+
+    def run_next_task(self) -> bool:
+        # self.load_resource_from_path(str(self.paths_to_resources[list(self.paths_to_resources.keys())[self.paths_loaded]]))
+
+        if self.tasks_completed == -1:  # order task list
+            self.log_debug("Ordering task list")
+
+            correct_order_of_tasks: list[str] = list(["load_resource", "associate_resource"])
+            new_tasks_list: list[dict[str, any]] = list()
+
+            for to_look_for in correct_order_of_tasks:
+                for task in self.tasks:
+                    if task["type"] == to_look_for:
+                        new_tasks_list.append(task)
+
+            self.tasks = new_tasks_list
+
+            self.log_debug("Ordered task list")
+
+        else: # Task list is ordered
+            self.log_trace("Loading next resource. Number is", self.tasks_completed)
+
+
+        self.tasks_completed += 1
+        if self.tasks_completed == len(self.paths_to_resources):  # is done
+            return True
+        else:
+            return False
 
     """loaded = {}
 
