@@ -5,27 +5,38 @@ from kivy.logger import Logger as _Logger
 
 class BetterLogger:
     __log_name_prefix__ = ""
+    __log_name__ = "Rewriteme"
     __log_name_suffix__ = ""
 
-    @classmethod
-    def log_trace(cls, *args):
-        _Logger.trace(cls.__log_name_prefix__ + str(cls.__class__.__name__) + cls.__log_name_suffix__ + ": " + " ".join([str(arg) for arg in args]))
+    def __init__(self, *args, prefix=None, name=None, suffix=None, **kwargs):
+        super(BetterLogger, self).__init__(*args, **kwargs)
 
-    @classmethod
-    def log_debug(cls, *args):
-        _Logger.debug(cls.__log_name_prefix__ + str(cls.__class__.__name__) + cls.__log_name_suffix__ + ": " + " ".join([str(arg) for arg in args]))
+        if prefix is not None:
+            self.__log_name_prefix__ = prefix
 
-    @classmethod
-    def log_info(cls, *args):
-        _Logger.info(cls.__log_name_prefix__ + str(cls.__class__.__name__) + cls.__log_name_suffix__ + ": " + " ".join([str(arg) for arg in args]))
+        if name is not None:
+            self.__log_name__ = name
+        else:
+            self.__log_name__ = str(self.__class__.__name__)
 
-    @classmethod
-    def log_warning(cls, *args):
-        _Logger.warning(cls.__log_name_prefix__ + str(cls.__class__.__name__) + cls.__log_name_suffix__ + ": " + " ".join([str(arg) for arg in args]))
+        if suffix is not None:
+            self.__log_name_suffix__ = suffix
 
-    @classmethod
-    def log_critical(cls, *args):
-        _Logger.critical(cls.__log_name_prefix__ + str(cls.__class__.__name__) + cls.__log_name_suffix__ + ": " + " ".join([str(arg) for arg in args]))
+
+    def log_trace(self, *args):
+        _Logger.trace(self.__log_name_prefix__ + self.__log_name__ + self.__log_name_suffix__ + ": " + " ".join([str(arg) for arg in args]))
+
+    def log_debug(self, *args):
+        _Logger.debug(self.__log_name_prefix__ + self.__log_name__ + self.__log_name_suffix__ + ": " + " ".join([str(arg) for arg in args]))
+
+    def log_info(self, *args):
+        _Logger.info(self.__log_name_prefix__ + self.__log_name__ + self.__log_name_suffix__ + ": " + " ".join([str(arg) for arg in args]))
+
+    def log_warning(self, *args):
+        _Logger.warning(self.__log_name_prefix__ + self.__log_name__ + self.__log_name_suffix__ + ": " + " ".join([str(arg) for arg in args]))
+
+    def log_critical(self, *args):
+        _Logger.critical(self.__log_name_prefix__ + self.__log_name__ + self.__log_name_suffix__ + ": " + " ".join([str(arg) for arg in args]))
 
 
 def redo_logger_formatting():

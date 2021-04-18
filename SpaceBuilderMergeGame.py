@@ -25,9 +25,10 @@ if __name__ == "__main__":
     from kivy.logger import Logger
     Logger.info("Base: kivy module fully loaded")
 
-    from lib.betterLogger import redo_logger_formatting
+    from lib.betterLogger import redo_logger_formatting, BetterLogger
     redo_logger_formatting()
     Logger.info("Base: kivy logger overwritten")
+    base_logger = BetterLogger(name="Base")
 
     """
     from resources import Resources, setup
@@ -39,13 +40,13 @@ if __name__ == "__main__":
 
     import graphics
     graphics.setup()
-    Logger.info("Base: graphics module setup")
+    base_logger.log_info("graphics module setup")
 
     graphics.load_pre_load_kv()
-    Logger.info("Base: pre load kv_language loaded")
+    base_logger.log_info("pre load kv_language loaded")
 
-    Logger.info("Base: graphics ready too start")
+    base_logger.log_info("graphics ready too start")
 
     graphics.start()
 
-    Logger.info("Base: App has finished!")
+    base_logger.log_info("App has finished!")
