@@ -25,7 +25,7 @@ class SplashScreen2(Screen, BetterLogger):
                                        transition=AnimationTransition.linear) + \
                              Animation(opacity=1,
                                        duration=self.titleShowAnimationLength,
-                                       transition=AnimationTransition.out_sine) + \
+                                       transition=AnimationTransition.in_sine) + \
                              Animation(opacity=1,
                                        duration=self.titleShowLength,
                                        transition=AnimationTransition.linear) + \
