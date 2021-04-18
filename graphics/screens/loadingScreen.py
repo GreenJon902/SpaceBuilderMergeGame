@@ -43,9 +43,9 @@ class LoadingScreen(Screen, BetterLogger):
         is_done = ResourceLoader.run_next_task()
 
         if is_done:
-            self.log_info("Loaded all resources from paths -", ResourceLoader.paths_to_resources)
+            self.log_info("Finished all tasks -", ResourceLoader.paths_to_resources)
             self.loadNextResourceClock.cancel()
 
         self.ids["loading_bar"].value += 1
-        self.log_trace("Loaded resource ", self.ids["loading_bar"].value, "out of",
+        self.log_debug("Finished task", int(self.ids["loading_bar"].value), "out of",
                        ResourceLoader.number_of_tasks_to_do, "in", time.time() - t)

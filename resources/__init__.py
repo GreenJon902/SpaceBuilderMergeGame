@@ -1,5 +1,5 @@
+import json
 import os
-import time
 from configparser import ExtendedInterpolation
 
 from AppInfo import resources_dir
@@ -73,8 +73,6 @@ class ResourceLoader(BetterLogger):
                         self.tasks.append({
                             "type": "load_resource",
                             "resource_type": link_name,
-                            "section": section,
-                            "option": option,
                             "path": path
                         })
                         self.log_trace("Appended to list")
@@ -102,7 +100,7 @@ class ResourceLoader(BetterLogger):
         # self.load_resource_from_path(str(self.paths_to_resources[list(self.paths_to_resources.keys())[self.paths_loaded]]))
 
         if self.tasks_completed == -1:  # order task list
-            self.log_debug("Ordering task list")
+            self.log_trace("Ordering task list")
 
             correct_order_of_tasks: list[str] = list(["load_resource", "associate_resource"])
             new_tasks_list: list[dict[str, any]] = list()
@@ -114,10 +112,13 @@ class ResourceLoader(BetterLogger):
 
             self.tasks = new_tasks_list
 
-            self.log_debug("Ordered task list")
+            self.log_trace("Ordered task list")
 
-        else: # Task list is ordered
-            self.log_trace("Loading next resource. Number is", self.tasks_completed)
+        else:  # Task list is ordered
+            self.log_trace("Doing next task. Number is", self.tasks_completed)
+
+            self.run_task(self.tasks[self.tasks_completed])
+
 
 
         self.tasks_completed += 1
@@ -125,6 +126,35 @@ class ResourceLoader(BetterLogger):
             return True
         else:
             return False
+
+    def run_task(self, task_info):
+        self.log_trace("Current task array is", task_info)
+
+        if task_info["type"] == "load_resource":
+
+            if task_info["resource_type"] == "language":
+                array = json.load(open(task_info["path"] + ".json", "r"))
+                array = lang.convert(array)
+                self.paths_to_resources[task_info["path"]] = array
+
+            elif task_info["resource_type"] == "texture":
+                pass
+
+            elif task_info["resource_type"] == "audio":
+                pass
+
+            elif task_info["resource_type"] == "font":
+                pass
+
+            else:
+                self.log_critical("No know resource_type -", task_info["resource_type"])
+
+
+        elif task_info["type"] == "associate_resource":
+            pass
+
+        else:
+            self.log_critical("No know task type -", task_info["name"])
 
     """loaded = {}
 

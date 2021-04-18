@@ -45,6 +45,24 @@ language_codes: list[str] = ["af-ZA", "am-ET", "ar-AE", "ar-BH", "ar-DZ", "ar-EG
                              "yo-NG", "zh-CN", "zh-HK", "zh-MO", "zh-SG", "zh-TW", "zu-ZA"]
 
 
+def convert(array: {str: str}):
+    path: {str: str} = {}
+
+    def loop_inner(a: {str: str}, p: str):  # array, path
+        for i in a:
+            if isinstance(a[i], dict):
+                loop_inner(a[i], p + str(i) + ".")
+
+            else:
+                path[p + str(i)] = a[i]
+
+    loop_inner(array, "")
+    BetterLogger(name="lang_converter").log_debug("Converted", array)
+    BetterLogger(name="lang_converter").log_debug("to", path)
+    return path
+
+
+
 class Lang(BetterLogger, EventDispatcher):
     language_code: OptionProperty = OptionProperty("en-gb", options=language_codes)
     languages: {str: {str: str}} = {}
