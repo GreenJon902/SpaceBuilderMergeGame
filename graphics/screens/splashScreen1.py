@@ -27,7 +27,7 @@ class SplashScreen1(Screen, BetterLogger):
     rocketFlyAnimation: ClockEvent = None
     timeTillNextSplashScreenClock: ClockEvent = None
 
-    def on_enter(self, *args):
+    def on_enter(self, *args: any):
         self.timeTillNextSplashScreenClock = Clock.schedule_once(
             lambda *_: get_sm().set_screen("SplashScreen2"), self.timeTillNextSplashScreen)
         self.rocketSwitchClock = Clock.schedule_interval(self.switch_rockets, self.timeBetweenImageSwitched)
@@ -36,11 +36,11 @@ class SplashScreen1(Screen, BetterLogger):
         self.rocketFlyAnimation.start(self.ids["image_a"])
         self.rocketFlyAnimation.start(self.ids["image_b"])
 
-    def switch_rockets(self, *args):
+    def switch_rockets(self, *args: any):
         self.ids["image_a"].opacity *= -1
         self.ids["image_b"].opacity *= -1
 
-    def on_pre_leave(self, *args):
+    def on_pre_leave(self, *args: any):
         self.rocketSwitchClock.cancel()
         """self.rocketFlyAnimation.stop(self.ids["image_a"])
         self.rocketFlyAnimation.stop(self.ids["image_b"])"""

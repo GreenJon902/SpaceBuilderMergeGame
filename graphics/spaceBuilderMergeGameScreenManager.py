@@ -5,7 +5,7 @@ from lib.betterLogger import BetterLogger
 
 
 class SpaceBuilderMergeGameScreenManager(ScreenManager, BetterLogger):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: any, **kwargs):
         super(SpaceBuilderMergeGameScreenManager, self).__init__(*args, **kwargs)
 
         self.log_info("ScreenManager: Using FadeTransition")
@@ -13,8 +13,8 @@ class SpaceBuilderMergeGameScreenManager(ScreenManager, BetterLogger):
 
         self.set_screen("SplashScreen2")
 
-    def set_screen(self, screen_name):
-        self.current = screen_name
+    def set_screen(self, screen_name: str):
+        self.current: str = screen_name
 
         self.log_info("Switched to " + str(screen_name))
 

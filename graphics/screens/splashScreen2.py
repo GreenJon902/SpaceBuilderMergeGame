@@ -18,7 +18,7 @@ class SplashScreen2(Screen, BetterLogger):
     timeTillLoadingScreenClock: ClockEvent = None
     animation: Animation = None
 
-    def on_enter(self, *args):
+    def on_enter(self, *args: any):
         self.timeTillLoadingScreenClock = Clock.schedule_once(
             lambda *_: get_sm().set_screen("LoadingScreen"), self.timeTillLoadingScreen)
         self.animation = Animation(opacity=0,
@@ -36,5 +36,5 @@ class SplashScreen2(Screen, BetterLogger):
         self.animation.start(self.ids["image_a"])
 
 
-    def on_pre_leave(self, *args):
+    def on_pre_leave(self, *args: any):
         self.animation.stop(self.ids["image_a"])

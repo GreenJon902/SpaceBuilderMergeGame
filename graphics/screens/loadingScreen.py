@@ -13,7 +13,7 @@ class LoadingScreen(Screen, BetterLogger):
 
     loadingScreenShowAnimation: Animation = None
 
-    def on_enter(self, *args):
+    def on_enter(self, *args: any):
         self.loadingScreenShowAnimation = Animation(opacity=1,
                                                     duration=self.loadingScreenShowAnimationLength,
                                                     transition=AnimationTransition.in_out_cubic)

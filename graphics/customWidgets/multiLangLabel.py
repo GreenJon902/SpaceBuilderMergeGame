@@ -6,12 +6,12 @@ from resources import Lang
 
 
 class MultiLangLabel(Label, BetterLogger):
-    text_id = StringProperty("General.NoTextId")
+    text_id: StringProperty = StringProperty("General.NoTextId")
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: any, **kwargs: any):
         super(MultiLangLabel, self).__init__(*args, **kwargs)
         self.on_text_id(self, self.text_id)
 
     def on_text_id(self, instance: object, value: str):
-        self.text = Lang.get(value)
+        self.text: str = Lang.get(value)
         self.log_debug("Switching text of", instance, "to \"", value, "\" which is \"", self.text, " \"")

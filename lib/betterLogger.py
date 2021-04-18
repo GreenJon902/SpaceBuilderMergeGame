@@ -8,7 +8,7 @@ class BetterLogger:
     __log_name__: str = "You have a serious bug, you shouldn't be able to see this"
     __log_name_suffix__: str = ""
 
-    def __init__(self, *args, prefix: str = None, name: str = None, suffix: str = None, **kwargs):
+    def __init__(self, *args: any, prefix: str = None, name: str = None, suffix: str = None, **kwargs):
         super(BetterLogger, self).__init__(*args, **kwargs)
 
         if prefix is not None:
@@ -23,23 +23,23 @@ class BetterLogger:
             self.__log_name_suffix__ = str(suffix)
 
 
-    def log_trace(self, *args):
+    def log_trace(self, *args: any):
         _Logger.trace(str(self.__log_name_prefix__) + str(self.__log_name__) + str(self.__log_name_suffix__) +
                       ": " + " ".join([str(arg) for arg in args]))
 
-    def log_debug(self, *args):
+    def log_debug(self, *args: any):
         _Logger.debug(str(self.__log_name_prefix__) + str(self.__log_name__) + str(self.__log_name_suffix__) +
                       ": " + " ".join([str(arg) for arg in args]))
 
-    def log_info(self, *args):
+    def log_info(self, *args: any):
         _Logger.info(str(self.__log_name_prefix__) + str(self.__log_name__) + str(self.__log_name_suffix__) +
                      ": " + " ".join([str(arg) for arg in args]))
 
-    def log_warning(self, *args):
+    def log_warning(self, *args: any):
         _Logger.warning(str(self.__log_name_prefix__) + str(self.__log_name__) + str(self.__log_name_suffix__) +
                         ": " + " ".join([str(arg) for arg in args]))
 
-    def log_critical(self, *args):
+    def log_critical(self, *args: any):
         _Logger.critical(str(self.__log_name_prefix__) + str(self.__log_name__) + str(self.__log_name_suffix__) +
                          ": " + " ".join([str(arg) for arg in args]))
 
@@ -48,23 +48,24 @@ def redo_logger_formatting():
     from AppInfo import log_class_length
     from kivy.logger import formatter_message, COLOR_SEQ, COLORS, RESET_SEQ, ColoredFormatter as _ColoredFormatter
     import logging
+    from kivy import logger as kvLogger
 
     class ColoredFormatter(_ColoredFormatter):
         def format(self, record: logging.LogRecord) -> str:
             try:
                 msg: (str, str) = record.msg.split(':', 1)
                 if len(msg) == 2:
-                    record.msg: str = ('[%-' + str(log_class_length) + 's]%s') % (msg[0], msg[1])
-            except Exception as e:
+                    record.msg = ('[%-' + str(log_class_length) + 's]%s') % (msg[0], msg[1])
+            except Exception:
                 print("redo_logger_formatting broke!")
             levelname: str = record.levelname
-            if record.levelno == logging.TRACE:
+            if record.levelno == kvLogger.LOG_LEVELS["trace"]:
                 levelname: str = 'TRACE'
-                record.levelname: str = levelname
+                record.levelname = levelname
             if self.use_color and levelname in COLORS:
                 levelname_color: str = (
-                        COLOR_SEQ % (30 + COLORS[levelname]) + levelname + RESET_SEQ)
-                record.levelname: str = levelname_color
+                        str(COLOR_SEQ % (30 + COLORS[levelname])) + levelname + RESET_SEQ)
+                record.levelname = levelname_color
             return logging.Formatter.format(self, record)
 
     use_color: bool = (

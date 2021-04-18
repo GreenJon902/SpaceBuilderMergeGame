@@ -8,7 +8,7 @@ if __name__ == "__main__":
     if not os.path.exists(AppInfo.user_data_dir):
         os.makedirs(AppInfo.user_data_dir)
 
-    #if not os.path.exists(AppInfo.settings_file):
+    #  if not os.path.exists(AppInfo.settings_file):
     copyfile(AppInfo.default_settings_file, AppInfo.settings_file)
 
     from staticConfigurables import settings
@@ -20,8 +20,11 @@ if __name__ == "__main__":
     if os.environ.get('KCFG_KIVY_LOG_LEVEL') is None:
         os.environ["KCFG_KIVY_LOG_LEVEL"] = settings.get("Debug", "log_level")
 
+    # noinspection PyUnresolvedReferences
     import kivy
-    import kivy.core.window  # Fixes sigsegv error when loading images because openGL was not initiated - https://github.com/kivy/kivy/issues/6173
+    # noinspection PyUnresolvedReferences
+    import kivy.core.window
+    # Fixes sigsegv error when loading images because openGL was not initiated-https://github.com/kivy/kivy/issues/6173
     from kivy.logger import Logger
     Logger.info("Base: kivy module fully loaded")
 
