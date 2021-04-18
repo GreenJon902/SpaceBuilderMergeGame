@@ -1,6 +1,6 @@
 import os
 
-from kivy.logger import Logger as _Logger
+from kivy.logger import Logger as _Logger, WHITE, COLOR_SEQ
 
 
 class BetterLogger:
@@ -22,10 +22,10 @@ class BetterLogger:
         if suffix is not None:
             self.__log_name_suffix__ = str(suffix)
 
-
     def log_trace(self, *args: any):
-        _Logger.trace(str(self.__log_name_prefix__) + str(self.__log_name__) + str(self.__log_name_suffix__) +
-                      ": " + " ".join([str(arg) for arg in args]))
+        _Logger.debug(str(self.__log_name_prefix__) + str(self.__log_name__) + str(self.__log_name_suffix__) +
+                      str(COLOR_SEQ % (30 + WHITE)) +
+                      ": " + " "*7 + " ".join([str(arg) for arg in args]) + "")
 
     def log_debug(self, *args: any):
         _Logger.debug(str(self.__log_name_prefix__) + str(self.__log_name__) + str(self.__log_name_suffix__) +
@@ -46,7 +46,8 @@ class BetterLogger:
 
 def redo_logger_formatting():
     from AppInfo import log_class_length
-    from kivy.logger import formatter_message, COLOR_SEQ, COLORS, RESET_SEQ, ColoredFormatter as _ColoredFormatter
+    from kivy.logger import formatter_message, COLOR_SEQ, COLORS, RESET_SEQ, ColoredFormatter as _ColoredFormatter, \
+        WHITE
     import logging
     from kivy import logger as kvLogger
 
@@ -55,7 +56,7 @@ def redo_logger_formatting():
             try:
                 msg: (str, str) = record.msg.split(':', 1)
                 if len(msg) == 2:
-                    record.msg = ('[%-' + str(log_class_length) + 's]%s') % (msg[0], msg[1])
+                    record.msg = ('[%-' + str(log_class_length) + 's%s') % (msg[0], msg[1])
             except Exception:
                 print("redo_logger_formatting broke!")
             levelname: str = record.levelname
@@ -64,7 +65,7 @@ def redo_logger_formatting():
                 record.levelname = levelname
             if self.use_color and levelname in COLORS:
                 levelname_color: str = (
-                        str(COLOR_SEQ % (30 + COLORS[levelname])) + levelname + RESET_SEQ)
+                        str(COLOR_SEQ % (30 + COLORS[levelname])) + levelname)
                 record.levelname = levelname_color
             return logging.Formatter.format(self, record)
 
@@ -89,7 +90,7 @@ def redo_logger_formatting():
 
     else:
         color_fmt: str = formatter_message(
-            '[%(levelname)-18s] %(message)s', use_color)
+            RESET_SEQ + '[%(levelname)-18s] %(message)s', use_color)
 
     formatter: ColoredFormatter = ColoredFormatter(color_fmt, use_color=use_color)
 
