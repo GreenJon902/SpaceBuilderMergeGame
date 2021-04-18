@@ -42,8 +42,35 @@ class ResourceLinks(BetterLogger):
         self.log_info("Loaded link files")
 
 
-class Resources(BetterLogger):
-    loaded = {}
+class ResourceLoader(BetterLogger):
+    paths: [str] = list()
+
+    def load_paths(self):
+        self.log_info("Starting to load all paths")
+
+        for link_name in ResourceLinks.array:
+            self.__log_name_suffix__ = "_" + str(link_name)
+            link = ResourceLinks.array[link_name]
+            self.log_debug("Loading paths from", link)
+
+            for section in link.sections():
+                for option in link.options(section):
+                    self.log_trace("Getting path from |", section, "|", option, "...")
+                    path = link.get(section, option)
+                    self.log_trace("Path is", path)
+
+                    if path not in self.paths:
+                        self.paths.append(path)
+                        self.log_trace("Appended to list")
+                    else:
+                        self.log_trace("Already in list, no changes!")
+                    self.log_trace()
+
+        self.__log_name_suffix__ = ""
+        self.log_info("Finished loading all paths")
+        self.log_info("Paths are -", self.paths)
+
+    """loaded = {}
 
     def load_all(self):
         self.log_info("Starting to load all ResourceFiles")
@@ -101,14 +128,14 @@ class Resources(BetterLogger):
 
 
         # self.log_debug("")
-        self.__log_name_suffix__ = ""
+        self.__log_name_suffix__ = """""
 
 
-def setup():
+def load_link_files():
     ResourceLinks.load_link_files()
 
 
-Resources = Resources()
+ResourceLoader = ResourceLoader()
 ResourceLinks = ResourceLinks()
 
-__all__ = ["Resources", "Lang", "Textures"]
+__all__ = ["ResourceLoader", "Lang", "Textures", "load_link_files"]

@@ -11,7 +11,7 @@ class SpaceBuilderMergeGameScreenManager(ScreenManager, BetterLogger):
         self.log_info("ScreenManager: Using FadeTransition")
         self.transition = NoTransition()
 
-        self.set_screen("SplashScreen1")
+        self.set_screen("SplashScreen2")
 
     def set_screen(self, screen_name):
         self.current = screen_name
@@ -20,5 +20,5 @@ class SpaceBuilderMergeGameScreenManager(ScreenManager, BetterLogger):
 
 
 def get_sm():
-    BetterLogger.log_trace("get_sm(): Returning screen manager")
+    BetterLogger().log_trace("get_sm(): Returning screen manager")
     return App.get_running_app().root

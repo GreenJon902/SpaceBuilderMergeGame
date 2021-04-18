@@ -4,6 +4,9 @@ from kivy.uix.screenmanager import Screen
 
 from lib.betterLogger import BetterLogger
 
+from resources import ResourceLoader
+from resources import load_link_files
+
 
 class LoadingScreen(Screen, BetterLogger):
     loadingScreenShowAnimationLength = NumericProperty(1)
@@ -15,3 +18,13 @@ class LoadingScreen(Screen, BetterLogger):
                                                     duration=self.loadingScreenShowAnimationLength,
                                                     transition=AnimationTransition.in_out_cubic)
         self.loadingScreenShowAnimation.start(self.ids["content"])
+
+    def prepare_resource_loader(self):
+        self.log_info("Resource loader started preparing")
+        load_link_files()
+        ResourceLoader.load_paths()
+        self.log_info("Resource loader finished preparing")
+
+    def on_pre_enter(self, *args):
+        self.prepare_resource_loader()
+        self.ids["loading_bar"].max = len(ResourceLoader.paths)
