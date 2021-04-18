@@ -137,7 +137,7 @@ class ResourceLoader(BetterLogger):
                 array = lang.convert(array)
                 self.paths_to_resources[task_info["path"]] = array
 
-            elif task_info["resource_type"] == "texture":
+            elif task_info["resource_type"] == "textures":
                 pass
 
             elif task_info["resource_type"] == "audio":
