@@ -9,9 +9,9 @@ from resources import load_link_files
 
 
 class LoadingScreen(Screen, BetterLogger):
-    loadingScreenShowAnimationLength = NumericProperty(1)
+    loadingScreenShowAnimationLength: NumericProperty = NumericProperty(1)
 
-    loadingScreenShowAnimation = None
+    loadingScreenShowAnimation: Animation = None
 
     def on_enter(self, *args):
         self.loadingScreenShowAnimation = Animation(opacity=1,

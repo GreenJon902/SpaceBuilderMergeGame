@@ -28,7 +28,7 @@ if __name__ == "__main__":
     from lib.betterLogger import redo_logger_formatting, BetterLogger
     redo_logger_formatting()
     Logger.info("Base: kivy logger overwritten")
-    base_logger = BetterLogger(name="Base")
+    base_logger: BetterLogger = BetterLogger(name="Base")
 
     """
     from resources import Resources, setup

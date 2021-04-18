@@ -12,6 +12,6 @@ class MultiLangLabel(Label, BetterLogger):
         super(MultiLangLabel, self).__init__(*args, **kwargs)
         self.on_text_id(self, self.text_id)
 
-    def on_text_id(self, instance, value):
+    def on_text_id(self, instance: object, value: str):
         self.text = Lang.get(value)
         self.log_debug("Switching text of", instance, "to \"", value, "\" which is \"", self.text, " \"")

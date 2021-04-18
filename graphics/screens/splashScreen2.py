@@ -1,3 +1,4 @@
+from kivy._clock import ClockEvent
 from kivy.animation import Animation, AnimationTransition
 from kivy.clock import Clock
 from kivy.properties import NumericProperty
@@ -8,14 +9,14 @@ from lib.betterLogger import BetterLogger
 
 
 class SplashScreen2(Screen, BetterLogger):
-    waitBeforeTitleStartShow = NumericProperty(1)
-    titleShowAnimationLength = NumericProperty(1)
-    titleShowLength = NumericProperty(1)
-    titleFadeAnimationLength = NumericProperty(1)
-    timeTillLoadingScreen = NumericProperty(4)
+    waitBeforeTitleStartShow: NumericProperty = NumericProperty(1)
+    titleShowAnimationLength: NumericProperty = NumericProperty(1)
+    titleShowLength: NumericProperty = NumericProperty(1)
+    titleFadeAnimationLength: NumericProperty = NumericProperty(1)
+    timeTillLoadingScreen: NumericProperty = NumericProperty(4)
 
-    timeTillLoadingScreenClock = None
-    animation = None
+    timeTillLoadingScreenClock: ClockEvent = None
+    animation: Animation = None
 
     def on_enter(self, *args):
         self.timeTillLoadingScreenClock = Clock.schedule_once(

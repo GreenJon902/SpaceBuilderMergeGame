@@ -4,37 +4,55 @@ from kivy.properties import OptionProperty
 from lib.betterLogger import BetterLogger
 
 #  All locale codes
-language_codes = ["af-ZA", "am-ET", "ar-AE", "ar-BH", "ar-DZ", "ar-EG", "ar-IQ", "ar-JO", "ar-KW", "ar-LB", "ar-LY",
-                  "ar-MA", "arn-CL", "ar-OM", "ar-QA", "ar-SA", "ar-SY", "ar-TN", "ar-YE", "as-IN", "az-Cyrl-AZ",
-                  "az-Latn-AZ", "ba-RU", "be-BY", "bg-BG", "bn-BD", "bn-IN", "bo-CN", "br-FR", "bs-Cyrl-BA",
-                  "bs-Latn-BA", "ca-ES", "co-FR", "cs-CZ", "cy-GB", "da-DK", "de-AT", "de-CH", "de-DE", "de-LI",
-                  "de-LU", "dsb-DE", "dv-MV", "el-GR", "en-029", "en-AU", "en-BZ", "en-CA", "en-GB", "en-IE",
-                  "en-IN", "en-JM", "en-MY", "en-NZ", "en-PH", "en-SG", "en-TT", "en-US", "en-ZA", "en-ZW", "es-AR",
-                  "es-BO", "es-CL", "es-CO", "es-CR", "es-DO", "es-EC", "es-ES", "es-GT", "es-HN", "es-MX", "es-NI",
-                  "es-PA", "es-PE", "es-PR", "es-PY", "es-SV", "es-US", "es-UY", "es-VE", "et-EE", "eu-ES", "fa-IR",
-                  "fi-FI", "fil-PH", "fo-FO", "fr-BE", "fr-CA", "fr-CH", "fr-FR", "fr-LU", "fr-MC", "fy-NL", "ga-IE",
-                  "gd-GB", "gl-ES", "gsw-FR", "gu-IN", "ha-Latn-NG", "he-IL", "hi-IN", "hr-BA", "hr-HR", "hsb-DE",
-                  "hu-HU", "hy-AM", "id-ID", "ig-NG", "ii-CN", "is-IS", "it-CH", "it-IT", "iu-Cans-CA", "iu-Latn-CA",
-                  "ja-JP", "ka-GE", "kk-KZ", "kl-GL", "km-KH", "kn-IN", "kok-IN", "ko-KR", "ky-KG", "lb-LU", "lo-LA",
-                  "lt-LT", "lv-LV", "mi-NZ", "mk-MK", "ml-IN", "mn-MN", "mn-Mong-CN", "moh-CA", "mr-IN", "ms-BN",
-                  "ms-MY", "mt-MT", "nb-NO", "ne-NP", "nl-BE", "nl-NL", "nn-NO", "nso-ZA", "oc-FR", "or-IN", "pa-IN",
-                  "pl-PL", "prs-AF", "ps-AF", "pt-BR", "pt-PT", "qut-GT", "quz-BO", "quz-EC", "quz-PE", "rm-CH",
-                  "ro-RO", "ru-RU", "rw-RW", "sah-RU", "sa-IN", "se-FI", "se-NO", "se-SE", "si-LK", "sk-SK", "sl-SI",
-                  "sma-NO", "sma-SE", "smj-NO", "smj-SE", "smn-FI", "sms-FI", "sq-AL", "sr-Cyrl-BA", "sr-Cyrl-CS",
-                  "sr-Cyrl-ME", "sr-Cyrl-RS", "sr-Latn-BA", "sr-Latn-CS", "sr-Latn-ME", "sr-Latn-RS", "sv-FI", "sv-SE",
-                  "sw-KE", "syr-SY", "ta-IN", "te-IN", "tg-Cyrl-TJ", "th-TH", "tk-TM", "tn-ZA", "tr-TR", "tt-RU",
-                  "tzm-Latn-DZ", "ug-CN", "uk-UA", "ur-PK", "uz-Cyrl-UZ", "uz-Latn-UZ", "vi-VN", "wo-SN", "xh-ZA",
-                  "yo-NG", "zh-CN", "zh-HK", "zh-MO", "zh-SG", "zh-TW", "zu-ZA"]
+language_codes: list[str] = ["af-ZA", "am-ET", "ar-AE", "ar-BH", "ar-DZ", "ar-EG", "ar-IQ", "ar-JO", "ar-KW", "ar-LB",
+                             "ar-LY",
+                             "ar-MA", "arn-CL", "ar-OM", "ar-QA", "ar-SA", "ar-SY", "ar-TN", "ar-YE", "as-IN",
+                             "az-Cyrl-AZ",
+                             "az-Latn-AZ", "ba-RU", "be-BY", "bg-BG", "bn-BD", "bn-IN", "bo-CN", "br-FR", "bs-Cyrl-BA",
+                             "bs-Latn-BA", "ca-ES", "co-FR", "cs-CZ", "cy-GB", "da-DK", "de-AT", "de-CH", "de-DE",
+                             "de-LI",
+                             "de-LU", "dsb-DE", "dv-MV", "el-GR", "en-029", "en-AU", "en-BZ", "en-CA", "en-GB", "en-IE",
+                             "en-IN", "en-JM", "en-MY", "en-NZ", "en-PH", "en-SG", "en-TT", "en-US", "en-ZA", "en-ZW",
+                             "es-AR",
+                             "es-BO", "es-CL", "es-CO", "es-CR", "es-DO", "es-EC", "es-ES", "es-GT", "es-HN", "es-MX",
+                             "es-NI",
+                             "es-PA", "es-PE", "es-PR", "es-PY", "es-SV", "es-US", "es-UY", "es-VE", "et-EE", "eu-ES",
+                             "fa-IR",
+                             "fi-FI", "fil-PH", "fo-FO", "fr-BE", "fr-CA", "fr-CH", "fr-FR", "fr-LU", "fr-MC", "fy-NL",
+                             "ga-IE",
+                             "gd-GB", "gl-ES", "gsw-FR", "gu-IN", "ha-Latn-NG", "he-IL", "hi-IN", "hr-BA", "hr-HR",
+                             "hsb-DE",
+                             "hu-HU", "hy-AM", "id-ID", "ig-NG", "ii-CN", "is-IS", "it-CH", "it-IT", "iu-Cans-CA",
+                             "iu-Latn-CA",
+                             "ja-JP", "ka-GE", "kk-KZ", "kl-GL", "km-KH", "kn-IN", "kok-IN", "ko-KR", "ky-KG", "lb-LU",
+                             "lo-LA",
+                             "lt-LT", "lv-LV", "mi-NZ", "mk-MK", "ml-IN", "mn-MN", "mn-Mong-CN", "moh-CA", "mr-IN",
+                             "ms-BN",
+                             "ms-MY", "mt-MT", "nb-NO", "ne-NP", "nl-BE", "nl-NL", "nn-NO", "nso-ZA", "oc-FR", "or-IN",
+                             "pa-IN",
+                             "pl-PL", "prs-AF", "ps-AF", "pt-BR", "pt-PT", "qut-GT", "quz-BO", "quz-EC", "quz-PE",
+                             "rm-CH",
+                             "ro-RO", "ru-RU", "rw-RW", "sah-RU", "sa-IN", "se-FI", "se-NO", "se-SE", "si-LK", "sk-SK",
+                             "sl-SI",
+                             "sma-NO", "sma-SE", "smj-NO", "smj-SE", "smn-FI", "sms-FI", "sq-AL", "sr-Cyrl-BA",
+                             "sr-Cyrl-CS",
+                             "sr-Cyrl-ME", "sr-Cyrl-RS", "sr-Latn-BA", "sr-Latn-CS", "sr-Latn-ME", "sr-Latn-RS",
+                             "sv-FI", "sv-SE",
+                             "sw-KE", "syr-SY", "ta-IN", "te-IN", "tg-Cyrl-TJ", "th-TH", "tk-TM", "tn-ZA", "tr-TR",
+                             "tt-RU",
+                             "tzm-Latn-DZ", "ug-CN", "uk-UA", "ur-PK", "uz-Cyrl-UZ", "uz-Latn-UZ", "vi-VN", "wo-SN",
+                             "xh-ZA",
+                             "yo-NG", "zh-CN", "zh-HK", "zh-MO", "zh-SG", "zh-TW", "zu-ZA"]
 
 
 class Lang(BetterLogger, EventDispatcher):
-    language_code = OptionProperty("en-gb", options=language_codes)
-    languages = {}
+    language_code: OptionProperty = OptionProperty("en-gb", options=language_codes)
+    languages: {str: {str: str}} = {}
 
-    def register_array(self, array, language_code):
-        path = {}
+    def register_array(self, array: {str: str}, language_code: str):
+        path: {str: str} = {}
 
-        def loop_inner(a, p):  # array, path
+        def loop_inner(a: {str: str}, p: str):  # array, path
             for i in a:
                 if isinstance(a[i], dict):
                     loop_inner(a[i], p + str(i) + ".")
@@ -46,14 +64,14 @@ class Lang(BetterLogger, EventDispatcher):
         self.log_debug(path)
         self.languages[language_code] = path
 
-    def get_all(self, language_code):
-        return self.languages[language_code]
+    def get_all(self, language_code: str) -> {str}:
+        return self.languages[str(language_code)]
 
-    def get(self, text_id):
+    def get(self, text_id: str) -> str:
         try:
-            return self.languages[self.language_code][text_id]
+            return self.languages[self.language_code][str(text_id)]
         except KeyError:
             return self.languages[self.language_code]["General.InvalidTextId"]
 
 
-Lang = Lang()
+Lang: Lang = Lang()

@@ -4,39 +4,44 @@ from kivy.logger import Logger as _Logger
 
 
 class BetterLogger:
-    __log_name_prefix__ = ""
-    __log_name__ = "Rewriteme"
-    __log_name_suffix__ = ""
+    __log_name_prefix__: str = ""
+    __log_name__: str = "You have a serious bug, you shouldn't be able to see this"
+    __log_name_suffix__: str = ""
 
-    def __init__(self, *args, prefix=None, name=None, suffix=None, **kwargs):
+    def __init__(self, *args, prefix: str = None, name: str = None, suffix: str = None, **kwargs):
         super(BetterLogger, self).__init__(*args, **kwargs)
 
         if prefix is not None:
-            self.__log_name_prefix__ = prefix
+            self.__log_name_prefix__ = str(prefix)
 
         if name is not None:
-            self.__log_name__ = name
+            self.__log_name__ = str(name)
         else:
             self.__log_name__ = str(self.__class__.__name__)
 
         if suffix is not None:
-            self.__log_name_suffix__ = suffix
+            self.__log_name_suffix__ = str(suffix)
 
 
     def log_trace(self, *args):
-        _Logger.trace(self.__log_name_prefix__ + self.__log_name__ + self.__log_name_suffix__ + ": " + " ".join([str(arg) for arg in args]))
+        _Logger.trace(str(self.__log_name_prefix__) + str(self.__log_name__) + str(self.__log_name_suffix__) +
+                      ": " + " ".join([str(arg) for arg in args]))
 
     def log_debug(self, *args):
-        _Logger.debug(self.__log_name_prefix__ + self.__log_name__ + self.__log_name_suffix__ + ": " + " ".join([str(arg) for arg in args]))
+        _Logger.debug(str(self.__log_name_prefix__) + str(self.__log_name__) + str(self.__log_name_suffix__) +
+                      ": " + " ".join([str(arg) for arg in args]))
 
     def log_info(self, *args):
-        _Logger.info(self.__log_name_prefix__ + self.__log_name__ + self.__log_name_suffix__ + ": " + " ".join([str(arg) for arg in args]))
+        _Logger.info(str(self.__log_name_prefix__) + str(self.__log_name__) + str(self.__log_name_suffix__) +
+                     ": " + " ".join([str(arg) for arg in args]))
 
     def log_warning(self, *args):
-        _Logger.warning(self.__log_name_prefix__ + self.__log_name__ + self.__log_name_suffix__ + ": " + " ".join([str(arg) for arg in args]))
+        _Logger.warning(str(self.__log_name_prefix__) + str(self.__log_name__) + str(self.__log_name_suffix__) +
+                        ": " + " ".join([str(arg) for arg in args]))
 
     def log_critical(self, *args):
-        _Logger.critical(self.__log_name_prefix__ + self.__log_name__ + self.__log_name_suffix__ + ": " + " ".join([str(arg) for arg in args]))
+        _Logger.critical(str(self.__log_name_prefix__) + str(self.__log_name__) + str(self.__log_name_suffix__) +
+                         ": " + " ".join([str(arg) for arg in args]))
 
 
 def redo_logger_formatting():
@@ -45,24 +50,24 @@ def redo_logger_formatting():
     import logging
 
     class ColoredFormatter(_ColoredFormatter):
-        def format(self, record):
+        def format(self, record: logging.LogRecord) -> str:
             try:
-                msg = record.msg.split(':', 1)
+                msg: (str, str) = record.msg.split(':', 1)
                 if len(msg) == 2:
-                    record.msg = ('[%-' + str(log_class_length) + 's]%s') % (msg[0], msg[1])
+                    record.msg: str = ('[%-' + str(log_class_length) + 's]%s') % (msg[0], msg[1])
             except Exception as e:
                 print("redo_logger_formatting broke!")
-            levelname = record.levelname
+            levelname: str = record.levelname
             if record.levelno == logging.TRACE:
-                levelname = 'TRACE'
-                record.levelname = levelname
+                levelname: str = 'TRACE'
+                record.levelname: str = levelname
             if self.use_color and levelname in COLORS:
-                levelname_color = (
+                levelname_color: str = (
                         COLOR_SEQ % (30 + COLORS[levelname]) + levelname + RESET_SEQ)
-                record.levelname = levelname_color
+                record.levelname: str = levelname_color
             return logging.Formatter.format(self, record)
 
-    use_color = (
+    use_color: bool = (
             (
                     os.environ.get("WT_SESSION") or
                     os.environ.get("COLORTERM") == 'truecolor' or
@@ -78,13 +83,13 @@ def redo_logger_formatting():
             ) and os.environ.get('KIVY_BUILD') not in ('android', 'ios')
     )
     if not use_color:
-        color_fmt = formatter_message(
+        color_fmt: str = formatter_message(
             '[%(levelname)-7s] %(message)s', use_color)
 
     else:
-        color_fmt = formatter_message(
+        color_fmt: str = formatter_message(
             '[%(levelname)-18s] %(message)s', use_color)
 
-    formatter = ColoredFormatter(color_fmt, use_color=use_color)
+    formatter: ColoredFormatter = ColoredFormatter(color_fmt, use_color=use_color)
 
     _Logger.handlers[2].setFormatter(formatter)

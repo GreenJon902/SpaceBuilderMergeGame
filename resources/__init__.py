@@ -15,17 +15,17 @@ current_threaded_tasks = list()
 
 
 class ResourceLinks(BetterLogger):
-    audio = PathConfigParser(interpolation=ExtendedInterpolation())
-    font = PathConfigParser(interpolation=ExtendedInterpolation())
-    language = PathConfigParser(interpolation=ExtendedInterpolation())
-    textures = PathConfigParser(interpolation=ExtendedInterpolation())
+    audio: PathConfigParser = PathConfigParser(interpolation=ExtendedInterpolation())
+    font: PathConfigParser = PathConfigParser(interpolation=ExtendedInterpolation())
+    language: PathConfigParser = PathConfigParser(interpolation=ExtendedInterpolation())
+    textures: PathConfigParser = PathConfigParser(interpolation=ExtendedInterpolation())
 
-    audio_file_name = "audioLink.ini"
-    font_file_name = "fontLink.ini"
-    language_file_name = "langLink.ini"
-    textures_file_name = "textureLink.ini"
+    audio_file_name: str = "audioLink.ini"
+    font_file_name: str = "fontLink.ini"
+    language_file_name: str = "langLink.ini"
+    textures_file_name: str = "textureLink.ini"
 
-    array = {
+    array: {str: PathConfigParser} = {
         "audio": audio,
         "font": font,
         "language": language,
@@ -50,13 +50,13 @@ class ResourceLoader(BetterLogger):
 
         for link_name in ResourceLinks.array:
             self.__log_name_suffix__ = "_" + str(link_name)
-            link = ResourceLinks.array[link_name]
+            link: PathConfigParser = ResourceLinks.array[link_name]
             self.log_debug("Loading paths from", link)
 
             for section in link.sections():
                 for option in link.options(section):
                     self.log_trace("Getting path from |", section, "|", option, "...")
-                    path = link.get(section, option)
+                    path: str = link.get(section, option)
                     self.log_trace("Path is", path)
 
                     if path not in self.paths:
@@ -135,7 +135,7 @@ def load_link_files():
     ResourceLinks.load_link_files()
 
 
-ResourceLoader = ResourceLoader()
-ResourceLinks = ResourceLinks()
+ResourceLoader: ResourceLoader = ResourceLoader()
+ResourceLinks: ResourceLinks = ResourceLinks()
 
 __all__ = ["ResourceLoader", "Lang", "Textures", "load_link_files"]

@@ -16,7 +16,7 @@ def load_kv():
 
 
 def load_pre_load_kv():
-    path = AppInfo.pre_load_kv_lang_path
+    path: str = AppInfo.pre_load_kv_lang_path
     Logger.debug("kv_loader: Loading " + str(ntpath.basename(path)))
     Builder.load_file(path)
     Logger.debug("kv_loader: Loaded " + str(ntpath.basename(path)))
@@ -69,8 +69,9 @@ def setup():
 
 def start():
     Logger.info("graphics are starting")
+    from graphics.spaceBuilderMergeGameApp import SpaceBuilderMergeGameApp
 
-    app = Factory.SpaceBuilderMergeGameApp()
+    app: SpaceBuilderMergeGameApp = Factory.SpaceBuilderMergeGameApp()
     app.run()
 
     Logger.info("graphics have ended")

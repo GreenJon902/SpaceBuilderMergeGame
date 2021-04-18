@@ -14,17 +14,17 @@ class _Textures:
 class TextureHolder(BetterLogger):
     __log_name_suffix__ = "_Not Named Yet"
 
-    coreImage = None
-    _texture = None
-    changed = False
+    coreImage: CoreImage = None
+    _texture: CoreImage = None
+    changed: bool = False
 
-    def set_core_image(self, coreImage):
+    def set_core_image(self, coreImage: CoreImage):
         self.coreImage = coreImage
         self.changed = True
         self.log_trace("CoreImage set to", coreImage)
 
     @property
-    def texture(self):
+    def texture(self) -> CoreImage:
         if self._texture is not None and not self.changed:
             self.log_trace("Returning Texture, not none and not changed")
             return self._texture
@@ -37,12 +37,12 @@ class TextureHolder(BetterLogger):
             return self._texture
 
 
-def _load(path, section, option, t):
+def _load(path: str, section: str, option: str, t: Thread):
     resources.current_threaded_tasks.append(t)
 
     Logger.debug("TextureLoader" + "__" + str(section) + "__" + str(option) + ": Starting to load " + str(path) +
                  " for " + str(section) + " | " + str(option))
-    coreImage = CoreImage(path)
+    coreImage: CoreImage = CoreImage(path)
     Logger.debug("TextureLoader" + "__" + str(section) + "__" + str(option) + ": Opened image")
 
     Textures.__dict__[section].__dict__[option].set_core_image(coreImage)
@@ -52,20 +52,20 @@ def _load(path, section, option, t):
     resources.current_threaded_tasks.remove(t)
 
 
-def load(path, section, option):
+def load(path: str, section: str, option: str) -> TextureHolder:
     if section not in Textures.__dict__:
         Textures.__dict__[section] = _Textures()
 
     Textures.__dict__[section].__dict__[option] = TextureHolder()
     Textures.__dict__[section].__dict__[option].__log_name_suffix__ = "__" + str(section) + "__" + str(option)
-    t = Thread(target=_load)
+    t: Thread = Thread(target=_load)
     t._args = (path, section, option, t)
     t.start()
 
     return Textures.__dict__[section].__dict__[option]
 
 
-Textures = _Textures()
+Textures: _Textures = _Textures()
 
 """
 

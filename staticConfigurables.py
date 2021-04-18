@@ -18,10 +18,10 @@ fonts.read(AppInfo.font_link_file)
 texts = ConfigParser(interpolation=ExtendedInterpolation())
 texts.read(AppInfo.texts_file)"""
 
-settings = ConfigParser(interpolation=ExtendedInterpolation())
+settings: ConfigParser = ConfigParser(interpolation=ExtendedInterpolation())
 
 
-graphics = ConfigParser(interpolation=ExtendedInterpolation())
+graphics: ConfigParser = ConfigParser(interpolation=ExtendedInterpolation())
 
 
 def read():
