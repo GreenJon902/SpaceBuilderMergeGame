@@ -22,7 +22,7 @@ class LoadingScreen(Screen, BetterLogger):
     def prepare_resource_loader(self):
         self.log_info("Resource loader started preparing")
         load_link_files()
-        ResourceLoader.load_paths()
+        ResourceLoader.get_paths()
         self.log_info("Resource loader finished preparing")
 
     def on_pre_enter(self, *args):

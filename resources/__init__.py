@@ -43,9 +43,9 @@ class ResourceLinks(BetterLogger):
 
 
 class ResourceLoader(BetterLogger):
-    paths: [str] = list()
+    paths: list[str] = list()
 
-    def load_paths(self):
+    def get_paths(self):
         self.log_info("Starting to load all paths")
 
         for link_name in ResourceLinks.array:
