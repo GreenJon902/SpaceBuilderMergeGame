@@ -57,8 +57,8 @@ def convert(array: {str: str}):
                 path[p + str(i)] = a[i]
 
     loop_inner(array, "")
-    BetterLogger(name="lang_converter").log_debug("Converted", array)
-    BetterLogger(name="lang_converter").log_debug("to", path)
+    BetterLogger(name="lang_converter").log_trace("Converted", array)
+    BetterLogger(name="lang_converter").log_trace("to", path)
     return path
 
 
@@ -68,19 +68,9 @@ class Lang(BetterLogger, EventDispatcher):
     languages: {str: {str: str}} = {}
 
     def register_array(self, array: {str: str}, language_code: str):
-        path: {str: str} = {}
+        self.log_trace("Registering array for", language_code)
 
-        def loop_inner(a: {str: str}, p: str):  # array, path
-            for i in a:
-                if isinstance(a[i], dict):
-                    loop_inner(a[i], p + str(i) + ".")
-
-                else:
-                    path[p + str(i)] = a[i]
-
-        loop_inner(array, "")
-        self.log_debug(path)
-        self.languages[language_code] = path
+        self.languages[language_code] = array
 
     def get_all(self, language_code: str) -> {str}:
         return self.languages[str(language_code)]
@@ -89,6 +79,7 @@ class Lang(BetterLogger, EventDispatcher):
         try:
             return self.languages[self.language_code][str(text_id)]
         except KeyError:
+            self.log_critical("No text found for id", text_id, "in language", self.language_code)
             return self.languages[self.language_code]["General.InvalidTextId"]
 
 

@@ -79,7 +79,7 @@ class ResourceLoader(BetterLogger):
                     else:
                         self.log_trace("Already in list, no changes!")
                     self.tasks.append({
-                        "type": "associate_resource",
+                        "type": "deal_resources",
                         "resource_type": link_name,
                         "section": section,
                         "option": option,
@@ -102,7 +102,7 @@ class ResourceLoader(BetterLogger):
         if self.tasks_completed == -1:  # order task list
             self.log_trace("Ordering task list")
 
-            correct_order_of_tasks: list[str] = list(["load_resource", "associate_resource"])
+            correct_order_of_tasks: list[str] = list(["load_resource", "deal_resources"])
             new_tasks_list: list[dict[str, any]] = list()
 
             for to_look_for in correct_order_of_tasks:
@@ -112,7 +112,7 @@ class ResourceLoader(BetterLogger):
 
             self.tasks = new_tasks_list
 
-            self.log_trace("Ordered task list")
+            self.log_trace("Ordered task list -\n", str(self.tasks).replace("}, {", "},\n {"))
 
         else:  # Task list is ordered
             self.log_trace("Doing next task. Number is", self.tasks_completed)
@@ -122,7 +122,7 @@ class ResourceLoader(BetterLogger):
 
 
         self.tasks_completed += 1
-        if self.tasks_completed == len(self.paths_to_resources):  # is done
+        if self.tasks_completed == self.number_of_tasks_to_do - 1:  # is done | -1 bc we need to order
             return True
         else:
             return False
@@ -150,8 +150,21 @@ class ResourceLoader(BetterLogger):
                 self.log_critical("No know resource_type -", task_info["resource_type"])
 
 
-        elif task_info["type"] == "associate_resource":
-            pass
+        elif task_info["type"] == "deal_resources":
+            if task_info["resource_type"] == "language":
+                Lang.register_array(self.paths_to_resources[task_info["path"]], task_info["option"])
+
+            elif task_info["resource_type"] == "textures":
+                pass
+
+            elif task_info["resource_type"] == "audio":
+                pass
+
+            elif task_info["resource_type"] == "font":
+                pass
+
+            else:
+                self.log_critical("No know resource_type -", task_info["resource_type"])
 
         else:
             self.log_critical("No know task type -", task_info["name"])
