@@ -1,6 +1,11 @@
 <BaseBuildScreen>:
-    on_enter: print("hi", background.opacity, self.opacity, self.children[0].opacity, self.parent.opacity)
-    on_leave: print("noooooooo")
+    canvas.before:
+                Color:
+                    rgb: get_color_from_hex(Graphics.get("BaseBuildScreen", "crater_outside_color"))
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
 
     ScatterLayout:
         scale_min: 0 # zoom out
@@ -8,14 +13,6 @@
 
         FloatLayout:
             id: background
-
-            canvas.before:
-                Color:
-                    rgb: get_color_from_hex(Graphics.get("BaseBuildScreen", "crater_outside_color"))
-
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
 
 
             Image:
