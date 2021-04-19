@@ -4,7 +4,7 @@ from configparser import ExtendedInterpolation
 
 from AppInfo import resources_dir
 from lib.betterLogger import BetterLogger
-from lib.pathConfigParser import PathConfigParser
+from lib.ConfigParsers import PathConfigParser
 
 from resources.lang import Lang
 from resources.textures import Textures
@@ -33,6 +33,13 @@ class ResourceLinks(BetterLogger):
         "language": language,
         "textures": textures}
 
+    def __init__(self, *args, **kwargs):
+        super(ResourceLinks, self).__init__(*args, **kwargs)
+        self.audio.__log_name_prefix__ = "Audio_"
+        self.font.__log_name_prefix__ = "Font_"
+        self.language.__log_name_prefix__ = "Language_"
+        self.textures.__log_name_prefix__ = "Textures_"
+
     def load_link_files(self):
         self.log_debug("Loading link files")
 
@@ -53,6 +60,10 @@ class ResourceLoader(BetterLogger):
     @property
     def number_of_tasks_to_do(self) -> int:
         return self.total_links + len(self.paths_to_resources) + 1  # +1 is order task list
+
+    def get_tasks(self):
+        ResourceLinks.load_link_files()
+        self.get_paths()
 
     def get_paths(self):
         self.log_info("Starting to load all paths")
@@ -233,11 +244,8 @@ class ResourceLoader(BetterLogger):
         self.__log_name_suffix__ = """""
 
 
-def load_link_files():
-    ResourceLinks.load_link_files()
-
 
 ResourceLoader: ResourceLoader = ResourceLoader()
 ResourceLinks: ResourceLinks = ResourceLinks()
 
-__all__ = ["ResourceLoader", "Lang", "Textures", "load_link_files"]
+__all__ = ["ResourceLoader", "Lang", "Textures"]

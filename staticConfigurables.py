@@ -2,7 +2,7 @@ from configparser import ConfigParser, ExtendedInterpolation
 
 import AppInfo
 
-from lib.extendedConfigParser import ExtendedConfigParser
+from lib.ConfigParsers import ExtendedConfigParser
 
 # We no need bc of resources
 """class _pathConfigParser(ConfigParser):

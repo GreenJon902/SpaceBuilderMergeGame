@@ -1,17 +1,15 @@
+import time
+
 from kivy._clock import ClockEvent
 from kivy.animation import Animation, AnimationTransition
 from kivy.clock import Clock
 from kivy.properties import NumericProperty
 from kivy.uix.screenmanager import Screen
-from kivy.uix import screenmanager
 
 import staticConfigurables
 from graphics.spaceBuilderMergeGameScreenManager import get_sm
 from lib.betterLogger import BetterLogger
-import time
-
 from resources import ResourceLoader
-from resources import load_link_files
 
 
 class LoadingScreen(Screen, BetterLogger):
@@ -33,8 +31,7 @@ class LoadingScreen(Screen, BetterLogger):
 
     def prepare_resource_loader(self):
         self.log_info("Resource loader started preparing")
-        load_link_files()
-        ResourceLoader.get_paths()
+        ResourceLoader.get_tasks()
         self.log_info("Resource loader finished preparing")
 
     def on_pre_enter(self, *args):
