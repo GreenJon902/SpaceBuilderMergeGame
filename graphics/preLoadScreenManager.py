@@ -11,7 +11,7 @@ class PreLoadScreenManager(ScreenManager, BetterLogger):
         self.log_info("ScreenManager: Using FadeTransition")
         self.transition: TransitionBase = NoTransition()
 
-        self.set_screen("SplashScreen2")
+        self.set_screen("SplashScreen1")
 
     def set_screen(self, screen_name: str):
         self.current: str = screen_name
