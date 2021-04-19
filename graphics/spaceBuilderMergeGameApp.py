@@ -7,13 +7,15 @@ from resources import Lang
 
 
 class SpaceBuilderMergeGameApp(App, BetterLogger):
+    sm: SpaceBuilderMergeGameScreenManager = None
+
+    def on_sm(self):
+        self.sm.bind(on_current=self.on_screen_change)
+
     def build(self) -> SpaceBuilderMergeGameScreenManager:
         self.log_info("Building app")
 
-        sm: SpaceBuilderMergeGameScreenManager = Factory.SpaceBuilderMergeGameScreenManager()
-        sm.bind(on_current=self.on_screen_change)
-
-        return sm
+        return Factory.ScreenManagerSwitcher()
 
     def on_screen_change(self, new_screen: str):
         self.title = Lang.get("General.Title") + " - " + str(new_screen.name)

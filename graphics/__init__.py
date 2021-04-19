@@ -24,6 +24,8 @@ def load_pre_load_kv():
 
 def setup():
     from graphics.spaceBuilderMergeGameApp import SpaceBuilderMergeGameApp
+    from graphics.customWidgets.screenManagerSwitcher import ScreenManagerSwitcher
+    from graphics.preLoadScreenManager import PreLoadScreenManager
     from graphics.spaceBuilderMergeGameScreenManager import SpaceBuilderMergeGameScreenManager
     from graphics.screens.splashScreen1 import SplashScreen1
     from graphics.screens.splashScreen2 import SplashScreen2
@@ -39,6 +41,10 @@ def setup():
     Factory.register("SpaceBuilderMergeGameScreenManager",
                      cls=SpaceBuilderMergeGameScreenManager,
                      module="graphics.SpaceBuilderMergeGameScreenManager")
+
+    Factory.register("PreLoadScreenManager",
+                     cls=PreLoadScreenManager,
+                     module="graphics.preLoadScreenManager")
 
     Factory.register("SplashScreen1",
                      cls=SplashScreen1,

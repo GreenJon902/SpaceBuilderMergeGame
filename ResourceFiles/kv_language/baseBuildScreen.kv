@@ -1,4 +1,7 @@
 <BaseBuildScreen>:
+    on_enter: print("hi", background.opacity, self.opacity, self.children[0].opacity, self.parent.opacity)
+    on_leave: print("noooooooo")
+
     ScatterLayout:
         scale_min: 0 # zoom out
         scale_max: 2  # zoom out

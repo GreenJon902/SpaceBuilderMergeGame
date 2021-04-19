@@ -2,6 +2,9 @@ import json
 import os
 from configparser import ExtendedInterpolation
 
+from kivy.lang import Builder
+
+import AppInfo
 from AppInfo import resources_dir
 from lib.betterLogger import BetterLogger
 from lib.ConfigParsers import PathConfigParser
@@ -55,18 +58,38 @@ class ResourceLoader(BetterLogger):
     paths_to_resources: dict[str, any] = {}
     tasks_completed: int = -1
     total_links: int = 0
+    kv_files: int = 0
     tasks: list[dict[str, any]] = list()
 
     @property
     def number_of_tasks_to_do(self) -> int:
-        return self.total_links + len(self.paths_to_resources) + 1  # +1 is order task list
+        return self.total_links + len(self.paths_to_resources) + len(os.listdir(AppInfo.kv_language_dir)) \
+               + 1  # +1 is order task list
 
     def get_tasks(self):
         ResourceLinks.load_link_files()
         self.get_paths()
+        self.get_kv_files()
+
+    def get_kv_files(self):
+        self.__log_name_suffix__ = "_kv_lang"
+        self.log_info("Starting to get all kv_file paths")
+
+        for file in os.listdir(AppInfo.kv_language_dir):
+            path = os.path.join(AppInfo.kv_language_dir, file)
+            self.log_trace("Found file", file, " Path is", path)
+
+            self.tasks.append({
+                "type": "load_kv_lang",
+                "path": path
+            })
+            self.log_trace("Appended to list")
+
+        self.log_info("Finished getting all kv_file paths")
+        self.__log_name_suffix__ = ""
 
     def get_paths(self):
-        self.log_info("Starting to load all paths")
+        self.log_info("Starting to get all paths")
 
         for link_name in ResourceLinks.array:
             self.__log_name_suffix__ = "_" + str(link_name)
@@ -101,7 +124,7 @@ class ResourceLoader(BetterLogger):
                     self.log_trace()
 
         self.__log_name_suffix__ = ""
-        self.log_info("Finished loading all paths")
+        self.log_info("Finished getting all paths")
         self.log_info(self.total_links, "links found")
 
 
@@ -115,7 +138,7 @@ class ResourceLoader(BetterLogger):
         if self.tasks_completed == -1:  # order task list
             self.log_trace("Ordering task list")
 
-            correct_order_of_tasks: list[str] = list(["load_resource", "deal_resources"])
+            correct_order_of_tasks: list[str] = list(["load_resource", "deal_resources", "load_kv_lang"])
             new_tasks_list: list[dict[str, any]] = list()
 
             for to_look_for in correct_order_of_tasks:
@@ -180,8 +203,11 @@ class ResourceLoader(BetterLogger):
             else:
                 self.log_critical("No know resource_type -", task_info["resource_type"])
 
+        elif task_info["type"] == "load_kv_lang":
+            Builder.load_file(task_info["path"])
+
         else:
-            self.log_critical("No know task type -", task_info["name"])
+            self.log_critical("No know task type -", task_info["type"])
 
     """loaded = {}
 

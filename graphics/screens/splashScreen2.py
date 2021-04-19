@@ -4,7 +4,7 @@ from kivy.clock import Clock
 from kivy.properties import NumericProperty
 from kivy.uix.screenmanager import Screen
 
-from graphics.spaceBuilderMergeGameScreenManager import get_sm
+from graphics.preLoadScreenManager import get_sm
 from lib.betterLogger import BetterLogger
 
 
