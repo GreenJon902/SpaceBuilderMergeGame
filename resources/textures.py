@@ -1,17 +1,25 @@
-from threading import Thread
-
 from kivy.core.image import Image as CoreImage
-from kivy.logger import Logger
 
 from lib.betterLogger import BetterLogger
-import resources
 
 
-class _Textures:
+class EmptyClass:
     pass
 
 
-class TextureHolder(BetterLogger):
+class Textures(BetterLogger):
+    __log_name__ = "Textures"
+
+    def register(self, section: str, option: str, core_image: CoreImage):
+        self.log_trace("Registering texture", core_image, "for", section, option)
+
+        if section not in Textures.__dict__:
+            Textures.__dict__[section] = EmptyClass()
+
+        Textures.__dict__[section].__dict__[option] = core_image
+
+
+"""class TextureHolder(BetterLogger):
     __log_name_suffix__ = "_Not Named Yet"
 
     coreImage: CoreImage = None
@@ -34,10 +42,10 @@ class TextureHolder(BetterLogger):
             self.changed = False
             self._texture = self.coreImage.texture
             self.log_trace("Returning Texture")
-            return self._texture
+            return self._texture"""
 
 
-def _load(path: str, section: str, option: str, t: Thread):
+"""def _load(path: str, section: str, option: str, t: Thread):
     resources.current_threaded_tasks.append(t)
 
     Logger.debug("TextureLoader" + "__" + str(section) + "__" + str(option) + ": Starting to load " + str(path) +
@@ -62,10 +70,9 @@ def load(path: str, section: str, option: str) -> TextureHolder:
     t._args = (path, section, option, t)
     t.start()
 
-    return Textures.__dict__[section].__dict__[option]
+    return Textures.__dict__[section].__dict__[option]"""
 
-
-Textures: _Textures = _Textures()
+Textures: Textures = Textures()
 
 """
 

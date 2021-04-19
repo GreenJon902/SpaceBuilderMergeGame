@@ -10,6 +10,8 @@ from resources.lang import Lang
 from resources.textures import Textures
 from resources import textures
 
+from kivy.core.image import Image as CoreImage
+
 
 current_threaded_tasks = list()
 
@@ -138,7 +140,8 @@ class ResourceLoader(BetterLogger):
                 self.paths_to_resources[task_info["path"]] = array
 
             elif task_info["resource_type"] == "textures":
-                pass
+                core_image = CoreImage.load(task_info["path"])
+                self.paths_to_resources[task_info["path"]] = core_image
 
             elif task_info["resource_type"] == "audio":
                 pass
@@ -155,7 +158,7 @@ class ResourceLoader(BetterLogger):
                 Lang.register_array(self.paths_to_resources[task_info["path"]], task_info["option"])
 
             elif task_info["resource_type"] == "textures":
-                pass
+                Textures.register(task_info["section"], task_info["option"], self.paths_to_resources[task_info["path"]])
 
             elif task_info["resource_type"] == "audio":
                 pass
