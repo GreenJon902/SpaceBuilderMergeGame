@@ -24,8 +24,7 @@ class BetterLogger:
 
     def log_trace(self, *args: any):
         _Logger.debug(str(self.__log_name_prefix__) + str(self.__log_name__) + str(self.__log_name_suffix__) +
-                      str(COLOR_SEQ % (30 + WHITE)) +
-                      ": " + " "*7 + " ".join([str(arg) for arg in args]) + "")
+                      ": " + " ".join([str(arg) for arg in args]) + "" + "|||DEEP DEBUG|||")
 
     def log_debug(self, *args: any):
         _Logger.debug(str(self.__log_name_prefix__) + str(self.__log_name__) + str(self.__log_name_suffix__) +
@@ -51,12 +50,24 @@ def redo_logger_formatting():
     import logging
     from kivy import logger as kvLogger
 
+    ENABLE_DEEP_DEBUG = False  # Requires normal debug to be enabled
+
+    if os.environ.get("ENABLE_DEEP_DEBUG") is not None:
+        ENABLE_DEEP_DEBUG = bool(os.environ.get("ENABLE_DEEP_DEBUG"))
+    else:
+        try:
+            if logging.ENABLE_DEEP_DEBUG:
+                ENABLE_DEEP_DEBUG = True
+
+        except AttributeError:
+            pass
+
     class ColoredFormatter(_ColoredFormatter):
         def format(self, record: logging.LogRecord) -> str:
             try:
                 msg: (str, str) = record.msg.split(':', 1)
                 if len(msg) == 2:
-                    record.msg = ('[%-' + str(log_class_length) + 's%s') % (msg[0], msg[1])
+                    record.msg = ('[%-' + str(log_class_length) + 's]%s') % (msg[0], msg[1])
             except Exception:
                 print("redo_logger_formatting broke!")
             levelname: str = record.levelname
@@ -64,10 +75,24 @@ def redo_logger_formatting():
                 levelname: str = 'TRACE'
                 record.levelname = levelname
             if self.use_color and levelname in COLORS:
-                levelname_color: str = (
-                        str(COLOR_SEQ % (30 + COLORS[levelname])) + levelname)
-                record.levelname = levelname_color
+                if "|||DEEP DEBUG|||" in record.msg:
+                    levelname_color: str = (
+                            str(COLOR_SEQ % (30 + WHITE)) + "[DEEP DEBUG")
+                    record.levelname = levelname_color
+                    record.msg = record.msg.replace("|||DEEP DEBUG|||", "")
+                else:
+                    levelname_color: str = (
+                            str(COLOR_SEQ % (30 + COLORS[levelname])) + "[" + levelname)
+                    record.levelname = levelname_color
             return logging.Formatter.format(self, record)
+
+    class DeepDebugFilter(logging.Filter):
+        def filter(self, record):
+            if not ENABLE_DEEP_DEBUG and "|||DEEP DEBUG|||" in record.msg:
+                return False
+
+            else:
+                return True
 
     use_color: bool = (
             (
@@ -90,8 +115,9 @@ def redo_logger_formatting():
 
     else:
         color_fmt: str = formatter_message(
-            RESET_SEQ + '[%(levelname)-18s] %(message)s', use_color)
+            RESET_SEQ + '%(levelname)-18s] %(message)s', use_color)
 
     formatter: ColoredFormatter = ColoredFormatter(color_fmt, use_color=use_color)
 
     _Logger.handlers[2].setFormatter(formatter)
+    _Logger.addFilter(DeepDebugFilter())
