@@ -1,6 +1,6 @@
 import os
 
-from kivy.logger import Logger as _Logger, WHITE, COLOR_SEQ
+from kivy.logger import Logger as _Logger
 
 
 class BetterLogger:

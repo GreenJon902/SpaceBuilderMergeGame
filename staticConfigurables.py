@@ -2,6 +2,8 @@ from configparser import ConfigParser, ExtendedInterpolation
 
 import AppInfo
 
+from lib.extendedConfigParser import ExtendedConfigParser
+
 # We no need bc of resources
 """class _pathConfigParser(ConfigParser):
     def get(self, *args, **kwargs) -> str:
@@ -18,11 +20,11 @@ fonts.read(AppInfo.font_link_file)
 texts = ConfigParser(interpolation=ExtendedInterpolation())
 texts.read(AppInfo.texts_file)"""
 
-settings: ConfigParser = ConfigParser(interpolation=ExtendedInterpolation())
+settings: ExtendedConfigParser = ExtendedConfigParser(interpolation=ExtendedInterpolation())
+ExtendedConfigParser.__log_name_prefix__ = "Settings_"
 
-
-graphics: ConfigParser = ConfigParser(interpolation=ExtendedInterpolation())
-
+graphics: ExtendedConfigParser = ExtendedConfigParser(interpolation=ExtendedInterpolation())
+ExtendedConfigParser.__log_name_prefix__ = "Graphics_"
 
 settings.read(AppInfo.settings_file)
 graphics.read(AppInfo.graphics_file)

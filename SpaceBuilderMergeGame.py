@@ -11,14 +11,11 @@ if __name__ == "__main__":
     #  if not os.path.exists(AppInfo.settings_file):
     copyfile(AppInfo.default_settings_file, AppInfo.settings_file)
 
-    from staticConfigurables import settings
 
     os.chdir(pathlib.Path(__file__).parent.absolute())
     os.environ["KIVY_HOME"] = AppInfo.kivy_home_dir
     os.environ["KCFG_KIVY_LOG_NAME"] = AppInfo.log_name
     os.environ["KCFG_KIVY_LOG_DIR"] = AppInfo.log_dir
-    if os.environ.get('KCFG_KIVY_LOG_LEVEL') is None:
-        os.environ["KCFG_KIVY_LOG_LEVEL"] = settings.get("Debug", "log_level")
 
     # noinspection PyUnresolvedReferences
     import kivy

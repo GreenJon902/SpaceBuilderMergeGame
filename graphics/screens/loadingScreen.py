@@ -48,10 +48,10 @@ class LoadingScreen(Screen, BetterLogger):
         if is_done:
             self.log_info("Finished all tasks -", ResourceLoader.paths_to_resources)
             self.loadNextResourceClock.cancel()
-            
+
             sm = get_sm()
-            sm.transition = screenmanager.__dict__[staticConfigurables.graphics.get("LoadingScreen",
-                                                                                    "to_base_build_screen_transition")]()
+            sm.transition = staticConfigurables.graphics.getkivytranition("LoadingScreen",
+                                                                          "to_base_build_screen_transition")
             sm.set_screen("BaseBuildScreen")
 
         self.ids["loading_bar"].value += 1
