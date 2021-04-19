@@ -3,7 +3,10 @@ from kivy.animation import Animation, AnimationTransition
 from kivy.clock import Clock
 from kivy.properties import NumericProperty
 from kivy.uix.screenmanager import Screen
+from kivy.uix import screenmanager
 
+import staticConfigurables
+from graphics.spaceBuilderMergeGameScreenManager import get_sm
 from lib.betterLogger import BetterLogger
 import time
 
@@ -45,6 +48,11 @@ class LoadingScreen(Screen, BetterLogger):
         if is_done:
             self.log_info("Finished all tasks -", ResourceLoader.paths_to_resources)
             self.loadNextResourceClock.cancel()
+            
+            sm = get_sm()
+            sm.transition = screenmanager.__dict__[staticConfigurables.graphics.get("LoadingScreen",
+                                                                                    "to_base_build_screen_transition")]()
+            sm.set_screen("BaseBuildScreen")
 
         self.ids["loading_bar"].value += 1
         self.log_debug("Finished task", int(self.ids["loading_bar"].value), "out of",

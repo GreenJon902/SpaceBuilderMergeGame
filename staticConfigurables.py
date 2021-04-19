@@ -24,7 +24,5 @@ settings: ConfigParser = ConfigParser(interpolation=ExtendedInterpolation())
 graphics: ConfigParser = ConfigParser(interpolation=ExtendedInterpolation())
 
 
-def read():
-    global settings, graphics
-    settings.read(AppInfo.settings_file)
-    graphics.read(AppInfo.graphics_file)
+settings.read(AppInfo.settings_file)
+graphics.read(AppInfo.graphics_file)
