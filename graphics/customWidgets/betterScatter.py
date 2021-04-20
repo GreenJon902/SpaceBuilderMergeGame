@@ -71,3 +71,9 @@ class BetterScatter(ScatterLayout, BetterLogger):
 
     def collide_point(self, x: int, y: int):  # from scatter plane because ScatterPlaneLayout it didn't do layout well
         return True
+
+
+    def reset(self):
+        self.scale = 1
+        self.rotation = 0
+        self.pos = 0, 0

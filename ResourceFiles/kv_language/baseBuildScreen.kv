@@ -8,6 +8,9 @@
             size: self.size
 
     BetterScatter:
+        id: scatter
+        auto_bring_to_front: False
+
         FloatLayout:
             id: background
 
@@ -34,3 +37,13 @@
             Image:
                 id: crater_outside
                 texture: Textures.BaseLayout.crater_outside.texture
+
+    FloatLayout:
+        id: controls
+
+        Button:
+            on_release: scatter.reset()
+            size_hint: 0.1, 0.05
+            text: "Reset"
+
+            pos_hint: {"right": 1, "top":1}
