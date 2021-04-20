@@ -7,12 +7,17 @@
             pos: self.pos
             size: self.size
 
-    ScatterLayout:
-        scale_min: 0 # zoom out
-        scale_max: 2  # zoom out
-
+    BetterScatter:
         FloatLayout:
             id: background
+
+            canvas.after:
+                Color:
+                    rgba: 1, 0, 0, 0.1 # debug
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
 
 
             Image:
