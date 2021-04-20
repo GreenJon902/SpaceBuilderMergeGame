@@ -1,2 +1,3 @@
 appdirs~=1.4.4
 Kivy~=2.0.0
+kivy3~=0.0.1.dev0

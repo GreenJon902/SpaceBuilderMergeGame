@@ -20,6 +20,8 @@ if __name__ == "__main__":
     # noinspection PyUnresolvedReferences
     import kivy
     # noinspection PyUnresolvedReferences
+    import kivy3
+    # noinspection PyUnresolvedReferences
     import kivy.core.window
     # Fixes sigsegv error when loading images because openGL was not initiated-https://github.com/kivy/kivy/issues/6173
     from kivy.logger import Logger
