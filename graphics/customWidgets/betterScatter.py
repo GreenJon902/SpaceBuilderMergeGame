@@ -1,7 +1,9 @@
-﻿from kivy.input import MotionEvent
+﻿from kivy.graphics.transformation import Matrix
+from kivy.input import MotionEvent
 from kivy.properties import NumericProperty
 from kivy.uix.scatterlayout import ScatterLayout
 
+import graphics
 import staticConfigurables
 from lib.betterLogger import BetterLogger
 
@@ -45,6 +47,27 @@ class BetterScatter(ScatterLayout, BetterLogger):
 
         else:
             ScatterLayout.on_touch_down(self, touch)
+
+    def on_transform_with_touch(self, touch: MotionEvent):
+        (left, bottom), (width, height) = self.bbox
+        right, top = left + width, bottom + height
+
+        dx, dy, dz = 0, 0, 0
+
+        if left > 0:
+            dx = 0 - left
+
+        elif right < graphics.width():
+            dx = graphics.width() - right
+
+        if bottom > 0:
+            dy = 0 - bottom
+
+        elif top < graphics.height():
+            dy = graphics.height() - top
+
+        self.apply_transform(Matrix().translate(dx, dy, dz))
+
 
     def collide_point(self, x: int, y: int):  # from scatter plane because ScatterPlaneLayout it didn't do layout well
         return True

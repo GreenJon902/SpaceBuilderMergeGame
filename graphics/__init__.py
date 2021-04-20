@@ -1,12 +1,25 @@
 import ntpath
 import os
 
+from kivy.core.window import Window
 from kivy.logger import Logger
 from kivy.factory import Factory
 from kivy.lang import Builder
 
 import AppInfo
 from graphics.customWidgets.betterScatter import BetterScatter
+
+
+def size():  # because it might have adverts or somin, idk
+    return width(), height()
+
+
+def width():  # because it might have adverts or somin, idk
+    return Window.width
+
+
+def height():  # because it might have adverts or somin, idk
+    return Window.height
 
 
 def load_kv():
