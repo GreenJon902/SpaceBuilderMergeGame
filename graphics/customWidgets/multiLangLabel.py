@@ -9,7 +9,8 @@ class MultiLangLabel(Label, BetterLogger):
     text_id: StringProperty = StringProperty("General.NoTextId")
 
     def __init__(self, *args: any, **kwargs: any):
-        super(MultiLangLabel, self).__init__(*args, **kwargs)
+        BetterLogger.__init__(self)
+        Label.__init__(self, *args, **kwargs)
         self.on_text_id(self, self.text_id)
 
     def on_text_id(self, instance: object, value: str):

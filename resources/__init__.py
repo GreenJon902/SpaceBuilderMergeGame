@@ -37,7 +37,7 @@ class ResourceLinks(BetterLogger):
         "textures": textures}
 
     def __init__(self, *args, **kwargs):
-        super(ResourceLinks, self).__init__(*args, **kwargs)
+        BetterLogger.__init__(self, *args, **kwargs)
         self.audio.__log_name_prefix__ = "Audio_"
         self.font.__log_name_prefix__ = "Font_"
         self.language.__log_name_prefix__ = "Language_"

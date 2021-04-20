@@ -9,8 +9,6 @@ class BetterLogger:
     __log_name_suffix__: str = ""
 
     def __init__(self, *args: any, prefix: str = None, name: str = None, suffix: str = None, **kwargs):
-        super(BetterLogger, self).__init__(*args, **kwargs)
-
         if prefix is not None:
             self.__log_name_prefix__ = str(prefix)
 

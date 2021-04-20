@@ -7,7 +7,7 @@ from lib.ConfigParsers import ExtendedConfigParser
 # We no need bc of resources
 """class _pathConfigParser(ConfigParser):
     def get(self, *args, **kwargs) -> str:
-        path = super(_pathConfigParser, self).get(*args, **kwargs)
+        path = ConfigParser.get(self, *args, **kwargs)
         return os.path.join(AppInfo.resources_dir, path)
 
 

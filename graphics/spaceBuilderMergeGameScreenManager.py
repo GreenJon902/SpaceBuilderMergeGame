@@ -6,7 +6,8 @@ from lib.betterLogger import BetterLogger
 
 class SpaceBuilderMergeGameScreenManager(ScreenManager, BetterLogger):
     def __init__(self, *args: any, **kwargs):
-        super(SpaceBuilderMergeGameScreenManager, self).__init__(*args, **kwargs)
+        BetterLogger.__init__(self)
+        ScreenManager.__init__(self, *args, **kwargs)
 
         self.log_info("ScreenManager: Using FadeTransition")
         self.transition: TransitionBase = NoTransition()

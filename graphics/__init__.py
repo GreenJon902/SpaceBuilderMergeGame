@@ -6,6 +6,7 @@ from kivy.factory import Factory
 from kivy.lang import Builder
 
 import AppInfo
+from graphics.customWidgets.betterScatter import BetterScatter
 
 
 def load_kv():
@@ -64,11 +65,15 @@ def setup():
 
     Factory.register("MultiLangLabel",
                      cls=MultiLangLabel,
-                     module="graphics.customWidget.multiLangLabel")
+                     module="graphics.customWidgets.multiLangLabel")
 
     Factory.register("BaseLayout",
                      cls=BaseLayout,
-                     module="graphics.customWidget.baseLayout")
+                     module="graphics.customWidgets.baseLayout")
+
+    Factory.register("BetterScatter",
+                     cls=BetterScatter,
+                     module="graphics.customWidgets.betterScatter")
 
     Logger.info("All classes have been assigned to Factory")
 

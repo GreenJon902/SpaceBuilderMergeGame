@@ -6,7 +6,7 @@ class ScreenManagerSwitcher(BoxLayout):
     current = None
 
     def __init__(self, *args, **kwargs):
-        super(ScreenManagerSwitcher, self).__init__(*args, **kwargs)
+        BoxLayout.__init__(self, *args, **kwargs)
 
         self.manager1 = Factory.PreLoadScreenManager
         self.manager2 = Factory.SpaceBuilderMergeGameScreenManager

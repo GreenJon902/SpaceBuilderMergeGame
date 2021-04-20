@@ -7,9 +7,13 @@ import AppInfo
 from lib.betterLogger import BetterLogger
 
 
-class LoggedConfigParser(BetterLogger, ConfigParser):
+class LoggedConfigParser(ConfigParser, BetterLogger):
+    def __init__(self, *args, **kwargs):
+        BetterLogger.__init__(self)
+        ConfigParser.__init__(self, *args, **kwargs)
+
     def get(self, *args: any, **kwargs: any) -> str:
-        result: str = str(super(LoggedConfigParser, self).get(*args, **kwargs))
+        result: str = str(ConfigParser.get(self, *args, **kwargs))
         if "raw" not in kwargs:
             self.log_debug("Got result", result, "from ini path", args[0], "|",
                            args[1], ". Called with args", args, kwargs)
@@ -17,12 +21,12 @@ class LoggedConfigParser(BetterLogger, ConfigParser):
 
     def read(self, *args: any, **kwargs: any) -> list[str]:
         self.log_debug("Loading config file", *args[0], "with args", *args, **kwargs)
-        super(LoggedConfigParser, self).read(*args, **kwargs)
+        ConfigParser.read(self, *args, **kwargs)
 
 
 class PathConfigParser(LoggedConfigParser):
     def get(self, *args: any, **kwargs: any) -> str:
-        result: str = str(super(PathConfigParser, self).get(*args, **kwargs))
+        result: str = str(LoggedConfigParser.get(self, *args, **kwargs))
         path = os.path.join(AppInfo.resources_dir, result)
         if "raw" not in kwargs:
             self.log_debug("Got result", path, "from ini path", args[0], "|",
@@ -32,7 +36,7 @@ class PathConfigParser(LoggedConfigParser):
 
 class ExtendedConfigParser(LoggedConfigParser):
     def get(self, *args: any, called_by: str = "MainScript", **kwargs: any) -> str:
-        result = str(super(ExtendedConfigParser, self).get(*args, **kwargs))
+        result = str(LoggedConfigParser.get(self, *args, **kwargs))
         if "raw" not in kwargs:
             self.log_debug("Got result", result, "from ini path", args[0], "|",
                             args[1], ". Called by", called_by, "with args", args, kwargs)
