@@ -14,13 +14,13 @@
         FloatLayout:
             id: background
 
-            canvas.after:
-                Color:
-                    rgba: 1, 0, 0, 0.1 # debug
+            #canvas.after:
+            #    Color:
+            #        rgba: 1, 0, 0, 0.1 # debug
 
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
+            #    Rectangle:
+            #        pos: self.pos
+            #        size: self.size
 
             Image:
                 id: canyon_floor
@@ -38,12 +38,17 @@
                 id: crater_outside
                 texture: Textures.BaseLayout.crater_outside.texture
 
+        BaseLayout:
+            id: base_layout
+
+            size_hint: Graphics.gettuple("BaseLayout", "building_size_hint")
+
     FloatLayout:
         id: controls
 
         Button:
             on_release: scatter.reset()
-            size_hint: 0.1, 0.05
+            size_hint: 0.13, 0.05
             text: "Reset"
 
             pos_hint: {"right": 1, "top":1}

@@ -51,3 +51,6 @@ class ExtendedConfigParser(LoggedConfigParser):
         transition = screenmanager.__dict__[transition_str]()
         self.log_trace("Transition is", transition)
         return transition
+
+    def gettuple(self, *args: any, **kwargs: any) -> list:
+        return self.get(*args, **kwargs, called_by="gettuple").split(", ")
