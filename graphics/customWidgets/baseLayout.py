@@ -1,3 +1,4 @@
+import os.path
 import random
 
 from kivy.clock import Clock
@@ -5,17 +6,19 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy3 import Mesh, Scene, Renderer, Material, PerspectiveCamera
 from kivy3.extras.geometries import BoxGeometry
 
+import AppInfo
+from graphics.customWidgets.buildings.buildingbase import BuildingBase
 from lib.betterLogger import BetterLogger
 
 
 class BaseLayout(FloatLayout, BetterLogger):
-    renderer = Renderer()
+    renderer = Renderer(shader_file=os.path.join(AppInfo.resources_dir, "shader.glsl"))
     scene = Scene()
     camera = PerspectiveCamera(
         fov=75,  # distance from the screen
         aspect=0,  # "screen" ratio
         near=1,  # nearest rendered point
-        far=10  # farthest rendered point
+        far=100  # farthest rendered point
     )
 
     def _adjust_aspect(self, *args):
@@ -33,7 +36,18 @@ class BaseLayout(FloatLayout, BetterLogger):
         FloatLayout.__init__(self, *args, **kwargs)
 
         self.create_renderer()
-        Clock.schedule_interval(lambda *args: self.create_cube(), 0)
+        self.add_building("drill")
+
+    def add_buildings(self, building_ids):
+        for building_id in building_ids:
+            self.add_building(building_id)
+
+    def add_building(self, building_id):
+        building = BuildingBase(id=building_id)
+        Clock.schedule_interval(lambda *args: self.rotate_cube(building.obj), 0.1)
+        self.scene.add(building.obj)
+        self.renderer._instructions.add(building.obj.as_instructions())
+
 
 
     def create_renderer(self):
@@ -43,7 +57,7 @@ class BaseLayout(FloatLayout, BetterLogger):
 
 
     def create_cube(self):
-        cube_geo = BoxGeometry(random.randint(5, 15)/10, random.randint(5, 15)/10, random.randint(5, 15)/10)
+        cube_geo = BoxGeometry(1, 1, 1)  #  BoxGeometry(random.randint(5, 15)/10, random.randint(5, 15)/10, random.randint(5, 15)/10)
         cube_mat = Material(color=(random.randint(0, 100)/100, random.randint(0, 100)/100, random.randint(0, 100)/100))
         cube = Mesh(
             geometry=cube_geo,
