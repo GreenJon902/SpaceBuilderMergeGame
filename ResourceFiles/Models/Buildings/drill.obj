@@ -1,6 +1,5 @@
 # Blender v2.81 (sub 16) OBJ File: 'drill.blend'
 # www.blender.org
-mtllib drill.mtl
 o Struts.Stone
 v 1.830000 0.550000 1.560000
 v 1.830000 -0.550000 1.560000

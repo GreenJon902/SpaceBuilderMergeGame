@@ -2,9 +2,8 @@ import os.path
 
 from kivy.event import EventDispatcher
 from kivy.properties import StringProperty
-from kivy3 import Object3D, Material, Mesh
-from kivy3.extras.geometries import BoxGeometry
-from kivy3.loaders import OBJLoader, STLLoader, OBJMTLLoader
+from kivy3 import Object3D, Mesh, Material
+from kivy3.loaders import OBJLoader
 
 import AppInfo
 from lib.betterLogger import BetterLogger
@@ -22,22 +21,18 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
     def on_building_id(self, instance, value):
         path = os.path.join(AppInfo.resources_dir, "Models", "Buildings", str(value) + ".obj")
-        path2 = os.path.join(AppInfo.resources_dir, "Models", "Buildings", str(value) + ".mtl")
 
-        loader = OBJMTLLoader()
-        print("path -", path)
-        cube_geo = BoxGeometry(1, 1, 1)
-        cube_mat = Material()
+        loader = OBJLoader()
+        loader.mtl_source = os.path.join(AppInfo.resources_dir, "Models", "Buildings", "drill2.mtl")
+        loader.load_mtl()
 
-        self.obj = loader.load(path, path2)
-        obj = Mesh(
-            geometry=cube_geo,
-            material=cube_mat
-        )  # default pos == (0, 0, 0)
+        self.obj = loader.load(path)
         self.obj.pos.z = -20
         self.obj.rotation.x = 90
-        print(self.obj)
-        print(self.obj.__dict__)
+
+        mesh: Mesh
+        for mesh in self.obj.children:
+            print(mesh, mesh.material, mesh.material.map)
 
     def on_add(self):
         pass
