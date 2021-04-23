@@ -10,8 +10,8 @@ from lib.betterLogger import BetterLogger
 from lib.ConfigParsers import PathConfigParser
 
 from resources.lang import Lang
+from resources.materials import Materials
 from resources.textures import Textures
-from resources import textures
 
 from kivy.core.image import Image as CoreImage
 
@@ -23,25 +23,29 @@ class ResourceLinks(BetterLogger):
     audio: PathConfigParser = PathConfigParser(interpolation=ExtendedInterpolation())
     font: PathConfigParser = PathConfigParser(interpolation=ExtendedInterpolation())
     language: PathConfigParser = PathConfigParser(interpolation=ExtendedInterpolation())
-    textures: PathConfigParser = PathConfigParser(interpolation=ExtendedInterpolation())
+    texture: PathConfigParser = PathConfigParser(interpolation=ExtendedInterpolation())
+    material: PathConfigParser = PathConfigParser(interpolation=ExtendedInterpolation())
 
     audio_file_name: str = "audioLink.ini"
     font_file_name: str = "fontLink.ini"
     language_file_name: str = "langLink.ini"
-    textures_file_name: str = "textureLink.ini"
+    texture_file_name: str = "textureLink.ini"
+    material_file_name: str = "materialLink.ini"
 
     array: {str: PathConfigParser} = {
         "audio": audio,
         "font": font,
         "language": language,
-        "textures": textures}
+        "texture": texture,
+        "material": material}
 
     def __init__(self, *args, **kwargs):
         BetterLogger.__init__(self, *args, **kwargs)
         self.audio.__log_name_prefix__ = "Audio_"
         self.font.__log_name_prefix__ = "Font_"
         self.language.__log_name_prefix__ = "Language_"
-        self.textures.__log_name_prefix__ = "Textures_"
+        self.texture.__log_name_prefix__ = "Textures_"
+        self.material.__log_name_prefix__ = "Textures_"
 
     def load_link_files(self):
         self.log_debug("Loading link files")
@@ -49,7 +53,8 @@ class ResourceLinks(BetterLogger):
         self.audio.read(os.path.join(resources_dir, self.audio_file_name))
         self.font.read(os.path.join(resources_dir, self.font_file_name))
         self.language.read(os.path.join(resources_dir, self.language_file_name))
-        self.textures.read(os.path.join(resources_dir, self.textures_file_name))
+        self.texture.read(os.path.join(resources_dir, self.texture_file_name))
+        self.material.read(os.path.join(resources_dir, self.material_file_name))
 
         self.log_info("Loaded link files")
 
@@ -94,7 +99,7 @@ class ResourceLoader(BetterLogger):
         for link_name in ResourceLinks.array:
             self.__log_name_suffix__ = "_" + str(link_name)
             link: PathConfigParser = ResourceLinks.array[link_name]
-            self.log_debug("Loading paths from", link)
+            self.log_debug("Loading paths from", link_name, link)
 
             for section in link.sections():
                 for option in link.options(section):
@@ -173,9 +178,17 @@ class ResourceLoader(BetterLogger):
                 array = lang.convert(array)
                 self.paths_to_resources[task_info["path"]] = array
 
-            elif task_info["resource_type"] == "textures":
+            elif task_info["resource_type"] == "texture":
                 core_image = CoreImage.load(task_info["path"])
                 self.paths_to_resources[task_info["path"]] = core_image
+
+            elif task_info["resource_type"] == "material":
+                if str(task_info["path"]).endswith(".mtl"):
+                    self.paths_to_resources[task_info["path"]] = open(task_info["path"], "r").read()
+
+                else:  # Image
+                    core_image = CoreImage.load(task_info["path"])
+                    self.paths_to_resources[task_info["path"]] = core_image
 
             elif task_info["resource_type"] == "audio":
                 pass
@@ -191,8 +204,15 @@ class ResourceLoader(BetterLogger):
             if task_info["resource_type"] == "language":
                 Lang.register_array(self.paths_to_resources[task_info["path"]], task_info["option"])
 
-            elif task_info["resource_type"] == "textures":
+            elif task_info["resource_type"] == "texture":
                 Textures.register(task_info["section"], task_info["option"], self.paths_to_resources[task_info["path"]])
+
+            elif task_info["resource_type"] == "material":
+                if task_info["section"] == "MTLFile":
+                    Materials.register_mtl(self.paths_to_resources[task_info["path"]])
+
+                else:
+                    Materials.register(task_info["section"], task_info["option"], self.paths_to_resources[task_info["path"]])
 
             elif task_info["resource_type"] == "audio":
                 pass
