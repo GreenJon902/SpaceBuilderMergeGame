@@ -13,10 +13,10 @@ class Textures(BetterLogger):
     def register(self, section: str, option: str, core_image: CoreImage):
         self.log_trace("Registering texture", core_image, "for", section, option)
 
-        if section not in self.__dict__:
-            self.__dict__[section] = EmptyClass()
+        if not hasattr(self, section):
+            setattr(self, section, EmptyClass())
 
-        self.__dict__[section].__dict__[option] = core_image
+        setattr(getattr(self, section), option, core_image)
 
 
 

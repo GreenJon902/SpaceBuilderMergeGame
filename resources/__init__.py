@@ -143,13 +143,21 @@ class ResourceLoader(BetterLogger):
         if self.tasks_completed == -1:  # order task list
             self.log_trace("Ordering task list")
 
-            correct_order_of_tasks: list[str] = list(["load_resource", "deal_resources", "load_kv_lang"])
+            correct_order_of_tasks: dict[str, str] = {"load_resource": "type", "MTLFile": "section",
+                                                      "deal_resources": "type", "load_kv_lang": "type"}
             new_tasks_list: list[dict[str, any]] = list()
 
-            for to_look_for in correct_order_of_tasks:
+            for value_to_look_for in correct_order_of_tasks:
+
+                key_to_look_for = correct_order_of_tasks[value_to_look_for]
                 for task in self.tasks:
-                    if task["type"] == to_look_for:
-                        new_tasks_list.append(task)
+                    try:
+                        if task[key_to_look_for] == value_to_look_for:
+                            new_tasks_list.append(task)
+                        else:
+                            pass
+                    except KeyError:  # not in so dw
+                        pass
 
             self.tasks = new_tasks_list
 
@@ -212,7 +220,7 @@ class ResourceLoader(BetterLogger):
                     Materials.register_mtl(self.paths_to_resources[task_info["path"]])
 
                 else:
-                    Materials.register(task_info["section"], task_info["option"], self.paths_to_resources[task_info["path"]])
+                    Materials.register_image(task_info["section"], task_info["option"], self.paths_to_resources[task_info["path"]])
 
             elif task_info["resource_type"] == "audio":
                 pass
