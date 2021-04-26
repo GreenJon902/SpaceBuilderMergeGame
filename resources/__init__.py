@@ -10,6 +10,7 @@ from lib.betterLogger import BetterLogger
 from lib.ConfigParsers import PathConfigParser
 
 from resources.lang import Lang
+from resources.models import Models
 from resources.textures import Textures
 
 from kivy.core.image import Image as CoreImage
@@ -62,7 +63,7 @@ class ResourceLoader(BetterLogger):
 
     @property
     def number_of_tasks_to_do(self) -> int:
-        return self.total_links + len(self.paths_to_resources) + len(os.listdir(AppInfo.kv_language_dir)) \
+        return len(self.tasks) \
                + 1  # +1 is order task list
 
     def get_tasks(self):
@@ -89,6 +90,19 @@ class ResourceLoader(BetterLogger):
 
     def get_paths(self):
         self.log_info("Starting to get all paths")
+
+        self.tasks.append({
+            "type": "load_resource",
+            "resource_type": "mtlFile",
+            "path": os.path.join(AppInfo.resources_dir, "materials.mtl")
+        })
+
+        self.tasks.append({
+            "type": "deal_resources",
+            "resource_type": "mtlFile",
+            "path": os.path.join(AppInfo.resources_dir, "materials.mtl")
+        })
+        self.total_links += 2
 
         for link_name in ResourceLinks.array:
             self.__log_name_suffix__ = "_" + str(link_name)
@@ -137,7 +151,7 @@ class ResourceLoader(BetterLogger):
         if self.tasks_completed == -1:  # order task list
             self.log_trace("Ordering task list")
 
-            correct_order_of_tasks: dict[str, str] = {"load_resource": "type", "MTLFile": "section",
+            correct_order_of_tasks: dict[str, str] = {"load_resource": "type",
                                                       "deal_resources": "type", "load_kv_lang": "type"}
             new_tasks_list: list[dict[str, any]] = list()
 
@@ -184,13 +198,8 @@ class ResourceLoader(BetterLogger):
                 core_image = CoreImage.load(task_info["path"])
                 self.paths_to_resources[task_info["path"]] = core_image
 
-            elif task_info["resource_type"] == "material":
-                if str(task_info["path"]).endswith(".mtl"):
-                    self.paths_to_resources[task_info["path"]] = open(task_info["path"], "r").read()
-
-                else:  # Image
-                    core_image = CoreImage.load(task_info["path"])
-                    self.paths_to_resources[task_info["path"]] = core_image
+            elif task_info["resource_type"] == "mtlFile":
+                self.paths_to_resources[task_info["path"]] = open(task_info["path"], "r").read()
 
             elif task_info["resource_type"] == "audio":
                 pass
@@ -209,12 +218,8 @@ class ResourceLoader(BetterLogger):
             elif task_info["resource_type"] == "texture":
                 Textures.register(task_info["section"], task_info["option"], self.paths_to_resources[task_info["path"]])
 
-            elif task_info["resource_type"] == "material":
-                if task_info["section"] == "MTLFile":
-                    Materials.register_mtl(self.paths_to_resources[task_info["path"]])
-
-                else:
-                    Materials.register_image(task_info["section"], task_info["option"], self.paths_to_resources[task_info["path"]])
+            elif task_info["resource_type"] == "mtlFile":
+                Models.register_materials(self.paths_to_resources[task_info["path"]])
 
             elif task_info["resource_type"] == "audio":
                 pass

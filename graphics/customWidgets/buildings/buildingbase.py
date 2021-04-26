@@ -21,7 +21,7 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
     def on_building_id(self, instance, value):
         path = os.path.join(AppInfo.resources_dir, "Models", "Buildings", str(value) + ".obj")
-        path2 = os.path.join(AppInfo.resources_dir, "mtls.mtl")
+        path2 = os.path.join(AppInfo.resources_dir, "materials.mtl")
 
         loader = OBJLoader()
         loader.mtl_source = path2
