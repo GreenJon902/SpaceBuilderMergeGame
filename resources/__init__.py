@@ -10,7 +10,6 @@ from lib.betterLogger import BetterLogger
 from lib.ConfigParsers import PathConfigParser
 
 from resources.lang import Lang
-from resources.materials import Materials
 from resources.textures import Textures
 
 from kivy.core.image import Image as CoreImage
@@ -24,20 +23,17 @@ class ResourceLinks(BetterLogger):
     font: PathConfigParser = PathConfigParser(interpolation=ExtendedInterpolation())
     language: PathConfigParser = PathConfigParser(interpolation=ExtendedInterpolation())
     texture: PathConfigParser = PathConfigParser(interpolation=ExtendedInterpolation())
-    material: PathConfigParser = PathConfigParser(interpolation=ExtendedInterpolation())
 
     audio_file_name: str = "audioLink.ini"
     font_file_name: str = "fontLink.ini"
     language_file_name: str = "langLink.ini"
     texture_file_name: str = "textureLink.ini"
-    material_file_name: str = "materialLink.ini"
 
     array: {str: PathConfigParser} = {
         "audio": audio,
         "font": font,
         "language": language,
-        "texture": texture,
-        "material": material}
+        "texture": texture}
 
     def __init__(self, *args, **kwargs):
         BetterLogger.__init__(self, *args, **kwargs)
@@ -45,7 +41,6 @@ class ResourceLinks(BetterLogger):
         self.font.__log_name_prefix__ = "Font_"
         self.language.__log_name_prefix__ = "Language_"
         self.texture.__log_name_prefix__ = "Textures_"
-        self.material.__log_name_prefix__ = "Textures_"
 
     def load_link_files(self):
         self.log_debug("Loading link files")
@@ -54,7 +49,6 @@ class ResourceLinks(BetterLogger):
         self.font.read(os.path.join(resources_dir, self.font_file_name))
         self.language.read(os.path.join(resources_dir, self.language_file_name))
         self.texture.read(os.path.join(resources_dir, self.texture_file_name))
-        self.material.read(os.path.join(resources_dir, self.material_file_name))
 
         self.log_info("Loaded link files")
 

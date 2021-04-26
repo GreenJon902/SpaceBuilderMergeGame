@@ -1,4 +1,4 @@
-from kivy3 import Geometry, Vector2, Face3, Mesh
+"""from kivy3 import Geometry, Vector2, Face3, Mesh
 from kivy3.loaders import objloader
 
 from resources.materials import Materials
@@ -6,10 +6,7 @@ from resources.materials import Materials
 
 class WaveObject(objloader.WaveObject):
     def convert_to_mesh(self, vertex_format=None):
-        """Converts data gotten from the .obj definition
-        file and create Kivy3 Mesh object which may be used
-        for drawing object in the scene
-        """
+
 
         geometry = Geometry()
 
@@ -119,3 +116,4 @@ class OBJLoader(objloader.OBJLoader):
                             norms.append(-1)
                     wvobj.faces.append((face, norms, texcoords))
         yield wvobj
+"""
