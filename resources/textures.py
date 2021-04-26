@@ -1,5 +1,3 @@
-import enum
-
 from kivy.core.image import Image as CoreImage
 
 from lib.betterLogger import BetterLogger
@@ -24,8 +22,6 @@ class Textures(BetterLogger):
     def get(self, section: str, option: str):
         return self._textures[section][option].texture
 
-    def __getitem__(self, item):
-        return self._textures[item]
 
 
 
