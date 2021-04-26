@@ -59,7 +59,18 @@ class Materials(BetterLogger):
         for part in parts:
             last = getattr(last, str(part).title())
 
-        last.map = core_image
+        last.map = core_image.texture
+
+    def get(self, mtl_id: str):
+
+        parts = str(mtl_id).split(".")
+        parts.pop(0)
+
+        last: Material = self
+        for part in parts:
+            last = getattr(last, str(part).title())
+
+        return last
 
 
 
