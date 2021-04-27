@@ -1,4 +1,4 @@
-from kivy.core.image import Image as CoreImage
+from kivy.core.image import Image as CoreImage, Texture
 
 from lib.betterLogger import BetterLogger
 
@@ -19,7 +19,7 @@ class Textures(BetterLogger):
 
         self._textures[section][option] = core_image
 
-    def get(self, section: str, option: str):
+    def get(self, section: str, option: str) -> Texture:
         return self._textures[section][option].texture
 
 
