@@ -7,6 +7,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 3
+map_id metal
 
 
 newmtl stone_dark
@@ -18,6 +19,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
+map_id stone_dark
 
 
 newmtl stone_light
@@ -29,6 +31,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
+map_id stone_light
 
 
 newmtl wood
@@ -40,3 +43,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
+map_id wood

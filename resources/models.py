@@ -84,7 +84,7 @@ class WaveObject(BetterLogger, kv3WaveObject):
                     continue
                 if k in ["map_id", ]:
 
-                    tex = Textures.get()
+                    tex = Textures.get("Materials", str(v[0]))
                     material.map = tex
 
                 if _k:
