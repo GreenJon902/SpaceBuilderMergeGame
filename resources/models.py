@@ -71,12 +71,9 @@ class WaveObject(BetterLogger, kv3WaveObject):
             for k, v in raw_material.items():
                 print("hihihi", v)
                 _k = self._mtl_map.get(k, None)
-                # TODO: also handle map_Ka and map_Ks
                 if k in ["map_Kd", ]:
                     self.log_warning("the tag map_kd should not be used as a material, use map_id and give the texture"
                                      " id (ini section and option)")
-                    # TODO: map file path may contains spaces.
-                    #      current implementation fails.
                     map_path = join(mtl_dirname, v[0])
                     if not exists(map_path):
                         msg = u'Texture not found <{}>'
