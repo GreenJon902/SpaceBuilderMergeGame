@@ -6,7 +6,6 @@ from kivy3.loaders import OBJLoader as kv3OBJLoader
 from kivy3.loaders.objloader import WaveObject as kv3WaveObject, folder as objLoader_folder
 
 from lib.betterLogger import BetterLogger
-from pprint import pprint
 
 from resources.textures import Textures
 
@@ -69,7 +68,6 @@ class WaveObject(BetterLogger, kv3WaveObject):
             zeros = ['0', '0.0', '0.00', '0.000', '0.0000',
                      '0.00000', '0.000000']
             for k, v in raw_material.items():
-                print("hihihi", v)
                 _k = self._mtl_map.get(k, None)
                 if k in ["map_Kd", ]:
                     self.log_warning("the tag map_kd should not be used as a material, use map_id and give the texture"
@@ -198,8 +196,6 @@ class Models(BetterLogger):
 
     def load_model(self, path: str) -> Object3D:
         self.log_trace("Loading model -", path)
-        print(self.loader.mtl_source)
-        pprint(self.loader.mtl_contents)
 
         if not self.mtl_file_loaded:
             self.log_warning("Loading model before materials!")
@@ -209,9 +205,7 @@ class Models(BetterLogger):
         return obj
 
     def register_model(self, option: str, model: Object3D):
-        print("hi", option, model)
         self._models[option] = model
-        print(self._models)
 
     def get(self, section: str) -> Object3D:
         return self._models[section]
