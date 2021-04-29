@@ -4,6 +4,7 @@ from kivy3 import Object3D
 
 from lib.betterLogger import BetterLogger
 from resources import Models
+from staticConfigurables import graphics
 
 
 class BuildingBase(EventDispatcher, BetterLogger):
@@ -18,9 +19,7 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
     def on_building_id(self, instance, value):
         self.obj = Models.get(value)
-
-        self.obj.pos.z = -20
-        self.obj.rotation.x = 90
+        self.obj.pos.z = graphics.getint("BaseLayout", "building_start_z")
 
 
     def on_add(self):
