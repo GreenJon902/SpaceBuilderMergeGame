@@ -1,4 +1,4 @@
-newmtl Material.Metal
+newmtl metal
 Ns 0.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.083532 0.083532 0.083532
@@ -9,7 +9,7 @@ d 1.000000
 illum 3
 
 
-newmtl Material.Stone.Dark
+newmtl stone_dark
 Ns 214.382043
 Ka 1.000000 1.000000 1.000000
 Kd 0.000000 0.000000 0.000000
@@ -20,7 +20,7 @@ d 1.000000
 illum 2
 
 
-newmtl Material.Stone.Light
+newmtl stone_light
 Ns 323.999994
 Ka 1.000000 1.000000 1.000000
 Kd 0.220257 0.220257 0.220257
@@ -31,7 +31,7 @@ d 1.000000
 illum 2
 
 
-newmtl Material.Wood
+newmtl wood
 Ns 348.630213
 Ka 1.000000 1.000000 1.000000
 Kd 0.132864 0.025854 0.000000

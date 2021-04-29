@@ -105,7 +105,7 @@ class ResourceLoader(BetterLogger):
         })
 
         """self.tasks.append({
-            "type": "deal_resources",
+            "type": "deal_resource",
             "resource_type": "mtlFile",
             "path": os.path.join(AppInfo.resources_dir, "materials.mtl")
         })"""
@@ -135,7 +135,7 @@ class ResourceLoader(BetterLogger):
                     else:
                         self.log_trace("Already in list, no changes!")
                     self.tasks.append({
-                        "type": "deal_resources",
+                        "type": "deal_resource",
                         "resource_type": link_name,
                         "section": section,
                         "option": option,
@@ -156,21 +156,44 @@ class ResourceLoader(BetterLogger):
         if self.tasks_completed == -1:  # order task list
             self.log_trace("Ordering task list")
 
-            correct_order_of_tasks: dict[str, str] = {"resource_type": "texture", "resource_type": "mtlFile",
+            correct_order_of_tasks: list[dict] = [{"type": "load_resource", "resource_type": "texture"},
+                                                  {"type": "deal_resource", "resource_type": "texture"},
+
+                                                  {"type": "load_resource", "resource_type": "mtlFile"},
+
+                                                  {"type": "load_resource", "resource_type": "model"},
+                                                  {"type": "deal_resource", "resource_type": "model"},
+
+                                                  {"type": "load_resource", "resource_type": "language"},
+                                                  {"type": "deal_resource", "resource_type": "language"},
+
+                                                  {"type": "load_resource", "resource_type": "fonts"},
+                                                  {"type": "deal_resource", "resource_type": "fonts"},
+
+                                                  {"type": "load_resource", "resource_type": "audio"},
+                                                  {"type": "deal_resource", "resource_type": "audio"},
+
+                                                  {"type": "load_kv_lang"}]
+            """{"resource_type": "texture", "resource_type": "mtlFile",
                                                       "resource_type": "model", "resource_type": "language",
                                                       "resource_type": "audio", "resource_type": "fonts",
-                                                      "deal_resources": "type", "load_kv_lang": "type"}
+                                                      "deal_resource": "type", "load_kv_lang": "type"}"""
             new_tasks_list: list[dict[str, any]] = list()
 
-            for value_to_look_for in correct_order_of_tasks:
+            for types in correct_order_of_tasks:
 
-                key_to_look_for = correct_order_of_tasks[value_to_look_for]
+
                 for task in self.tasks:
                     try:
-                        if task[key_to_look_for] == value_to_look_for:
-                            if task[key_to_look_for] == "mtlFile":
-                                print(1)
+                        correct = True
+                        for t in types:
+                            if not task[t] == types[t]:
+                                correct = False
+                                break
+
+                        if correct:
                             new_tasks_list.append(task)
+
                         else:
                             pass
                     except KeyError:  # not in so dw
@@ -224,7 +247,7 @@ class ResourceLoader(BetterLogger):
                 self.log_critical("No know resource_type -", task_info["resource_type"])
 
 
-        elif task_info["type"] == "deal_resources":
+        elif task_info["type"] == "deal_resource":
             if task_info["resource_type"] == "language":
                 Lang.register_array(self.paths_to_resources[task_info["path"]], task_info["option"])
 
