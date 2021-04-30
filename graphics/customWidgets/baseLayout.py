@@ -1,7 +1,10 @@
 import os.path
 import random
+from pprint import pprint
 
 from kivy.clock import Clock
+from kivy.input.providers.mouse import MouseMotionEvent
+from kivy.properties import ListProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivy3 import Mesh, Scene, Renderer, Material, PerspectiveCamera
 from kivy3.extras.geometries import BoxGeometry
@@ -13,15 +16,16 @@ from lib.betterLogger import BetterLogger
 
 
 class BaseLayout(FloatLayout, BetterLogger):
-    renderer = Renderer(shader_file=os.path.join(AppInfo.resources_dir, "shader.glsl"))
-    scene = Scene()
+    renderer: Renderer = Renderer(shader_file=os.path.join(AppInfo.resources_dir, "shader.glsl"))
+    scene: Scene = Scene()
     scatter_widget: BetterScatter = None
-    camera = PerspectiveCamera(
+    camera: PerspectiveCamera = PerspectiveCamera(
         fov=75,  # distance from the screen
         aspect=0,  # "screen" ratio
         near=1,  # nearest rendered point
         far=150  # farthest rendered point
     )
+    buildings: ListProperty = ListProperty()
 
     def _adjust_aspect(self, *args):
         rsize = self.renderer.size
@@ -35,7 +39,18 @@ class BaseLayout(FloatLayout, BetterLogger):
         self.create_renderer()
         self.add_building("drill")
 
-        print(self.scatter_widget)
+    """def on_kv_post(self, base_widget):
+        self.scatter_widget.bind(scale=self.on_scatter_transform_with_touch, pos=self.on_scatter_transform_with_touch,
+                                 rotation=self.on_scatter_transform_with_touch)
+
+    def on_scatter_transform_with_touch(self, instance: BetterScatter, value: MouseMotionEvent):
+        print(self.scatter_widget.bbox)
+        try:
+            print("hi", self.camera._look_at)
+            self.camera.look_at([self.scatter_widget.x * -1, self.scatter_widget.y * -1, -100])
+        except KeyError:
+            print("POO")"""
+
 
     def add_buildings(self, building_ids):
         for building_id in building_ids:
@@ -43,6 +58,7 @@ class BaseLayout(FloatLayout, BetterLogger):
 
     def add_building(self, building_id):
         building = BuildingBase(id=building_id)
+        self.buildings.append(building)
         self.scene.add(building.obj)
         self.renderer._instructions.add(building.obj.as_instructions())
 

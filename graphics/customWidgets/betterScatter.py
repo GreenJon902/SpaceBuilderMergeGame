@@ -16,11 +16,15 @@ class BetterScatter(ScatterLayout, BetterLogger):
     def __init__(self, *args, **kwargs):
         ScatterLayout.__init__(self, *args, **kwargs)
         BetterLogger.__init__(self)
+        self.register_event_type("on_transformed")
 
     def on_touch_down(self, touch: MotionEvent):
         if touch.is_mouse_scrolling:
+            #dx, dy, dz = 0, 0, 0
+            #z = self.scale
 
             if touch.button == 'scrolldown':
+
                 if self.scale < self.scale_max:
 
                     nextScale = self.scale * (1 + self.scroll_sensitivity)
@@ -29,6 +33,7 @@ class BetterScatter(ScatterLayout, BetterLogger):
 
                     else:
                         self.scale = self.scale_max
+
 
             elif touch.button == 'scrollup':
                 if self.scale > self.scale_min:
@@ -43,6 +48,8 @@ class BetterScatter(ScatterLayout, BetterLogger):
             else:
                 self.log_warning("Touch event was sent and mouse was scrolling but not up nor down - ", touch)
 
+            #dz = self.scale - z
+            #self.dispatch("on_transformed", dx, dy, dz)
             self.dispatch("on_transform_with_touch", touch)
 
         else:
@@ -66,12 +73,16 @@ class BetterScatter(ScatterLayout, BetterLogger):
         elif top < graphics.height():
             dy = graphics.height() - top
 
+
         self.apply_transform(Matrix().translate(dx, dy, dz))
+        self.dispatch("on_transformed", dx, dy, dz)
 
 
     def collide_point(self, x: int, y: int):  # from scatter plane because ScatterPlaneLayout it didn't do layout well
         return True
 
+    def on_transformed(self, dx, dy, dz):
+        pass
 
     def reset(self):
         self.scale = 1

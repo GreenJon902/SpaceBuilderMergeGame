@@ -1,5 +1,5 @@
 from kivy.event import EventDispatcher
-from kivy.properties import StringProperty
+from kivy.properties import StringProperty, NumericProperty
 from kivy3 import Object3D
 
 from lib.betterLogger import BetterLogger
@@ -10,6 +10,8 @@ from staticConfigurables import graphics
 class BuildingBase(EventDispatcher, BetterLogger):
     building_id = StringProperty(defaultvalue="drill")
     obj: Object3D = None
+    x: NumericProperty = NumericProperty(0)
+    y: NumericProperty = NumericProperty(0)
 
     def __init__(self, *args, **kwargs):
         EventDispatcher.__init__(self, *args, **kwargs)
@@ -22,5 +24,6 @@ class BuildingBase(EventDispatcher, BetterLogger):
         self.obj.pos.z = graphics.getint("BaseLayout", "building_start_z")
 
 
-    def on_add(self):
-        pass
+    def move_to(self, new_pos):
+        self.obj.pos.x = new_pos[0]
+        self.obj.pos.y = new_pos[1]
