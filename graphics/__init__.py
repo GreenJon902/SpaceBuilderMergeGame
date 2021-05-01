@@ -1,6 +1,5 @@
 import ntpath
 import os
-from configparser import ExtendedInterpolation
 
 from kivy.core.window import Window
 from kivy.logger import Logger
@@ -8,6 +7,7 @@ from kivy.factory import Factory
 from kivy.lang import Builder
 
 import AppInfo
+from graphics.config import graphicsConfig
 from graphics.customWidgets.betterScatter import BetterScatter
 from lib.ConfigParsers import ExtendedConfigParser
 
@@ -107,7 +107,3 @@ def start():
 
     Logger.info("graphics have ended")
 
-
-graphicsConfig: ExtendedConfigParser = ExtendedConfigParser(interpolation=ExtendedInterpolation())
-ExtendedConfigParser.__log_name_prefix__ = "Graphics_"
-graphicsConfig.read(AppInfo.graphics_file)
