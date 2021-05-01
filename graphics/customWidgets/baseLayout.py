@@ -42,7 +42,9 @@ class BaseLayout(FloatLayout, BetterLogger):
         self.log_info("Created renderer, starting to create building objects")
 
         for building_info in gameData.get("placed_buildings"):
-            building = str_to_building[building_info["id"]](**building_info)
+            building_class = str_to_building[building_info["id"]]
+            building = building_class(**building_info)
+
             self.log_debug("Created building object for", building_info)
             self.add_building(building)
 
@@ -64,9 +66,8 @@ class BaseLayout(FloatLayout, BetterLogger):
 
 
     def add_building(self, building):
+        building.set_renderer_and_scene(self.renderer, self.scene)
         self.buildings.append(building)
-        self.scene.add(building.obj)
-        self.renderer._instructions.add(building.obj.as_instructions())
 
 
     def create_renderer(self):
@@ -76,7 +77,8 @@ class BaseLayout(FloatLayout, BetterLogger):
 
 
     def create_cube(self):
-        cube_geo = BoxGeometry(1, 1, 1)  #  BoxGeometry(random.randint(5, 15)/10, random.randint(5, 15)/10, random.randint(5, 15)/10)
+        cube_geo = BoxGeometry(1, 1, 1)
+        #  BoxGeometry(random.randint(5, 15)/10, random.randint(5, 15)/10, random.randint(5, 15)/10)
         cube_mat = Material(color=(random.randint(0, 100)/100, random.randint(0, 100)/100, random.randint(0, 100)/100))
         cube = Mesh(
             geometry=cube_geo,
