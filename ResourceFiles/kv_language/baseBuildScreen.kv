@@ -1,7 +1,7 @@
 <BaseBuildScreen>:
     canvas.before:
         Color:
-            rgb: get_color_from_hex(Graphics.get("BaseBuildScreen", "crater_outside_color"))
+            rgb: get_color_from_hex(graphicsConfig.get("BaseBuildScreen", "crater_outside_color"))
 
         Rectangle:
             pos: self.pos
@@ -47,9 +47,11 @@
     FloatLayout:
         id: controls
 
-        Button:
+        BetterButton:
             on_release: scatter.reset()
-            size_hint: 0.13, 0.05
-            text: "Reset"
+
+            size_type: "small"
+            button_id: "reset_movement"
+            size_hint: None, None
 
             pos_hint: {"right": 1, "top":1}

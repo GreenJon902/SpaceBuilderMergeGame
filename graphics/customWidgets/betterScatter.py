@@ -9,8 +9,8 @@ from lib.betterLogger import BetterLogger
 
 
 class BetterScatter(ScatterLayout, BetterLogger):
-    scale_min: NumericProperty = staticConfigurables.graphics.getfloat("BaseBuildScreen", "min_zoom")  # out
-    scale_max: NumericProperty = staticConfigurables.graphics.getfloat("BaseBuildScreen", "max_zoom")  # in
+    scale_min: NumericProperty = staticConfigurables.graphicsConfig.getfloat("BaseBuildScreen", "min_zoom")  # out
+    scale_max: NumericProperty = staticConfigurables.graphicsConfig.getfloat("BaseBuildScreen", "max_zoom")  # in
     scroll_sensitivity: NumericProperty = staticConfigurables.settings.getfloat("Controls", "scroll_sensitivity")
 
     def __init__(self, *args, **kwargs):

@@ -47,6 +47,7 @@ def setup():
     from graphics.screens.baseBuildScreen import BaseBuildScreen
     from graphics.customWidgets.multiLangLabel import MultiLangLabel
     from graphics.customWidgets.baseLayout import BaseLayout
+    from graphics.customWidgets.betterButton import BetterButton
 
     Factory.register("SpaceBuilderMergeGameApp",
                      cls=SpaceBuilderMergeGameApp,
@@ -87,6 +88,10 @@ def setup():
     Factory.register("BetterScatter",
                      cls=BetterScatter,
                      module="graphics.customWidgets.betterScatter")
+
+    Factory.register("BetterButton",
+                     cls=BetterButton,
+                     module="graphics.customWidgets.betterButton")
 
     Logger.info("All classes have been assigned to Factory")
 

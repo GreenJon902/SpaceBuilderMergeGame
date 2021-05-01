@@ -23,8 +23,8 @@ texts.read(AppInfo.texts_file)"""
 settings: ExtendedConfigParser = ExtendedConfigParser(interpolation=ExtendedInterpolation())
 ExtendedConfigParser.__log_name_prefix__ = "Settings_"
 
-graphics: ExtendedConfigParser = ExtendedConfigParser(interpolation=ExtendedInterpolation())
+graphicsConfig: ExtendedConfigParser = ExtendedConfigParser(interpolation=ExtendedInterpolation())
 ExtendedConfigParser.__log_name_prefix__ = "Graphics_"
 
 settings.read(AppInfo.settings_file)
-graphics.read(AppInfo.graphics_file)
+graphicsConfig.read(AppInfo.graphics_file)

@@ -8,7 +8,7 @@ from kivy3.loaders.objloader import WaveObject as kv3WaveObject, folder as objLo
 from lib.betterLogger import BetterLogger
 
 from resources.textures import Textures
-from staticConfigurables import graphics
+from staticConfigurables import graphicsConfig
 
 
 class WaveObject(BetterLogger, kv3WaveObject):
@@ -199,7 +199,7 @@ class Models(BetterLogger):
         if not self.mtl_file_loaded:
             self.log_warning("Loading model before materials!")
 
-        obj = self.loader.load(path, swapyz=graphics.getboolean("General", "swap_object_yz"))
+        obj = self.loader.load(path, swapyz=graphicsConfig.getboolean("General", "swap_object_yz"))
         self.log_trace("Loaded model-", path)
         return obj
 
