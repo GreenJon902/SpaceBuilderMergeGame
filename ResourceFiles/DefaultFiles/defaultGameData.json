@@ -1,3 +1,9 @@
 {
-  
+  "placed_buildings": [
+    {
+      "id": "drill",
+      "x": 20,
+      "y": 12
+    }
+  ]
 }

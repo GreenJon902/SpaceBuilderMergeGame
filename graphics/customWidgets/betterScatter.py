@@ -12,7 +12,7 @@ from graphics import graphicsConfig
 class BetterScatter(ScatterLayout, BetterLogger):
     scale_min: NumericProperty = graphicsConfig.getfloat("BaseBuildScreen", "min_zoom")  # out
     scale_max: NumericProperty = graphicsConfig.getfloat("BaseBuildScreen", "max_zoom")  # in
-    scroll_sensitivity: NumericProperty = userSettings.getfloat("Controls", "scroll_sensitivity")
+    scroll_sensitivity: NumericProperty = userSettings.getfloat("controls", "scroll_sensitivity")
 
     def __init__(self, *args, **kwargs):
         ScatterLayout.__init__(self, *args, **kwargs)

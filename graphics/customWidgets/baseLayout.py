@@ -10,8 +10,9 @@ from kivy3 import Mesh, Scene, Renderer, Material, PerspectiveCamera
 from kivy3.extras.geometries import BoxGeometry
 
 import AppInfo
+from configurables import gameData
 from graphics.customWidgets.betterScatter import BetterScatter
-from graphics.customWidgets.buildings.buildingbase import BuildingBase
+from graphics.customWidgets.buildings import str_to_building
 from lib.betterLogger import BetterLogger
 
 
@@ -37,7 +38,16 @@ class BaseLayout(FloatLayout, BetterLogger):
         FloatLayout.__init__(self, *args, **kwargs)
 
         self.create_renderer()
-        self.add_building("drill")
+
+        self.log_info("Created renderer, starting to create building objects")
+
+        for building_info in gameData.get("placed_buildings"):
+            building = str_to_building[building_info["id"]](**building_info)
+            self.log_debug("Created building object for", building_info)
+            self.add_building(building)
+
+        self.log_info("Created objects")
+
 
     """def on_kv_post(self, base_widget):
         self.scatter_widget.bind(scale=self.on_scatter_transform_with_touch, pos=self.on_scatter_transform_with_touch,
@@ -52,12 +62,8 @@ class BaseLayout(FloatLayout, BetterLogger):
             print("POO")"""
 
 
-    def add_buildings(self, building_ids):
-        for building_id in building_ids:
-            self.add_building(building_id)
 
-    def add_building(self, building_id):
-        building = BuildingBase(id=building_id)
+    def add_building(self, building):
         self.buildings.append(building)
         self.scene.add(building.obj)
         self.renderer._instructions.add(building.obj.as_instructions())

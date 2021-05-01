@@ -14,16 +14,21 @@ class BuildingBase(EventDispatcher, BetterLogger):
     y: NumericProperty = NumericProperty(0)
 
     def __init__(self, *args, **kwargs):
-        EventDispatcher.__init__(self, *args, **kwargs)
         BetterLogger.__init__(self)
-
+        self.log_trace("Creating building with args", args, kwargs)
         self.on_building_id(self, self.building_id)
 
+        EventDispatcher.__init__(self, *args, **kwargs)
+
+
     def on_building_id(self, instance, value):
+        self.log_trace("building_id changed to", value)
         self.obj = Models.get(value)
         self.obj.pos.z = graphicsConfig.getint("BaseLayout", "building_start_z")
 
+    def on_x(self, instance, value):
+        self.obj.pos.x = value
 
-    def move_to(self, new_pos):
-        self.obj.pos.x = new_pos[0]
-        self.obj.pos.y = new_pos[1]
+    def on_y(self, instance, value):
+        self.obj.pos.y = value
+
