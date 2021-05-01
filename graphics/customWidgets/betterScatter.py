@@ -5,7 +5,8 @@ from kivy.uix.scatterlayout import ScatterLayout
 
 import graphics
 from lib.betterLogger import BetterLogger
-from configurables import graphicsConfig, userSettings
+from configurables import userSettings
+from graphics import graphicsConfig
 
 
 class BetterScatter(ScatterLayout, BetterLogger):

@@ -8,7 +8,7 @@ from kivy3.loaders.objloader import WaveObject as kv3WaveObject, folder as objLo
 from lib.betterLogger import BetterLogger
 
 from resources.textures import Textures
-from configurables import graphicsConfig
+from graphics import graphicsConfig
 
 
 class WaveObject(BetterLogger, kv3WaveObject):

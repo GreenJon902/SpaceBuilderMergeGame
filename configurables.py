@@ -1,4 +1,4 @@
-from configparser import ConfigParser, ExtendedInterpolation
+from configparser import ExtendedInterpolation
 
 import AppInfo
 
@@ -22,9 +22,4 @@ texts.read(AppInfo.texts_file)"""
 
 userSettings: ExtendedConfigParser = ExtendedConfigParser(interpolation=ExtendedInterpolation())
 ExtendedConfigParser.__log_name_prefix__ = "UserSettings_"
-
-graphicsConfig: ExtendedConfigParser = ExtendedConfigParser(interpolation=ExtendedInterpolation())
-ExtendedConfigParser.__log_name_prefix__ = "Graphics_"
-
 userSettings.read(AppInfo.settings_file)
-graphicsConfig.read(AppInfo.graphics_file)
