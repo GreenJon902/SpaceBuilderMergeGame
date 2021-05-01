@@ -4,7 +4,7 @@ from kivy3 import Object3D
 
 from lib.betterLogger import BetterLogger
 from resources import Models
-from staticConfigurables import graphicsConfig
+from configurables import graphicsConfig
 
 
 class BuildingBase(EventDispatcher, BetterLogger):

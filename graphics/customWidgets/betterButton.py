@@ -4,7 +4,7 @@ from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.widget import Widget
 
 from resources import Textures
-from staticConfigurables import graphicsConfig
+from configurables import graphicsConfig
 
 
 class BetterButton(ButtonBehavior, Widget):

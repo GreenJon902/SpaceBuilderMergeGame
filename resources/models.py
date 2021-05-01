@@ -8,7 +8,7 @@ from kivy3.loaders.objloader import WaveObject as kv3WaveObject, folder as objLo
 from lib.betterLogger import BetterLogger
 
 from resources.textures import Textures
-from staticConfigurables import graphicsConfig
+from configurables import graphicsConfig
 
 
 class WaveObject(BetterLogger, kv3WaveObject):
@@ -74,7 +74,7 @@ class WaveObject(BetterLogger, kv3WaveObject):
                     map_path = join(mtl_dirname, v[0])
                     if not exists(map_path):
                         msg = u'Texture not found <{}>'
-                        self.log_warning.warning(msg.format(map_path))
+                        self.log_warning(msg.format(map_path))
                         continue
                     tex = Image(map_path).texture
                     material.map = tex

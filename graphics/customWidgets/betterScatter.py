@@ -4,14 +4,14 @@ from kivy.properties import NumericProperty
 from kivy.uix.scatterlayout import ScatterLayout
 
 import graphics
-import staticConfigurables
 from lib.betterLogger import BetterLogger
+from configurables import graphicsConfig, userSettings
 
 
 class BetterScatter(ScatterLayout, BetterLogger):
-    scale_min: NumericProperty = staticConfigurables.graphicsConfig.getfloat("BaseBuildScreen", "min_zoom")  # out
-    scale_max: NumericProperty = staticConfigurables.graphicsConfig.getfloat("BaseBuildScreen", "max_zoom")  # in
-    scroll_sensitivity: NumericProperty = staticConfigurables.settings.getfloat("Controls", "scroll_sensitivity")
+    scale_min: NumericProperty = graphicsConfig.getfloat("BaseBuildScreen", "min_zoom")  # out
+    scale_max: NumericProperty = graphicsConfig.getfloat("BaseBuildScreen", "max_zoom")  # in
+    scroll_sensitivity: NumericProperty = userSettings.getfloat("Controls", "scroll_sensitivity")
 
     def __init__(self, *args, **kwargs):
         ScatterLayout.__init__(self, *args, **kwargs)
