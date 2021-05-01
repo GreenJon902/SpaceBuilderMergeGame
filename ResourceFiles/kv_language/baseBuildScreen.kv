@@ -47,6 +47,7 @@
     FloatLayout:
         id: controls
 
+
         BetterButton:
             on_release: scatter.reset()
 
@@ -55,3 +56,13 @@
             size_hint: None, None
 
             pos_hint: {"right": 1, "top":1}
+
+
+        BetterButton:
+            on_release: print("Inventory pressed")
+
+            size_type: "big"
+            button_id: "inventory"
+            size_hint: None, None
+
+            pos_hint: {"right": 1, "y":0}
