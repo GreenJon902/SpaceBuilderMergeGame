@@ -1,0 +1,15 @@
+{
+  "Debug": {
+    "log_level": "info"
+  },
+
+  "UI": {
+    "language": "en-gb"
+  },
+  
+  "Controls": {
+    "scroll_sensitivity": 0.1
+  }
+}
+
+

@@ -18,8 +18,12 @@ kivy_home_dir: str = os.path.join(user_data_dir, "kivy")
 config_dir: str = os.path.join(user_data_dir, "config")
 code_dir: str = os.path.dirname(os.path.realpath(__file__))
 resources_dir: str = os.path.join(code_dir, "ResourceFiles")
-default_settings_file: str = os.path.join(code_dir, resources_dir, "default_settings.ini")
+default_files_dir: str = os.path.join(resources_dir, "DefaultFiles")
+default_settings_file: str = os.path.join(default_files_dir, "defaultSettings.json")
+default_game_data_file: str = os.path.join(default_files_dir, "defaultGameData.json")
+default_user_data: str = os.path.join(default_files_dir, "defaultUserData.ini")
 settings_file: str = os.path.join(user_data_dir, "settings.json")
+game_data_file: str = os.path.join(user_data_dir, "gameData.json")
 graphics_file: str = os.path.join(resources_dir, "graphicsConfig.ini")
 kv_language_dir: str = os.path.join(resources_dir, "kv_language")
 log_dir: str = AppDirs.user_log_dir
@@ -39,7 +43,7 @@ default_size: [int] = 700, 500
 __all__ = ["appname", "appauthor", "version", "roaming",
            "array",
            "user_data_dir", "kivy_home_dir", "config_dir", "code_dir", "default_settings_file", "settings_file",
-           "log_dir", "resources_dir", "kv_language_dir", "graphics_file",
-           "default_size", "log_name", "log_class_length",
+           "log_dir", "resources_dir", "kv_language_dir", "graphics_file", "default_user_data",
+           "default_size", "log_name", "log_class_length", "default_game_data_file", "game_data_file",
            "pre_load_dir", "pre_load_kv_lang_path", "splash_screen_images", "loading_screen_background_image",
            "loading_screen_title_image", "loading_screen_loading_text_font"]

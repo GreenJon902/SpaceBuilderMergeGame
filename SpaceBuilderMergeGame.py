@@ -10,6 +10,11 @@ if __name__ == "__main__":
 
     #  if not os.path.exists(AppInfo.settings_file):
     copyfile(AppInfo.default_settings_file, AppInfo.settings_file)
+    print("[INFO   ] [BeforeKivy  ] Can't find settings file, copied a new one")
+
+    #  if not os.path.exists(AppInfo.game_data_file):
+    copyfile(AppInfo.default_game_data_file, AppInfo.game_data_file)
+    print("[INFO   ] [BeforeKivy  ] Can't find game data file, copied a new one")
 
 
     os.chdir(pathlib.Path(__file__).parent.absolute())
