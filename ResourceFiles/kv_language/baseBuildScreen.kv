@@ -2,6 +2,7 @@
     canvas.before:
         Color:
             rgb: get_color_from_hex(graphicsConfig.get("BaseBuildScreen", "crater_outside_color"))
+            a: 0
 
         Rectangle:
             pos: self.pos
@@ -12,6 +13,8 @@
         auto_bring_to_front: False
 
         FloatLayout:
+            opacity: 0
+
             id: background
 
             #canvas.after:

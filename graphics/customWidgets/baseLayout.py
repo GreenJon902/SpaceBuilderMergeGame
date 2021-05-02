@@ -13,6 +13,7 @@ import AppInfo
 from configurables import gameData
 from graphics.customWidgets.betterScatter import BetterScatter
 from graphics.customWidgets.buildings import str_to_building
+from graphics.customWidgets.buildings.buildingbase import BuildingBase
 from lib.betterLogger import BetterLogger
 
 
@@ -24,7 +25,7 @@ class BaseLayout(FloatLayout, BetterLogger):
         fov=75,  # distance from the screen
         aspect=0,  # "screen" ratio
         near=1,  # nearest rendered point
-        far=150  # farthest rendered point
+        far=200  # farthest rendered point
     )
     buildings: ListProperty = ListProperty()
 
@@ -38,6 +39,9 @@ class BaseLayout(FloatLayout, BetterLogger):
         FloatLayout.__init__(self, *args, **kwargs)
 
         self.create_renderer()
+        b = BuildingBase(id="floor")
+        b.obj.scale = 10, 10, 10
+        self.add_building(b)
 
         self.log_info("Created renderer, starting to create building objects")
 
