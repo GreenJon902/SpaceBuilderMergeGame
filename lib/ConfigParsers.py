@@ -78,7 +78,7 @@ class JSONParser(BetterLogger):
     def _get(self, *args):
         return value_from_list_of_keys(self.array, args)
 
-    def get(self, *args: any, called_by: str = "MainScript") -> str:
+    def get(self, *args: any, called_by: str = "MainScript") -> any:
         result = self._get(*args)
 
         self.log_debug("Got result", result, "from path", args, ". Called by", called_by, "with args", args)

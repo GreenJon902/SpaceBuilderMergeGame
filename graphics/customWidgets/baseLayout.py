@@ -1,9 +1,11 @@
 import os.path
 import random
-from pprint import pprint
+from math import atan
 
 from kivy.clock import Clock
-from kivy.input.providers.mouse import MouseMotionEvent
+from kivy.graphics.transformation import Matrix
+from kivy.graphics import Color, Rectangle
+from kivy.input import MotionEvent
 from kivy.properties import ListProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivy3 import Mesh, Scene, Renderer, Material, PerspectiveCamera
@@ -12,6 +14,7 @@ from kivy3.extras.geometries import BoxGeometry
 import AppInfo
 from configurables import gameData
 from graphics import width, height
+from graphics.betterKv3.vectors import Vector3
 from graphics.customWidgets.betterScatter import BetterScatter
 from graphics.customWidgets.buildings import str_to_building
 from graphics.customWidgets.buildings.buildingbase import BuildingBase
@@ -92,12 +95,73 @@ class BaseLayout(FloatLayout, BetterLogger):
         Clock.schedule_interval(lambda *args: self.rotate_cube(cube), .01)
         self.renderer._instructions.add(cube.as_instructions())
 
-    def on_touch_down(self, touch):
+    def on_touch_down(self, touch: MotionEvent):
         building: BuildingBase
         for building in self.buildings:
-            print(building)
-            print(building.obj.pos, building.obj.scale.xyz)
+            bPos = building.obj.pos[0], building.obj.pos[1],  building.obj.pos[2]
+            bPos2 = building.obj.pos[0] + 10, building.obj.pos[1] + 1, building.obj.pos[2]
+            cPos = self.camera.pos
+
+            bVPos = Vector3(bPos)
+            bVPos2 = Vector3(bPos2)
+            x, y, z = bVPos + Vector3(0, 0, 100)
+            x2, y2, z2 = bVPos2 + Vector3(0, 0, 100)
+            print(x, y, z, x2, y2, z2)
+
+
+            """pitch = atan((bPos[0] - cPos.x) / (bPos[1] - cPos.y))
+            yaw = atan((bPos[2] - cPos.z) / (bPos[1] - cPos.y))
+
+            x = width() / 2 + (pitch * (width() / self.camera.fov))
+            y = height() / 2 + (yaw * (height() / self.camera.fov))
+
+
+            pitch2 = atan((bPos2[0] - cPos.x) / (bPos2[1] - cPos.y))
+            yaw2 = atan((bPos2[2] - cPos.z) / (bPos2[1] - cPos.y))
+
+            x2 = width() / 2 + (pitch2 * (width() / self.camera.fov))
+            y2 = height() / 2 + (yaw2 * (height() / self.camera.fov))
+
+            print(touch.x, touch.y)
+            print(bPos, bPos2, cPos)
+            print(x, y, x2, y2)
+            print(self.camera.rotation)"""
+
+            """print(building)
+            print(building.obj.pos, building.obj.scale)
+            print(building.obj._instructions, building.obj._instructions.children)
+            print()
+            print()
+            print(building.obj._translate.matrix)
+            print()
+            print()
+            print(building.obj._scale.matrix)
+            print()
+            print()
+            print(building.obj._rotors["x"].matrix)
+            print()
+            print(building.obj._rotors["y"].matrix)
+            print()
+            print(building.obj._rotors["z"].matrix)"""
+            """print(building.obj.pos, (building.obj.pos[0] - (width() / 2), building.obj.pos[1] - (height() / 2)), building.obj.scale.xyz)
+            print(touch.pos)
             print(touch.pos[0] - (width() / 2), touch.pos[1] - (height() / 2))
             print(self.renderer.size)
             print(self.scatter_widget.scale)
+            print(Vector3.get_XY_from_camera(building.obj.pos, self.camera))
             print()
+            print()
+            print()
+            print()
+            print(Matrix())
+            print(Matrix().project(building.obj.pos[0], building.obj.pos[1], building.obj.pos[2], Matrix(), Matrix(), self.camera.pos.x, self.camera.pos.y, width(), height()))"""
+
+
+            with self.canvas.after:
+                Color(rgba=(0, 1, 0, 0.5))
+
+                Rectangle(pos=(x, y), size=(10, 10))#size=(building.obj.scale.x, building.obj.scale.z))
+
+                Color(rgba=(0, 0, 1, 0.5))
+                Rectangle(pos=(x2, y2), size=(10, 10))#size=(building.obj.scale.x, building.obj.scale.z))
+            break
