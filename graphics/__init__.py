@@ -12,15 +12,15 @@ from graphics.customWidgets.betterScatter import BetterScatter
 from lib.ConfigParsers import ExtendedConfigParser
 
 
-def size():  # because it might have adverts or somin, idk
+def size() -> tuple[int]:  # because it might have adverts or somin, idk
     return width(), height()
 
 
-def width():  # because it might have adverts or somin, idk
+def width() -> int:  # because it might have adverts or somin, idk
     return Window.width
 
 
-def height():  # because it might have adverts or somin, idk
+def height() -> int:  # because it might have adverts or somin, idk
     return Window.height
 
 

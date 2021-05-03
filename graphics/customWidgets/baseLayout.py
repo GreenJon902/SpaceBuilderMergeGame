@@ -11,8 +11,10 @@ from kivy3.extras.geometries import BoxGeometry
 
 import AppInfo
 from configurables import gameData
+from graphics import width, height
 from graphics.customWidgets.betterScatter import BetterScatter
 from graphics.customWidgets.buildings import str_to_building
+from graphics.customWidgets.buildings.buildingbase import BuildingBase
 from lib.betterLogger import BetterLogger
 
 
@@ -89,3 +91,13 @@ class BaseLayout(FloatLayout, BetterLogger):
         self.scene.add(cube)
         Clock.schedule_interval(lambda *args: self.rotate_cube(cube), .01)
         self.renderer._instructions.add(cube.as_instructions())
+
+    def on_touch_down(self, touch):
+        building: BuildingBase
+        for building in self.buildings:
+            print(building)
+            print(building.obj.pos, building.obj.scale.xyz)
+            print(touch.pos[0] - (width() / 2), touch.pos[1] - (height() / 2))
+            print(self.renderer.size)
+            print(self.scatter_widget.scale)
+            print()

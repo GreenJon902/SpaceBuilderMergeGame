@@ -96,13 +96,19 @@ class WaveObject(BetterLogger, kv3WaveObject):
                         setattr(material, _k, v)
 
         if not material.map:
+            self.log_warning("No material given or used wrong name -", self.mtl_name, "(if nothing here then you "
+                                                                                      "provided no mtl file)")
             material.map = Image(objLoader_folder + '/empty.png').texture
             material.texture_ratio = 0.0
         mesh = Mesh(geometry, material)
         return mesh
 
 
-class OBJLoader(kv3OBJLoader):
+class OBJLoader(BetterLogger, kv3OBJLoader):
+    def __init__(self, *args, **kwargs):
+        BetterLogger.__init__(self)
+        kv3OBJLoader.__init__(self, *args, **kwargs)
+
     def _load_meshes(self):  # Ripped from kivy3/loaders/objloader.py and edited by GJ
 
         wvobj = WaveObject(self)
@@ -122,7 +128,9 @@ class OBJLoader(kv3OBJLoader):
             if values[0] == 'o' or values[0] == 'g':
                 wvobj.name = values[1]
             elif values[0] == 'mtllib':
-                if not self.mtl_source:
+                self.log_warning("You should not use mtllib, use the main mtl file thats loaded seperatly by "
+                                 "resources/__init__.py")
+                if not self.mtl_source == values[1]:
                     _obj_dir = abspath(dirname(self.source))
                     self.mtl_source = join(_obj_dir, values[1])
                     self.load_mtl()
