@@ -31,7 +31,7 @@ class BaseLayout(FloatLayout, BetterLogger):
         near=1,  # nearest rendered point
         far=150  # farthest rendered point
     )
-    buildings: ListProperty = ListProperty()
+    buildings: list[BuildingBase] = ListProperty()
 
     def _adjust_aspect(self, *args):
         rsize = self.renderer.size
@@ -91,7 +91,9 @@ class BaseLayout(FloatLayout, BetterLogger):
         Clock.schedule_interval(lambda *args: self.rotate_cube(cube), .01)
         self.renderer._instructions.add(cube.as_instructions())
 
-    def on_touch_down(self, touch: MotionEvent):
+    def on_touch_up(self, touch: MotionEvent):
+        to_select: BuildingBase = None
+
         building: BuildingBase
         for building in self.buildings:
             # I want my long time and effort to be remembered, this to so long, AND THE ANSWER WAS SO SIMPLE OMG
@@ -158,13 +160,30 @@ class BaseLayout(FloatLayout, BetterLogger):
                                    self.camera.pos.x, self.camera.pos.y, width(), height())
 
             x2, y2, z2 = m.project(building.obj.pos[0]+5, building.obj.pos[1]+5, building.obj.pos[2],
-                                self.camera.model_matrix, self.camera.projection_matrix,
-                                self.camera.pos.x, self.camera.pos.y, width(), height())
+                                   self.camera.model_matrix, self.camera.projection_matrix,
+                                   self.camera.pos.x, self.camera.pos.y, width(), height())
 
-            with self.canvas.after:
+
+            # Will leave here for debug
+            """with self.canvas.after:
                 Color(rgba=(0, 1, 0, 0.5))
 
-                Rectangle(pos=(x, y), size=(10, 10))  # size=(building.obj.scale.x, building.obj.scale.z))
+                Rectangle(pos=(x, y), size=(x2 - x, y2 - y))"""
 
-                Color(rgba=(0, 0, 1, 0.5))
-                Rectangle(pos=(x2, y2), size=(10, 10))  # size=(building.obj.scale.x, building.obj.scale.z))
+            if x <= touch.x <= x2 and y <= touch.y <= y2:
+                self.log_debug("Building", building, "was clicked on, setting building to selected and grabbing touch")
+                to_select = building
+                break
+
+        if to_select is None:
+            self.log_trace("User touched but no building was clicked, ignoring touch")
+
+
+        else:
+            buildings = self.buildings.copy()
+            buildings.remove(to_select)
+
+            for building in buildings:
+                building.selected = False
+
+            to_select.selected = True

@@ -60,3 +60,11 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
     def on_selected(self, instance, value):
         self.log_trace("Selected switched to", value, "on building", instance)
+
+    def __repr__(self):
+        base = str(object.__repr__(self))
+        base = base.replace("<", "")
+        base = base.replace(">", "")
+
+        return "<'" + base + "' pos=" + str((self.x, self.y)) + \
+               ", selected=" + str(self.selected) + ">"
