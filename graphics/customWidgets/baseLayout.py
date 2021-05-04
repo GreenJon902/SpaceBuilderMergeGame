@@ -55,7 +55,6 @@ class BaseLayout(FloatLayout, BetterLogger):
 
         self.log_info("Created objects")
 
-
     """def on_kv_post(self, base_widget):
         self.scatter_widget.bind(scale=self.on_scatter_transform_with_touch, pos=self.on_scatter_transform_with_touch,
                                  rotation=self.on_scatter_transform_with_touch)
@@ -68,23 +67,20 @@ class BaseLayout(FloatLayout, BetterLogger):
         except KeyError:
             print("POO")"""
 
-
-
     def add_building(self, building):
         building.set_renderer_and_scene(self.renderer, self.scene)
         self.buildings.append(building)
-
 
     def create_renderer(self):
         self.renderer.render(self.scene, self.camera)
         self.renderer.bind(size=self._adjust_aspect)
         self.add_widget(self.renderer)
 
-
     def create_cube(self):
         cube_geo = BoxGeometry(1, 1, 1)
         #  BoxGeometry(random.randint(5, 15)/10, random.randint(5, 15)/10, random.randint(5, 15)/10)
-        cube_mat = Material(color=(random.randint(0, 100)/100, random.randint(0, 100)/100, random.randint(0, 100)/100))
+        cube_mat = Material(
+            color=(random.randint(0, 100) / 100, random.randint(0, 100) / 100, random.randint(0, 100) / 100))
         cube = Mesh(
             geometry=cube_geo,
             material=cube_mat
@@ -98,16 +94,16 @@ class BaseLayout(FloatLayout, BetterLogger):
     def on_touch_down(self, touch: MotionEvent):
         building: BuildingBase
         for building in self.buildings:
-            bPos = building.obj.pos[0], building.obj.pos[1],  building.obj.pos[2]
-            bPos2 = building.obj.pos[0] + 10, building.obj.pos[1] + 1, building.obj.pos[2]
-            cPos = self.camera.pos
+            # I want my long time and effort to be remembered, this to so long, AND THE ANSWER WAS SO SIMPLE OMG
+            """bPos = building.obj.pos[0], building.obj.pos[1],  building.obj.pos[2]
+            bPos2 = building.obj.pos[0] + self.renderer.width, building.obj.pos[1] + self.renderer.height, building.obj.pos[2]
+            cPos = self.camera.pos"""
 
-            bVPos = Vector3(bPos)
+            """bVPos = Vector3(bPos)
             bVPos2 = Vector3(bPos2)
             x, y, z = bVPos + Vector3(0, 0, 100)
             x2, y2, z2 = bVPos2 + Vector3(0, 0, 100)
-            print(x, y, z, x2, y2, z2)
-
+            print(x, y, z, x2, y2, z2)"""
 
             """pitch = atan((bPos[0] - cPos.x) / (bPos[1] - cPos.y))
             yaw = atan((bPos[2] - cPos.z) / (bPos[1] - cPos.y))
@@ -156,12 +152,19 @@ class BaseLayout(FloatLayout, BetterLogger):
             print(Matrix())
             print(Matrix().project(building.obj.pos[0], building.obj.pos[1], building.obj.pos[2], Matrix(), Matrix(), self.camera.pos.x, self.camera.pos.y, width(), height()))"""
 
+            m = Matrix()
+            x, y, z2 = m.project(building.obj.pos[0]-5, building.obj.pos[1]-5, building.obj.pos[2]-5,
+                                   self.camera.model_matrix, self.camera.projection_matrix,
+                                   self.camera.pos.x, self.camera.pos.y, width(), height())
+
+            x2, y2, z2 = m.project(building.obj.pos[0]+5, building.obj.pos[1]+5, building.obj.pos[2],
+                                self.camera.model_matrix, self.camera.projection_matrix,
+                                self.camera.pos.x, self.camera.pos.y, width(), height())
 
             with self.canvas.after:
                 Color(rgba=(0, 1, 0, 0.5))
 
-                Rectangle(pos=(x, y), size=(10, 10))#size=(building.obj.scale.x, building.obj.scale.z))
+                Rectangle(pos=(x, y), size=(10, 10))  # size=(building.obj.scale.x, building.obj.scale.z))
 
                 Color(rgba=(0, 0, 1, 0.5))
-                Rectangle(pos=(x2, y2), size=(10, 10))#size=(building.obj.scale.x, building.obj.scale.z))
-            break
+                Rectangle(pos=(x2, y2), size=(10, 10))  # size=(building.obj.scale.x, building.obj.scale.z))
