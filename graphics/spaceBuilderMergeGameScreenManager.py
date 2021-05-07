@@ -1,5 +1,5 @@
 from kivy.app import App
-from kivy.uix.screenmanager import ScreenManager, NoTransition, TransitionBase
+from kivy.uix.screenmanager import ScreenManager, NoTransition, TransitionBase, Screen
 
 from lib.betterLogger import BetterLogger
 
@@ -23,3 +23,7 @@ class SpaceBuilderMergeGameScreenManager(ScreenManager, BetterLogger):
 def get_sm() -> SpaceBuilderMergeGameScreenManager:
     BetterLogger().log_trace("get_sm(): Returning screen manager")
     return App.get_running_app().root.current
+
+
+def get_screen(screen_name: str) -> Screen:
+    return get_sm().get_screen(screen_name)

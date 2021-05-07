@@ -2,14 +2,13 @@ import ntpath
 import os
 
 from kivy.core.window import Window
-from kivy.logger import Logger
 from kivy.factory import Factory
 from kivy.lang import Builder
+from kivy.logger import Logger
 
 import AppInfo
 from graphics.config import graphicsConfig
 from graphics.customWidgets.betterScatter import BetterScatter
-from lib.ConfigParsers import ExtendedConfigParser
 
 
 def size() -> tuple[int]:  # because it might have adverts or somin, idk
@@ -50,6 +49,7 @@ def setup():
     from graphics.customWidgets.multiLangLabel import MultiLangLabel
     from graphics.customWidgets.baseLayout import BaseLayout
     from graphics.customWidgets.betterButton import BetterButton
+    from graphics.customWidgets.buildingButtonsHandler import BuildingButtonsHandler
 
     Factory.register("SpaceBuilderMergeGameApp",
                      cls=SpaceBuilderMergeGameApp,
@@ -94,6 +94,10 @@ def setup():
     Factory.register("BetterButton",
                      cls=BetterButton,
                      module="graphics.customWidgets.betterButton")
+
+    Factory.register("BuildingButtonsHandler",
+                     cls=BuildingButtonsHandler,
+                     module="graphics.customWidgets.buildingButtonsHandler")
 
     Logger.info("All classes have been assigned to Factory")
 

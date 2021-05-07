@@ -3,6 +3,7 @@ from kivy.properties import StringProperty, NumericProperty, BooleanProperty
 from kivy3 import Renderer, Scene, Object3D
 
 from graphics import graphicsConfig
+from graphics.spaceBuilderMergeGameScreenManager import get_screen
 from lib.betterLogger import BetterLogger
 from resources import Models
 
@@ -59,7 +60,9 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
 
     def on_selected(self, instance, value):
+        print(1, self.button_ids)
         self.log_trace("Selected switched to", value, "on building", instance)
+        get_screen("BaseBuildScreen").ids["building_buttons_handler"].redo_buttons(self.button_ids)
 
     def __repr__(self):
         base = str(object.__repr__(self))

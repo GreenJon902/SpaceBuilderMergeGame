@@ -54,7 +54,6 @@
 
             size_type: "small"
             button_id: "reset_movement"
-            size_hint: None, None
 
             pos_hint: {"right": 1, "top":1}
 
@@ -64,6 +63,11 @@
 
             size_type: "big"
             button_id: "inventory"
-            size_hint: None, None
 
             pos_hint: {"right": 1, "y":0}
+
+
+        BuildingButtonsHandler:
+            id: building_buttons_handler
+
+            pos_hint: {"center_x": 0.5, "y":0}
