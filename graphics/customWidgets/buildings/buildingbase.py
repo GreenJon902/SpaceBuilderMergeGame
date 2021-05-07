@@ -2,9 +2,9 @@ from kivy.event import EventDispatcher
 from kivy.properties import StringProperty, NumericProperty, BooleanProperty
 from kivy3 import Renderer, Scene, Object3D
 
+from graphics import graphicsConfig
 from lib.betterLogger import BetterLogger
 from resources import Models
-from graphics import graphicsConfig
 
 
 class BuildingBase(EventDispatcher, BetterLogger):
@@ -68,4 +68,3 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
         return "<'" + base + "' pos=" + str((self.x, self.y)) + \
                ", selected=" + str(self.selected) + ">"
-
