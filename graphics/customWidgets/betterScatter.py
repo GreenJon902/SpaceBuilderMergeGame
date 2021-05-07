@@ -10,9 +10,10 @@ from graphics import graphicsConfig
 
 
 class BetterScatter(ScatterLayout, BetterLogger):
-    scale_min: NumericProperty = graphicsConfig.getfloat("BaseBuildScreen", "min_zoom")  # out
-    scale_max: NumericProperty = graphicsConfig.getfloat("BaseBuildScreen", "max_zoom")  # in
-    scroll_sensitivity: NumericProperty = userSettings.getfloat("controls", "scroll_sensitivity")
+    scale_min: int = NumericProperty(defaultvalue=graphicsConfig.getfloat("BaseBuildScreen", "min_zoom"))  # out
+    scale_max: int = NumericProperty(defaultvalue=graphicsConfig.getfloat("BaseBuildScreen", "max_zoom"))  # in
+    scroll_sensitivity: int = NumericProperty(defaultvalue=userSettings.getfloat("controls", "scroll_sensitivity"))
+    base_layout_on_touch_up_function: callable = None
 
     def __init__(self, *args, **kwargs):
         ScatterLayout.__init__(self, *args, **kwargs)
@@ -47,7 +48,7 @@ class BetterScatter(ScatterLayout, BetterLogger):
                         self.scale = self.scale_min
 
             else:
-                self.log_warning("Touch event was sent and mouse was scrolling but not up nor down - ", touch)
+                self.log_warning("Touch event was sent and mouse was scrolling but not up or down - ", touch)
 
             #dz = self.scale - z
             #self.dispatch("on_transformed", dx, dy, dz)
@@ -56,7 +57,25 @@ class BetterScatter(ScatterLayout, BetterLogger):
         else:
             ScatterLayout.on_touch_down(self, touch)
 
-    def on_transform_with_touch(self, touch: MotionEvent):
+        self.fix_transform_edges(touch)
+
+
+    def on_touch_move(self, touch: MotionEvent):
+        ScatterLayout.on_touch_move(self, touch)
+        self.fix_transform_edges(touch)
+
+
+    def on_touch_up(self, touch: MotionEvent):
+        ScatterLayout.on_touch_up(self, touch)
+        dx, dy = touch.ox - touch.x, touch.oy - touch.y
+
+        if -5 <= dx <= 5 and -5 <= dy <= 5 and not touch.is_mouse_scrolling:
+            self.log_trace("Touch up and within 5 of touch origin, running base layout building select")
+            self.base_layout_on_touch_up_function(*self.to_local(*touch.pos))
+
+        self.fix_transform_edges(touch)
+
+    def fix_transform_edges(self, touch: MotionEvent):
         (left, bottom), (width, height) = self.bbox
         right, top = left + width, bottom + height
 
@@ -75,8 +94,10 @@ class BetterScatter(ScatterLayout, BetterLogger):
             dy = graphics.height() - top
 
 
+
         self.apply_transform(Matrix().translate(dx, dy, dz))
-        self.dispatch("on_transformed", dx, dy, dz)
+        self.dispatch("on_transform_with_touch", touch)
+
 
 
     def collide_point(self, x: int, y: int):  # from scatter plane because ScatterPlaneLayout it didn't do layout well

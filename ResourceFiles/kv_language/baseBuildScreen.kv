@@ -11,6 +11,8 @@
         id: scatter
         auto_bring_to_front: False
 
+        base_layout_on_touch_up_function: base_layout.on_touch_up_from_scatter
+
         FloatLayout:
             id: background
 
@@ -40,7 +42,6 @@
 
         BaseLayout:
             id: base_layout
-            scatter_widget: scatter
 
             size_hint: 1, 1 # Graphics.gettuple("BaseLayout", "building_size_hint")
 
