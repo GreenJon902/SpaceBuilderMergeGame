@@ -68,4 +68,3 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
         return "<'" + base + "' pos=" + str((self.x, self.y)) + \
                ", selected=" + str(self.selected) + ">"
-
