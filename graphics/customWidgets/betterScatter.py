@@ -69,7 +69,12 @@ class BetterScatter(ScatterLayout, BetterLogger):
         ScatterLayout.on_touch_up(self, touch)
         dx, dy = touch.ox - touch.x, touch.oy - touch.y
 
-        if -5 <= dx <= 5 and -5 <= dy <= 5 and not touch.is_mouse_scrolling:
+        if (graphicsConfig.getint("BaseLayout", "maximum_move_distance_for_select") * -1) <= dx <= \
+                graphicsConfig.getint("BaseLayout", "maximum_move_distance_for_select") and \
+                (graphicsConfig.getint("BaseLayout", "maximum_move_distance_for_select") * -1) <= dy <= \
+                graphicsConfig.getint("BaseLayout", "maximum_move_distance_for_select") and not \
+                touch.is_mouse_scrolling:
+
             self.log_trace("Touch up and within 5 of touch origin, running base layout building select")
             self.base_layout_on_touch_up_function(*self.to_local(*touch.pos))
 

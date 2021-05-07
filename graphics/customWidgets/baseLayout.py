@@ -3,7 +3,6 @@ import random
 
 from kivy.clock import Clock
 from kivy.graphics.transformation import Matrix
-from kivy.input import MotionEvent
 from kivy.properties import ListProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivy3 import Mesh, Scene, Renderer, Material, PerspectiveCamera
@@ -190,4 +189,4 @@ class BaseLayout(FloatLayout, BetterLogger):
 
             to_select.selected = True
             self.log_debug("Building", building,
-                           "was clicked on, setting building to selected and grabbing touch")
+                           "was clicked on, setting building to selected")
