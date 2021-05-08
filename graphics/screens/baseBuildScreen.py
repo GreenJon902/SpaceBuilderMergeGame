@@ -5,4 +5,3 @@ from lib.betterLogger import BetterLogger
 
 class BaseBuildScreen(Screen, BetterLogger):
     pass
-

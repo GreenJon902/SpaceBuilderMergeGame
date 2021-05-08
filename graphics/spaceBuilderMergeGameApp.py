@@ -1,5 +1,6 @@
 from kivy.app import App
 from kivy.factory import Factory
+from kivy.uix.screenmanager import Screen
 
 from graphics.spaceBuilderMergeGameScreenManager import SpaceBuilderMergeGameScreenManager
 from lib.betterLogger import BetterLogger
@@ -17,5 +18,5 @@ class SpaceBuilderMergeGameApp(App, BetterLogger):
 
         return Factory.ScreenManagerSwitcher()
 
-    def on_screen_change(self, new_screen: str):
+    def on_screen_change(self, new_screen: Screen):
         self.title = Lang.get("General.Title") + " - " + str(new_screen.name)

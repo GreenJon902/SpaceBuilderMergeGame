@@ -1,3 +1,4 @@
+# noinspection PyProtectedMember
 from kivy._clock import ClockEvent
 from kivy.animation import Animation, AnimationTransition
 from kivy.clock import Clock
@@ -36,7 +37,7 @@ class SplashScreen1(Screen, BetterLogger):
         self.rocketFlyAnimation.start(self.ids["image_a"])
         self.rocketFlyAnimation.start(self.ids["image_b"])
 
-    def switch_rockets(self, *args: any):
+    def switch_rockets(self, _elapsed_time):
         self.ids["image_a"].opacity *= -1
         self.ids["image_b"].opacity *= -1
 
@@ -44,4 +45,3 @@ class SplashScreen1(Screen, BetterLogger):
         self.rocketSwitchClock.cancel()
         """self.rocketFlyAnimation.stop(self.ids["image_a"])
         self.rocketFlyAnimation.stop(self.ids["image_b"])"""
-

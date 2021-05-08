@@ -5,9 +5,9 @@ from lib.betterLogger import BetterLogger
 
 
 class PreLoadScreenManager(ScreenManager, BetterLogger):
-    def __init__(self, *args: any, **kwargs):
+    def __init__(self, **kwargs):
         BetterLogger.__init__(self)
-        ScreenManager.__init__(self, *args, **kwargs)
+        ScreenManager.__init__(self, **kwargs)
 
         self.log_info("ScreenManager: Using FadeTransition")
         self.transition: TransitionBase = NoTransition()

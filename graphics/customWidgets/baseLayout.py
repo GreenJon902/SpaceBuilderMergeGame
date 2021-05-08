@@ -30,6 +30,7 @@ class BaseLayout(FloatLayout, BetterLogger):
     buildings: list[BuildingBase] = ListProperty()
 
     def _adjust_aspect(self, *_args):
+        # noinspection SpellCheckingInspection
         rsize = self.renderer.size
         aspect = rsize[0] / float(rsize[1])
         self.renderer.camera.aspect = aspect
@@ -94,7 +95,8 @@ class BaseLayout(FloatLayout, BetterLogger):
         Ran by the scatter when user is not dragging
         """
 
-        to_select: BuildingBase
+        # noinspection PyTypeChecker
+        to_select: BuildingBase = None
 
         building: BuildingBase
         for building in self.buildings:
@@ -179,7 +181,7 @@ class BaseLayout(FloatLayout, BetterLogger):
                 to_select = building
                 break
 
-        if 'to_select' in locals():
+        if to_select is None:
             self.log_trace("User touched but no building was clicked")
             get_screen("BaseBuildScreen").ids["building_buttons_handler"].clear_buttons()
 

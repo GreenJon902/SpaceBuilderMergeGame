@@ -1,10 +1,10 @@
 import time
 
+# noinspection PyProtectedMember
 from kivy._clock import ClockEvent
 from kivy.animation import Animation, AnimationTransition
 from kivy.app import App
 from kivy.clock import Clock
-from kivy.factory import Factory
 from kivy.properties import NumericProperty
 from kivy.uix.screenmanager import Screen
 
@@ -19,7 +19,7 @@ class LoadingScreen(Screen, BetterLogger):
     loadingScreenShowAnimation: Animation = None
     loadNextResourceClock: ClockEvent = None
 
-    startLoadTime: int = 0
+    startLoadTime: float = 0
 
     def on_enter(self, *args: any):
         self.loadingScreenShowAnimation = Animation(opacity=1,
@@ -43,7 +43,7 @@ class LoadingScreen(Screen, BetterLogger):
         self.ids["loading_bar"].max = ResourceLoader.number_of_tasks_to_do
 
     def run_next_task(self):
-        t: int = time.time()
+        t: float = time.time()
         is_done = ResourceLoader.run_next_task()
 
 

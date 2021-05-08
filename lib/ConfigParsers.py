@@ -20,8 +20,8 @@ class LoggedConfigParser(ConfigParser, BetterLogger):
                            args[1], ". Called with args", args, kwargs)
         return result
 
-    def read(self, *args: any, **kwargs: any) -> list[str]:
-        self.log_debug("Loading config file", *args[0], "with args", *args, **kwargs)
+    def read(self, *args: any, **kwargs: any):
+        self.log_debug("Loading config file", *args[0], "with args", *args)
         ConfigParser.read(self, *args, **kwargs)
 
 

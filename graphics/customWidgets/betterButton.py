@@ -30,13 +30,13 @@ class BetterButton(ButtonBehavior, Widget, BetterLogger):
         self.add_widget(self.fg_image)
 
 
-    def on_kv_post(self, base_widget):
+    def on_kv_post(self, base_widget: Widget):
         self.update()
 
-    def on_size_type(self, _):
+    def on_size_type(self, _instance, _value: str):
         self.update()
 
-    def on_button_id(self, _):
+    def on_button_id(self, _instance, _value: str):
         self.update()
 
 

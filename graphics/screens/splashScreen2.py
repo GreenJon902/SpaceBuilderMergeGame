@@ -1,3 +1,4 @@
+# noinspection PyProtectedMember
 from kivy._clock import ClockEvent
 from kivy.animation import Animation, AnimationTransition
 from kivy.clock import Clock

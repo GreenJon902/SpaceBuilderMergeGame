@@ -11,15 +11,15 @@ from graphics.config import graphicsConfig
 from graphics.customWidgets.betterScatter import BetterScatter
 
 
-def size() -> tuple[int]:  # because it might have adverts or somin, idk
+def size() -> tuple[int, int]:  # because it might have adverts or something, idk
     return width(), height()
 
 
-def width() -> int:  # because it might have adverts or somin, idk
+def width() -> int:  # because it might have adverts or something, idk
     return Window.width
 
 
-def height() -> int:  # because it might have adverts or somin, idk
+def height() -> int:  # because it might have adverts or something, idk
     return Window.height
 
 
@@ -110,4 +110,3 @@ def start():
     app.run()
 
     Logger.info("graphics have ended")
-

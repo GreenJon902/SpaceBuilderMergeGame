@@ -43,6 +43,7 @@ class BetterLogger:
 
 def redo_logger_formatting():
     from AppInfo import log_class_length
+    # noinspection PyProtectedMember
     from kivy.logger import formatter_message, COLOR_SEQ, COLORS, RESET_SEQ, ColoredFormatter as _ColoredFormatter, \
         WHITE
     import logging
@@ -54,6 +55,8 @@ def redo_logger_formatting():
         ENABLE_DEEP_DEBUG = bool(os.environ.get("ENABLE_DEEP_DEBUG"))
     else:
         try:
+            # noinspection PyUnresolvedReferences
+            #  we have the attribute error for a reason, this is set outside during run time
             if logging.ENABLE_DEEP_DEBUG:
                 ENABLE_DEEP_DEBUG = True
 
@@ -62,6 +65,7 @@ def redo_logger_formatting():
 
     class ColoredFormatter(_ColoredFormatter):
         def format(self, record: logging.LogRecord) -> str:
+            # noinspection PyBroadException
             try:
                 msg: (str, str) = record.msg.split(':', 1)
                 if len(msg) == 2:
@@ -92,6 +96,7 @@ def redo_logger_formatting():
             else:
                 return True
 
+    # noinspection SpellCheckingInspection
     use_color: bool = (
             (
                     os.environ.get("WT_SESSION") or

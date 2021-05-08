@@ -5,8 +5,8 @@ from kivy.uix.boxlayout import BoxLayout
 class ScreenManagerSwitcher(BoxLayout):
     current = None
 
-    def __init__(self, *args, **kwargs):
-        BoxLayout.__init__(self, *args, **kwargs)
+    def __init__(self, **kwargs):
+        BoxLayout.__init__(self, **kwargs)
 
         self.manager1 = Factory.PreLoadScreenManager
         self.manager2 = Factory.SpaceBuilderMergeGameScreenManager

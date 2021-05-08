@@ -4,6 +4,7 @@ from kivy.properties import OptionProperty
 from lib.betterLogger import BetterLogger
 
 #  All locale codes
+# noinspection SpellCheckingInspection
 language_codes: list[str] = ["af-ZA", "am-ET", "ar-AE", "ar-BH", "ar-DZ", "ar-EG", "ar-IQ", "ar-JO", "ar-KW", "ar-LB",
                              "ar-LY",
                              "ar-MA", "arn-CL", "ar-OM", "ar-QA", "ar-SA", "ar-SY", "ar-TN", "ar-YE", "as-IN",

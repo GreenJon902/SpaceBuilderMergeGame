@@ -30,7 +30,7 @@ class OBJLoader(BetterLogger, kv3OBJLoader):
             if values[0] == 'o' or values[0] == 'g':
                 wvobj.name = values[1]
             elif values[0] == 'mtllib':
-                self.log_warning("You should not use mtllib, use the main mtl file thats loaded seperatly by "
+                self.log_warning("You should not use mtllib, use the main mtl file that's loaded separately by "
                                  "resources/__init__.py")
                 if not self.mtl_source == values[1]:
                     _obj_dir = abspath(dirname(self.source))

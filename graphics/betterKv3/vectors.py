@@ -70,4 +70,3 @@ class Vector2(BaseVector):
     _indeces = [0, 1]
     _null = [0, 0]
     _coords = {'x': 0, 'y': 1}
-
