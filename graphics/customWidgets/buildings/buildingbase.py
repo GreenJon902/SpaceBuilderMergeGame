@@ -15,7 +15,6 @@ class BuildingBase(EventDispatcher, BetterLogger):
     y: NumericProperty = NumericProperty(0)
     renderer: Renderer = None
     scene: Scene = None
-    button_ids: list[str] = list()
     selected: BooleanProperty = BooleanProperty(False)
 
     def __init__(self, *args, **kwargs):

@@ -13,6 +13,7 @@ from configurables import gameData
 from graphics import width, height
 from graphics.customWidgets.buildings import str_to_building
 from graphics.customWidgets.buildings.buildingbase import BuildingBase
+from graphics.spaceBuilderMergeGameScreenManager import get_screen
 from lib.betterLogger import BetterLogger
 
 
@@ -176,6 +177,7 @@ class BaseLayout(FloatLayout, BetterLogger):
 
         if to_select is None:
             self.log_trace("User touched but no building was clicked")
+            get_screen("BaseBuildScreen").ids["building_buttons_handler"].clear_buttons()
 
 
         else:
