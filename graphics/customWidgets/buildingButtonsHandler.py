@@ -25,7 +25,8 @@ class BuildingButtonsHandler(BoxLayout, BetterLogger):
 
         self.add_widget(self.spacer2)
 
-        self.log_trace("Added buttons to self and deleted old, new are", self.children)
+        self.log_trace("Added buttons to self, they are", self.children)
 
     def clear_buttons(self):
         self.clear_widgets()
+        self.log_trace("Cleared buttons")
