@@ -4,9 +4,9 @@ from kivy.properties import NumericProperty
 from kivy.uix.scatterlayout import ScatterLayout
 
 import graphics
-from lib.betterLogger import BetterLogger
 from configurables import userSettings
 from graphics import graphicsConfig
+from lib.betterLogger import BetterLogger
 
 
 class BetterScatter(ScatterLayout, BetterLogger):
@@ -15,15 +15,15 @@ class BetterScatter(ScatterLayout, BetterLogger):
     scroll_sensitivity: int = NumericProperty(defaultvalue=userSettings.getfloat("controls", "scroll_sensitivity"))
     base_layout_on_touch_up_function: callable = None
 
-    def __init__(self, *args, **kwargs):
-        ScatterLayout.__init__(self, *args, **kwargs)
+    def __init__(self, **kwargs):
+        ScatterLayout.__init__(self, **kwargs)
         BetterLogger.__init__(self)
         self.register_event_type("on_transformed")
 
     def on_touch_down(self, touch: MotionEvent):
         if touch.is_mouse_scrolling:
-            #dx, dy, dz = 0, 0, 0
-            #z = self.scale
+            # dx, dy, dz = 0, 0, 0
+            # z = self.scale
 
             if touch.button == 'scrolldown':
 
@@ -50,8 +50,8 @@ class BetterScatter(ScatterLayout, BetterLogger):
             else:
                 self.log_warning("Touch event was sent and mouse was scrolling but not up or down - ", touch)
 
-            #dz = self.scale - z
-            #self.dispatch("on_transformed", dx, dy, dz)
+            # bdz = self.scale - z
+            # self.dispatch("on_transformed", dx, dy, dz)
             self.dispatch("on_transform_with_touch", touch)
 
         else:
@@ -73,7 +73,7 @@ class BetterScatter(ScatterLayout, BetterLogger):
                 graphicsConfig.getint("BaseLayout", "maximum_move_distance_for_select") and \
                 (graphicsConfig.getint("BaseLayout", "maximum_move_distance_for_select") * -1) <= dy <= \
                 graphicsConfig.getint("BaseLayout", "maximum_move_distance_for_select") and not \
-                touch.is_mouse_scrolling:
+                touch.is_mouse_scrolling and touch.grab_current == self:
 
             self.log_trace("Touch up and within 5 of touch origin, running base layout building select")
             self.base_layout_on_touch_up_function(*self.to_local(*touch.pos))

@@ -63,11 +63,12 @@ class BuildingBase(EventDispatcher, BetterLogger):
         return b_ids
 
 
-    def on_selected(self, instance, value):
+    def on_selected(self, instance, value: bool):
         self.log_trace("Selected switched to", value, "on building", instance)
-        get_screen("BaseBuildScreen").ids["building_buttons_handler"].redo_buttons(self.button_ids)
+        if value:
+            get_screen("BaseBuildScreen").ids["building_buttons_handler"].redo_buttons(self.button_ids)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         base = str(object.__repr__(self))
         base = base.replace("<", "")
         base = base.replace(">", "")
