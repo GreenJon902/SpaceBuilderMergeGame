@@ -8,7 +8,7 @@ from kivy.clock import Clock
 from kivy.properties import NumericProperty
 from kivy.uix.screenmanager import Screen
 
-from graphics.spaceBuilderMergeGameScreenManager import get_sm
+from graphics.spaceBuilderMergeGameScreenManager import get_sm, get_screen
 from lib.betterLogger import BetterLogger
 from resources import ResourceLoader
 
@@ -66,3 +66,4 @@ class LoadingScreen(Screen, BetterLogger):
         self.log_debug("Reloading screen manager")
         App.get_running_app().root.switch()
         get_sm().current = "BaseBuildScreen"
+        get_screen("BaseBuildScreen").fade_in()

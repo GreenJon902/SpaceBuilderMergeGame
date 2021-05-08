@@ -12,12 +12,14 @@ class SpaceBuilderMergeGameScreenManager(ScreenManager, BetterLogger):
 
         self.log_info("Using NoTransition")
         self.transition: TransitionBase = NoTransition()
+        self.transition.duration = 0
 
 
     def set_screen(self, screen_name: str):
         if isinstance(self.transition, TransitionBase):
             self.log_info("Using", graphicsConfig.get("General", "transition"))
             self.transition: TransitionBase = graphicsConfig.getkivytranition("General", "transition")
+            self.transition.duration = graphicsConfig.getfloat("General", "transition_length")
 
         self.current: str = screen_name
 
