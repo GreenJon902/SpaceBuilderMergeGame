@@ -1,6 +1,7 @@
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, NoTransition, TransitionBase, Screen
 
+from graphics import graphicsConfig
 from lib.betterLogger import BetterLogger
 
 
@@ -9,11 +10,15 @@ class SpaceBuilderMergeGameScreenManager(ScreenManager, BetterLogger):
         BetterLogger.__init__(self)
         ScreenManager.__init__(self, **kwargs)
 
-        self.log_info("ScreenManager: Using FadeTransition")
+        self.log_info("Using NoTransition")
         self.transition: TransitionBase = NoTransition()
 
 
     def set_screen(self, screen_name: str):
+        if isinstance(self.transition, TransitionBase):
+            self.log_info("Using", graphicsConfig.get("General", "transition"))
+            self.transition: TransitionBase = graphicsConfig.getkivytranition("General", "transition")
+
         self.current: str = screen_name
 
         self.log_info("Switched to " + str(screen_name))

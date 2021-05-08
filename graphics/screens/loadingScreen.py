@@ -65,4 +65,4 @@ class LoadingScreen(Screen, BetterLogger):
     def exit(self):
         self.log_debug("Reloading screen manager")
         App.get_running_app().root.switch()
-        get_sm().set_screen("BaseBuildScreen")
+        get_sm().current = "BaseBuildScreen"
