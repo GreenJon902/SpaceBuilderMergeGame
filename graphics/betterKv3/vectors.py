@@ -6,14 +6,14 @@ I had to do some changes
 __all__ = ('Vector2', 'Vector3', 'Vector4', )
 
 import math
-
 from copy import copy
 
 from kivy.graphics.transformation import Matrix
 from kivy3.cameras import Camera as kv3Camera
-from kivy3.math.vectors import BaseVector as kv3BaseVector, Vector3 as kv3Vector3
+from kivy3.math.vectors import Vector4 as kv3BaseVector, Vector3 as kv3Vector3
 
-from graphics import width, height
+
+# Vector4 is a base vector but base vector isn't in __all__
 
 
 class BaseVector(kv3BaseVector):

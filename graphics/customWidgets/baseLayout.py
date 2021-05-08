@@ -29,14 +29,14 @@ class BaseLayout(FloatLayout, BetterLogger):
     )
     buildings: list[BuildingBase] = ListProperty()
 
-    def _adjust_aspect(self, *args):
+    def _adjust_aspect(self, *_args):
         rsize = self.renderer.size
         aspect = rsize[0] / float(rsize[1])
         self.renderer.camera.aspect = aspect
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         BetterLogger.__init__(self)
-        FloatLayout.__init__(self, *args, **kwargs)
+        FloatLayout.__init__(self, **kwargs)
 
         self.create_renderer()
 
@@ -85,6 +85,7 @@ class BaseLayout(FloatLayout, BetterLogger):
         cube.rotation.x = random.randint(0, 360)
         self.scene.add(cube)
         Clock.schedule_interval(lambda *args: self.rotate_cube(cube), .01)
+        # noinspection PyProtectedMember
         self.renderer._instructions.add(cube.as_instructions())
 
 
@@ -93,13 +94,14 @@ class BaseLayout(FloatLayout, BetterLogger):
         Ran by the scatter when user is not dragging
         """
 
-        to_select: BuildingBase = None
+        to_select: BuildingBase
 
         building: BuildingBase
         for building in self.buildings:
             # I want my long time and effort to be remembered, this to so long, AND THE ANSWER WAS SO SIMPLE OMG
             """bPos = building.obj.pos[0], building.obj.pos[1],  building.obj.pos[2]
-            bPos2 = building.obj.pos[0] + self.renderer.width, building.obj.pos[1] + self.renderer.height, building.obj.pos[2]
+            bPos2 = building.obj.pos[0] + self.renderer.width, building.obj.pos[1] + self.renderer.height, 
+                    building.obj.pos[2]
             cPos = self.camera.pos"""
 
             """bVPos = Vector3(bPos)
@@ -142,7 +144,8 @@ class BaseLayout(FloatLayout, BetterLogger):
             print(building.obj._rotors["y"].matrix)
             print()
             print(building.obj._rotors["z"].matrix)"""
-            """print(building.obj.pos, (building.obj.pos[0] - (width() / 2), building.obj.pos[1] - (height() / 2)), building.obj.scale.xyz)
+            """print(building.obj.pos, (building.obj.pos[0] - (width() / 2), building.obj.pos[1] - (height() / 2)), 
+               building.obj.scale.xyz)
             print(touch.pos)
             print(touch.pos[0] - (width() / 2), touch.pos[1] - (height() / 2))
             print(self.renderer.size)
@@ -153,7 +156,8 @@ class BaseLayout(FloatLayout, BetterLogger):
             print()
             print()
             print(Matrix())
-            print(Matrix().project(building.obj.pos[0], building.obj.pos[1], building.obj.pos[2], Matrix(), Matrix(), self.camera.pos.x, self.camera.pos.y, width(), height()))"""
+            print(Matrix().project(building.obj.pos[0], building.obj.pos[1], building.obj.pos[2], Matrix(), Matrix(), 
+                  self.camera.pos.x, self.camera.pos.y, width(), height()))"""
 
             m = Matrix()
             x, y, z2 = m.project(building.obj.pos[0]-5, building.obj.pos[1]-5, building.obj.pos[2]-5,
@@ -175,7 +179,7 @@ class BaseLayout(FloatLayout, BetterLogger):
                 to_select = building
                 break
 
-        if to_select is None:
+        if 'to_select' in locals():
             self.log_trace("User touched but no building was clicked")
             get_screen("BaseBuildScreen").ids["building_buttons_handler"].clear_buttons()
 
@@ -185,7 +189,6 @@ class BaseLayout(FloatLayout, BetterLogger):
             buildings.remove(to_select)
 
 
-            building = None
             for building in buildings:
                 building.selected = False
 

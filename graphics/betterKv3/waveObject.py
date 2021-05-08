@@ -8,7 +8,7 @@ from lib.betterLogger import BetterLogger
 
 
 class WaveObject(BetterLogger, kv3WaveObject):
-    def __init__(self, loader, *args,  name='', **kwargs):
+    def __init__(self, loader,  name=''):
         self.name = name
         self.faces = []
         self.loader = loader
@@ -19,6 +19,8 @@ class WaveObject(BetterLogger, kv3WaveObject):
         from resources import Textures  # Circular import fix
         self.textures = Textures
 
+        kv3WaveObject.__init__(self, loader,  name='')
+
     def convert_to_mesh(self, vertex_format=None):  # Ripped from kivy3/loaders/objloader.py and edited by GJ
         """Converts data gotten from the .obj definition
         file and create Kivy3 Mesh object which may be used
@@ -28,7 +30,7 @@ class WaveObject(BetterLogger, kv3WaveObject):
         geometry = Geometry()
         material = Material()
         mtl_dirname = abspath(dirname(self.loader.mtl_source))  # We don't need this as we arnt loading any images
-        # but just incase we keep it
+        # but just in case we keep it
 
         v_idx = 0
         # create geometry for mesh

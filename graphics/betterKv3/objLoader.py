@@ -7,9 +7,9 @@ from lib.betterLogger import BetterLogger
 
 
 class OBJLoader(BetterLogger, kv3OBJLoader):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         BetterLogger.__init__(self)
-        kv3OBJLoader.__init__(self, *args, **kwargs)
+        kv3OBJLoader.__init__(self, **kwargs)
 
     def _load_meshes(self):  # Ripped from kivy3/loaders/objloader.py and edited by GJ
 
@@ -56,6 +56,8 @@ class OBJLoader(BetterLogger, kv3OBJLoader):
             elif values[0] == 'vt':
                 self.texcoords.append(list(map(float, values[1:3])))
             elif values[0] == 'f':
+                fcs = []
+
                 if not faces_section:
                     faces_section = True
                 # face values

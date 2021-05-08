@@ -26,15 +26,15 @@ class BuildingBase(EventDispatcher, BetterLogger):
         EventDispatcher.__init__(self, *args, **kwargs)
 
 
-    def on_building_id(self, instance, value):
+    def on_building_id(self, _instance, value):
         self.log_trace("building_id changed to", value)
         self.obj = Models.get(value)
         self.obj.pos.z = graphicsConfig.getint("BaseLayout", "building_start_z")
 
-    def on_x(self, instance, value):
+    def on_x(self, _instance, value):
         self.obj.pos.x = value
 
-    def on_y(self, instance, value):
+    def on_y(self, _instance, value):
         self.obj.pos.y = value
 
     def set_renderer_and_scene(self, renderer: Renderer, scene: Scene):
@@ -42,6 +42,7 @@ class BuildingBase(EventDispatcher, BetterLogger):
         self.scene = scene
 
         self.scene.add(self.obj)
+        # noinspection PyProtectedMember
         self.renderer._instructions.add(self.obj.as_instructions())
 
 

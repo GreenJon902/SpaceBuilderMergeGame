@@ -33,10 +33,10 @@ class BetterButton(ButtonBehavior, Widget, BetterLogger):
     def on_kv_post(self, base_widget):
         self.update()
 
-    def on_size_type(self, *args):
+    def on_size_type(self, _):
         self.update()
 
-    def on_button_id(self, *args):
+    def on_button_id(self, _):
         self.update()
 
 
