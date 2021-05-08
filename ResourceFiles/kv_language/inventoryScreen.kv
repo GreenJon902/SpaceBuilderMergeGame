@@ -5,6 +5,30 @@
         BoxLayout: # Control bar / Bar at top
             orientation: "horizontal"
 
+            canvas.before:
+                Color:
+                    rgb: 0.29019607843, 0.56470588235, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            size_hint_y: graphicsConfig.getfloat("InventoryScreen", "control_bar_size_hint_y")
+
+
+            on_height: print(self.pos, self.size)
+
+            BetterButton:
+                size_type: "tiny"
+                button_id: "exit"
+
+                force_size_hint_y: 1
+
+                on_height: print(1, self.pos, self.size)
+
+                on_release: get_sm().set_screen("BaseBuildScreen")
+
+
 
         BoxLayout: # Split between merge and inventory sections
             orientation: "horizontal"
@@ -12,5 +36,20 @@
             StackLayout: # Inventory section
                 orientation: "lr-tb"
 
+                canvas.before:
+                    Color:
+                        rgb: 0, 0.10588235294, 0.27058823529
+
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
 
             FloatLayout: # Merge section
+                canvas.before:
+                    Color:
+                        rgb: 0, 0.20392156862, 0.5294117647
+
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size

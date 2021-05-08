@@ -1,4 +1,4 @@
-from kivy.properties import OptionProperty, StringProperty
+from kivy.properties import OptionProperty, StringProperty, NumericProperty
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.image import Image
 from kivy.uix.widget import Widget
@@ -9,9 +9,10 @@ from resources import Textures
 
 
 class BetterButton(ButtonBehavior, Widget, BetterLogger):
-    size_type: OptionProperty = OptionProperty("small", options=["small", "big"])
+    size_type: OptionProperty = OptionProperty("small", options=["small", "big", "tiny", "flat"])
     button_id: StringProperty = StringProperty("None")
     mouse_down: bool = False
+    force_size_hint_y: int = NumericProperty(None)
 
     bg_image: Image = None
     fg_image: Image = None
@@ -28,6 +29,11 @@ class BetterButton(ButtonBehavior, Widget, BetterLogger):
 
         self.add_widget(self.bg_image)
         self.add_widget(self.fg_image)
+
+
+    def on_force_size_hint_y(self, _instance, value):
+        if value is not None:
+            self.size_hint_y = value
 
 
     def on_kv_post(self, base_widget: Widget):
@@ -58,7 +64,8 @@ class BetterButton(ButtonBehavior, Widget, BetterLogger):
 
         self.bg_image.texture = Textures.get("Buttons", "bg_" + str(self.size_type))
 
-        self.size_hint_y = graphicsConfig.getfloat("Buttons", "size_hint_y_" + str(self.size_type))
+        if self.force_size_hint_y is None:
+            self.size_hint_y = graphicsConfig.getfloat("Buttons", "size_hint_y_" + str(self.size_type))
 
     def on_height(self, _, value: int):
         self.width = value
