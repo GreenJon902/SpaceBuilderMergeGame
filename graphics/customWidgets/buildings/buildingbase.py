@@ -26,8 +26,6 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
         EventDispatcher.__init__(self, *args, **kwargs)
 
-        self.button_ids.extend(self.get_buttons())
-
 
     def on_building_id(self, instance, value):
         self.log_trace("building_id changed to", value)
@@ -57,6 +55,13 @@ class BuildingBase(EventDispatcher, BetterLogger):
         buttons.append("info")
 
         return buttons
+
+    @property
+    def button_ids(self) -> list[str]:
+        b_ids = self.get_buttons()
+
+        self.log_trace("Getting buttons ids for", self, "got", b_ids)
+        return b_ids
 
 
     def on_selected(self, instance, value):
