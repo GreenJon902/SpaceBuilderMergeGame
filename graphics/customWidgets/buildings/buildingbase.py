@@ -60,7 +60,6 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
 
     def on_selected(self, instance, value):
-        print(1, self.button_ids)
         self.log_trace("Selected switched to", value, "on building", instance)
         get_screen("BaseBuildScreen").ids["building_buttons_handler"].redo_buttons(self.button_ids)
 

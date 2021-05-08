@@ -5,9 +5,7 @@ from graphics.customWidgets.betterButton import BetterButton
 
 class BuildingButtonsHandler(BoxLayout):
     def redo_buttons(self, button_ids: list[str]):
-        print(button_ids)
-        for button in self.children:
-            self.remove_widget(button)
+        self.clear_widgets()
 
         button_id: str
         for button_id in button_ids:
