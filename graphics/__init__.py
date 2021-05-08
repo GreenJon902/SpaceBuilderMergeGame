@@ -46,6 +46,7 @@ def setup():
     from graphics.screens.splashScreen2 import SplashScreen2
     from graphics.screens.loadingScreen import LoadingScreen
     from graphics.screens.baseBuildScreen import BaseBuildScreen
+    from graphics.screens.shopScreen import ShopScreen
     from graphics.customWidgets.multiLangLabel import MultiLangLabel
     from graphics.customWidgets.baseLayout import BaseLayout
     from graphics.customWidgets.betterButton import BetterButton
@@ -55,6 +56,7 @@ def setup():
                      cls=SpaceBuilderMergeGameApp,
                      module="graphics.spaceBuilderMergeGameApp")
 
+
     Factory.register("SpaceBuilderMergeGameScreenManager",
                      cls=SpaceBuilderMergeGameScreenManager,
                      module="graphics.SpaceBuilderMergeGameScreenManager")
@@ -62,6 +64,8 @@ def setup():
     Factory.register("PreLoadScreenManager",
                      cls=PreLoadScreenManager,
                      module="graphics.preLoadScreenManager")
+
+
 
     Factory.register("SplashScreen1",
                      cls=SplashScreen1,
@@ -71,6 +75,7 @@ def setup():
                      cls=SplashScreen2,
                      module="graphics.screens.splashScreen")
 
+
     Factory.register("LoadingScreen",
                      cls=LoadingScreen,
                      module="graphics.screens.loadingScreen")
@@ -78,6 +83,12 @@ def setup():
     Factory.register("BaseBuildScreen",
                      cls=BaseBuildScreen,
                      module="graphics.screens.baseBuildScreen")
+
+    Factory.register("ShopScreen",
+                     cls=ShopScreen,
+                     module="graphics.screens.shopScreen")
+
+
 
     Factory.register("MultiLangLabel",
                      cls=MultiLangLabel,
