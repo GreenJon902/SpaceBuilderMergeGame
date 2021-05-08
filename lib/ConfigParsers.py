@@ -3,6 +3,7 @@ import os
 from configparser import ConfigParser
 
 from kivy.uix import screenmanager
+from kivy.uix.screenmanager import TransitionBase
 
 import AppInfo
 from lib.betterLogger import BetterLogger
@@ -47,7 +48,7 @@ class ExtendedConfigParser(LoggedConfigParser):
         path = self.get(*args, **kwargs, called_by="getpath")
         return os.path.join(AppInfo.resources_dir, path)
 
-    def getkivytranition(self, *args: any, **kwargs: any) -> str:
+    def getkivytranition(self, *args: any, **kwargs: any) -> TransitionBase:
         transition_str = self.get(*args, **kwargs, called_by="getkivytranition")
         transition = screenmanager.__dict__[transition_str]()
         self.log_trace("Transition is", transition)

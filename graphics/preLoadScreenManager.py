@@ -9,7 +9,7 @@ class PreLoadScreenManager(ScreenManager, BetterLogger):
         BetterLogger.__init__(self)
         ScreenManager.__init__(self, **kwargs)
 
-        self.log_info("ScreenManager: Using FadeTransition")
+        self.log_info("Using NoTransition")
         self.transition: TransitionBase = NoTransition()
 
         self.set_screen("LoadingScreen")

@@ -46,7 +46,7 @@ def setup():
     from graphics.screens.splashScreen2 import SplashScreen2
     from graphics.screens.loadingScreen import LoadingScreen
     from graphics.screens.baseBuildScreen import BaseBuildScreen
-    from graphics.screens.shopScreen import ShopScreen
+    from graphics.screens.inventoryScreen import InventoryScreen
     from graphics.customWidgets.multiLangLabel import MultiLangLabel
     from graphics.customWidgets.baseLayout import BaseLayout
     from graphics.customWidgets.betterButton import BetterButton
@@ -84,9 +84,9 @@ def setup():
                      cls=BaseBuildScreen,
                      module="graphics.screens.baseBuildScreen")
 
-    Factory.register("ShopScreen",
-                     cls=ShopScreen,
-                     module="graphics.screens.shopScreen")
+    Factory.register("InventoryScreen",
+                     cls=InventoryScreen,
+                     module="graphics.screens.inventoryScreen")
 
 
 
