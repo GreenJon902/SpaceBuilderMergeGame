@@ -23,7 +23,6 @@ class BetterButton(ButtonBehavior, Widget, BetterLogger):
     def __init__(self, **kwargs):
         self.bg_image = Image(allow_stretch=True, keep_ratio=True)
         self.fg_image = Image(allow_stretch=True, keep_ratio=True)
-        self.size_hint = None, None
 
         BetterLogger.__init__(self)
 
@@ -32,6 +31,9 @@ class BetterButton(ButtonBehavior, Widget, BetterLogger):
 
         self.add_widget(self.bg_image)
         self.add_widget(self.fg_image)
+
+        if not self.let_parent_size:
+            self.size_hint = None, None
 
 
     def on_force_size_hint_y(self, _instance, value):
