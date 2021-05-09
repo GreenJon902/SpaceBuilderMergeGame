@@ -10,7 +10,7 @@ from resources import Textures
 
 class BetterButton(ButtonBehavior, Widget, BetterLogger):
     size_type: OptionProperty = OptionProperty("small", options=["small", "big", "flat"])
-    bg_type: OptionProperty = OptionProperty("both", options=["dark", "both", "light"])
+    bg_type: OptionProperty = OptionProperty("both_blues", options=["dark_blue", "both_blues", "light_blue"])
     button_id: StringProperty = StringProperty("None")
     mouse_down: bool = False
     force_size_hint_y: int = NumericProperty(None)
