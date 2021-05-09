@@ -33,7 +33,6 @@ class BuildingBase(EventDispatcher, BetterLogger):
         self.log_trace("building_id changed to", value)
         self.obj = Models.get(value)
         self.obj.pos.z = graphicsConfig.getint("BaseLayout", "building_start_z")
-        print(self.obj)
 
     def on_x(self, _instance, value):
         self.obj.pos.x = value

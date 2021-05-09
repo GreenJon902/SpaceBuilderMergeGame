@@ -1,5 +1,6 @@
 from os.path import abspath, dirname, join
 
+from kivy3 import Mesh
 from kivy3.loaders import OBJLoader as kv3OBJLoader
 
 from graphics.betterKv3.waveObject import WaveObject
@@ -7,6 +8,8 @@ from lib.betterLogger import BetterLogger
 
 
 class OBJLoader(BetterLogger, kv3OBJLoader):
+    swapyz: bool = False
+
     def __init__(self, **kwargs):
         BetterLogger.__init__(self)
         kv3OBJLoader.__init__(self, **kwargs)
@@ -88,3 +91,15 @@ class OBJLoader(BetterLogger, kv3OBJLoader):
                             norms.append(-1)
                     wvobj.faces.append((face, norms, texcoords))
         yield wvobj
+
+
+    def get_meshes(self, source: str, **kw) -> list[Mesh]:
+        self.swapyz = kw.pop("swapyz", False)
+        self.source = source
+
+        meshes: list[Mesh] = list()
+
+        for mesh in self._load_meshes():
+            meshes.append(mesh.convert_to_mesh())
+
+        return meshes
