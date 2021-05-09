@@ -43,7 +43,7 @@ def button_pressed(better_button: BetterButton):
 
     except KeyError:
         better_button.log_warning("Couldn't find function in building_button_id_to_function with the id -",
-                                  better_button.id)
+                                  better_button.button_id)
         return
 
     function()
