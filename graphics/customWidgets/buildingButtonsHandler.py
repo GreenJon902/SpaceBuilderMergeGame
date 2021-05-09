@@ -20,7 +20,7 @@ class BuildingButtonsHandler(BoxLayout, BetterLogger):
 
         button_id: str
         for button_id in button_ids:
-            button = BetterButton(button_id=button_id, size_type="big")
+            button = BetterButton(button_id=button_id, size_type="big", on_release=button_pressed)
             self.add_widget(button)
 
         self.add_widget(self.spacer2)
@@ -30,3 +30,20 @@ class BuildingButtonsHandler(BoxLayout, BetterLogger):
     def clear_buttons(self):
         self.clear_widgets()
         self.log_trace("Cleared buttons")
+
+
+building_button_id_to_function: dict[str, callable] = {
+    "store": lambda: print("Storing Object")
+}
+
+
+def button_pressed(better_button: BetterButton):
+    try:
+        function = building_button_id_to_function[better_button.button_id]
+
+    except KeyError:
+        better_button.log_warning("Couldn't find function in building_button_id_to_function with the id -",
+                                  better_button.id)
+        return
+
+    function()
