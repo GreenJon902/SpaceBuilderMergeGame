@@ -118,10 +118,10 @@ class GameDataJSONParser(JSONParser):
     that array!
     """
     def add_to_inventory(self, item_id: str, amount: int):
-        if item_id in self.array:
-            self.array[item_id] += amount
+        if item_id in self.array["inventory"]:
+            self.array["inventory"][item_id] += amount
 
         else:
-            self.array[item_id] = amount
+            self.array["inventory"][item_id] = amount
 
         self.log_trace("Added", amount, str(item_id) + "(s)", "to inventory")

@@ -1,4 +1,4 @@
-from kivy.properties import OptionProperty, StringProperty, NumericProperty, ObjectProperty
+from kivy.properties import OptionProperty, StringProperty, NumericProperty, ObjectProperty, BooleanProperty
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.image import Image
 from kivy.uix.widget import Widget
@@ -15,6 +15,7 @@ class BetterButton(ButtonBehavior, Widget, BetterLogger):
     button_id: str = StringProperty("None")
     mouse_down: bool = False
     force_size_hint_y: int = NumericProperty(None)
+    let_parent_size: bool = BooleanProperty(False)
 
     bg_image: Image = None
     fg_image: Image = None
@@ -57,7 +58,7 @@ class BetterButton(ButtonBehavior, Widget, BetterLogger):
                 self.fg_image.texture = Textures.get("Buttons", str(self.button_id))
             except KeyError:
                 self.fg_image.opacity = 0
-                self.log_critical("No know texture -", "Buttons", str(self.button_id))
+                self.log_critical("No know texture -", "Buttons -", str(self.button_id))
 
         self.bg_image.pos = self.pos
         self.bg_image.size = self.size
@@ -66,11 +67,13 @@ class BetterButton(ButtonBehavior, Widget, BetterLogger):
 
         self.bg_image.texture = Textures.get("Buttons", "bg_" + str(self.bg_type))
 
-        if self.force_size_hint_y is None:
-            self.size_hint_y = graphicsConfig.getfloat("Buttons", "size_hint_y_" + str(self.size_type))
+        if not self.let_parent_size:
+            if self.force_size_hint_y is None:
+                self.size_hint_y = graphicsConfig.getfloat("Buttons", "size_hint_y_" + str(self.size_type))
 
     def on_height(self, _, value: int):
-        self.width = value
+        if not self.let_parent_size:
+            self.width = value
 
 
     def on_pos(self, _, pos):
@@ -80,3 +83,7 @@ class BetterButton(ButtonBehavior, Widget, BetterLogger):
     def on_size(self, _, size):
         self.bg_image.size = size
         self.fg_image.size = size
+
+    def __repr__(self):
+        return "BetterButton(button_id=" + str(self.button_id) + ", size_type=" + str(self.size_type) + ", bg_type=" + \
+               str(self.bg_type) + ", button_storage=" + str(self.button_storage) + ")"
