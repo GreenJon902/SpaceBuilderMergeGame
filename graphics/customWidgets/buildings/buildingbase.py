@@ -82,7 +82,7 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
 
     def store(self):
-        self.log_trace("Storing self")
+        self.log_debug("Storing self -", self)
 
         # noinspection PyProtectedMember
         self.obj._instructions.clear()
@@ -104,5 +104,5 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
 
 # A rather hacky fix to update the canvas, I don't exactly know how the kivy and kivy3 drawing works so i went with this
-def un_turn(*args):
+def un_turn(_elapsed_time: int):
     get_screen("BaseBuildScreen").ids["scatter"].rotation -= 0.001
