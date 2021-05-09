@@ -16,15 +16,11 @@
             size_hint_y: graphicsConfig.getfloat("InventoryScreen", "control_bar_size_hint_y")
 
 
-            on_height: print(self.pos, self.size)
-
             BetterButton:
-                size_type: "tiny"
+                size_type: "small"
                 button_id: "exit"
 
                 force_size_hint_y: 1
-
-                on_height: print(1, self.pos, self.size)
 
                 on_release: get_sm().set_screen("BaseBuildScreen")
 

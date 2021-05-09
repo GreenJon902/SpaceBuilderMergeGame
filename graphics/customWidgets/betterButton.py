@@ -18,8 +18,8 @@ class BetterButton(ButtonBehavior, Widget, BetterLogger):
     fg_image: Image = None
 
     def __init__(self, **kwargs):
-        self.bg_image = Image()
-        self.fg_image = Image()
+        self.bg_image = Image(allow_stretch=True, keep_ratio=True)
+        self.fg_image = Image(allow_stretch=True, keep_ratio=True)
         self.size_hint = None, None
 
         BetterLogger.__init__(self)
