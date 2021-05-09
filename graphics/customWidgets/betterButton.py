@@ -9,7 +9,8 @@ from resources import Textures
 
 
 class BetterButton(ButtonBehavior, Widget, BetterLogger):
-    size_type: OptionProperty = OptionProperty("small", options=["small", "big", "tiny", "flat"])
+    size_type: OptionProperty = OptionProperty("small", options=["small", "big", "flat"])
+    bg_type: OptionProperty = OptionProperty("both", options=["dark", "both", "light"])
     button_id: StringProperty = StringProperty("None")
     mouse_down: bool = False
     force_size_hint_y: int = NumericProperty(None)
@@ -62,7 +63,7 @@ class BetterButton(ButtonBehavior, Widget, BetterLogger):
         self.fg_image.pos = self.pos
         self.fg_image.size = self.size
 
-        self.bg_image.texture = Textures.get("Buttons", "bg_" + str(self.size_type))
+        self.bg_image.texture = Textures.get("Buttons", "bg_" + str(self.bg_type))
 
         if self.force_size_hint_y is None:
             self.size_hint_y = graphicsConfig.getfloat("Buttons", "size_hint_y_" + str(self.size_type))
