@@ -64,9 +64,11 @@ class BaseLayout(FloatLayout, BetterLogger):
         except KeyError:
             print("POO")"""
 
-    def add_building(self, building):
+    def add_building(self, building: BuildingBase):
         building.set_renderer_and_scene(self.renderer, self.scene)
+        building.parent = self
         self.buildings.append(building)
+
 
     def create_renderer(self):
         self.renderer.render(self.scene, self.camera)

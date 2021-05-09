@@ -1,4 +1,4 @@
-from kivy.properties import OptionProperty, StringProperty, NumericProperty
+from kivy.properties import OptionProperty, StringProperty, NumericProperty, ObjectProperty
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.image import Image
 from kivy.uix.widget import Widget
@@ -9,9 +9,10 @@ from resources import Textures
 
 
 class BetterButton(ButtonBehavior, Widget, BetterLogger):
-    size_type: OptionProperty = OptionProperty("small", options=["small", "big", "flat"])
-    bg_type: OptionProperty = OptionProperty("both_blues", options=["dark_blue", "both_blues", "light_blue"])
-    button_id: StringProperty = StringProperty("None")
+    button_storage: any = ObjectProperty(None)
+    size_type: str = OptionProperty("small", options=["small", "big", "flat"])
+    bg_type: str = OptionProperty("both_blues", options=["dark_blue", "both_blues", "light_blue"])
+    button_id: str = StringProperty("None")
     mouse_down: bool = False
     force_size_hint_y: int = NumericProperty(None)
 

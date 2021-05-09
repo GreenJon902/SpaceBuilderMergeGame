@@ -1,3 +1,4 @@
+from kivy.clock import Clock
 from kivy.event import EventDispatcher
 from kivy.properties import StringProperty, NumericProperty, BooleanProperty
 from kivy3 import Renderer, Scene, Object3D
@@ -16,6 +17,7 @@ class BuildingBase(EventDispatcher, BetterLogger):
     renderer: Renderer = None
     scene: Scene = None
     selected: BooleanProperty = BooleanProperty(False)
+    parent: object = None
 
     def __init__(self, *args, **kwargs):
         BetterLogger.__init__(self)
@@ -68,7 +70,7 @@ class BuildingBase(EventDispatcher, BetterLogger):
     def on_selected(self, instance, value: bool):
         self.log_trace("Selected switched to", value, "on building", instance)
         if value:
-            get_screen("BaseBuildScreen").ids["building_buttons_handler"].redo_buttons(self.button_ids)
+            get_screen("BaseBuildScreen").ids["building_buttons_handler"].redo_buttons(self.button_ids, self)
 
     def __repr__(self) -> str:
         base = str(object.__repr__(self))
@@ -77,3 +79,30 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
         return "<'" + base + "' pos=" + str((self.x, self.y)) + \
                ", selected=" + str(self.selected) + ">"
+
+
+    def store(self):
+        self.log_trace("Storing self")
+
+        # noinspection PyProtectedMember
+        self.obj._instructions.clear()
+        # noinspection PyProtectedMember
+        self.renderer._instructions.remove(self.obj.as_instructions())
+
+        self.scene.children.remove(self.obj)
+        self.selected = False
+
+        self.parent.buildings.remove(self)
+        get_screen("BaseBuildScreen").ids["building_buttons_handler"].clear_buttons()
+
+        self.renderer, self.scene = None, None
+        self.parent = None
+
+        get_screen("BaseBuildScreen").ids["scatter"].rotation += 0.001
+
+        Clock.schedule_once(un_turn, 0)
+
+
+# A rather hacky fix to update the canvas, I don't exactly know how the kivy and kivy3 drawing works so i went with this
+def un_turn(*args):
+    get_screen("BaseBuildScreen").ids["scatter"].rotation -= 0.001
