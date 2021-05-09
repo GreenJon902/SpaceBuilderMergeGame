@@ -9,4 +9,6 @@ class Rocket(BuildingBase):
         buttons = BuildingBase.get_buttons(self)
         buttons.append("scrap")
 
+        buttons.remove("store")
+
         return buttons

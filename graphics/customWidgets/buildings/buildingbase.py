@@ -53,6 +53,7 @@ class BuildingBase(EventDispatcher, BetterLogger):
         """
         buttons: list[str] = list()
         buttons.append("info")
+        buttons.append("store")
 
         return buttons
 
