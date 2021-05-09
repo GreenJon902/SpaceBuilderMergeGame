@@ -11,14 +11,14 @@ from resources import Models
 
 
 class BuildingBase(EventDispatcher, BetterLogger):
-    id = StringProperty(defaultvalue="None")
+    id: str = StringProperty(defaultvalue="None")
     obj: Object3D = None
-    x: NumericProperty = NumericProperty(0)
-    y: NumericProperty = NumericProperty(0)
+    x: float = NumericProperty(0)
+    y: float = NumericProperty(0)
     renderer: Renderer = None
     scene: Scene = None
-    selected: BooleanProperty = BooleanProperty(False)
-    parent: object = None
+    selected: bool = BooleanProperty(False)
+    parent = None
 
     def __init__(self, *args, **kwargs):
         BetterLogger.__init__(self)
@@ -96,7 +96,6 @@ class BuildingBase(EventDispatcher, BetterLogger):
         self.parent.buildings.remove(self)
         get_screen("BaseBuildScreen").ids["building_buttons_handler"].clear_buttons()
 
-        self.renderer, self.scene = None, None
         self.parent = None
 
         get_screen("BaseBuildScreen").ids["scatter"].rotation += 0.001
