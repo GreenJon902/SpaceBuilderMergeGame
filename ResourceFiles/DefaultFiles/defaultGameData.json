@@ -6,9 +6,19 @@
       "y": 12
     },
     {
+      "id": "drill",
+      "x": 0,
+      "y": -8
+    },
+    {
       "id": "rocket",
       "x": -4,
       "y": 2
     }
-  ]
+  ],
+  "inventory": {
+    "scrap_metal": 15,
+    "battery": 4,
+    "rocket": 1
+  }
 }

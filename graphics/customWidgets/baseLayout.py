@@ -50,7 +50,7 @@ class BaseLayout(FloatLayout, BetterLogger):
             self.log_debug("Created building object for", building_info)
             self.add_building(building)
 
-        self.log_info("Created objects")
+        self.log_info("Created objects -", self.buildings)
 
     """def on_kv_post(self, base_widget):
         self.scatter_widget.bind(scale=self.on_scatter_transform_with_touch, pos=self.on_scatter_transform_with_touch,

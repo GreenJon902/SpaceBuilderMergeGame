@@ -110,3 +110,18 @@ class JSONParser(BetterLogger):
 
     def getbool(self, *args: any) -> bool:
         return bool(self.get(*args, called_by="t"))
+
+
+class GameDataJSONParser(JSONParser):
+    """
+    A nice wrapper class with some functions to help with saving game data like configuring inventory and dealing with
+    that array!
+    """
+    def add_to_inventory(self, item_id: str, amount: int):
+        if item_id in self.array:
+            self.array[item_id] += amount
+
+        else:
+            self.array[item_id] = amount
+
+        self.log_trace("Added", amount, str(item_id) + "(s)", "to inventory")

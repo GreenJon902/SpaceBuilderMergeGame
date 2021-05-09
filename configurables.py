@@ -1,5 +1,5 @@
 import AppInfo
-from lib.ConfigParsers import JSONParser
+from lib.ConfigParsers import JSONParser, GameDataJSONParser
 
 userSettings: JSONParser = JSONParser(AppInfo.settings_file)
-gameData: JSONParser = JSONParser(AppInfo.game_data_file)
+gameData: GameDataJSONParser = GameDataJSONParser(AppInfo.game_data_file)

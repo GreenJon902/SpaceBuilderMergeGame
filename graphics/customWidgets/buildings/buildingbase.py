@@ -3,6 +3,7 @@ from kivy.event import EventDispatcher
 from kivy.properties import StringProperty, NumericProperty, BooleanProperty
 from kivy3 import Renderer, Scene, Object3D
 
+from configurables import gameData
 from graphics import graphicsConfig
 from graphics.spaceBuilderMergeGameScreenManager import get_screen
 from lib.betterLogger import BetterLogger
@@ -32,6 +33,7 @@ class BuildingBase(EventDispatcher, BetterLogger):
         self.log_trace("building_id changed to", value)
         self.obj = Models.get(value)
         self.obj.pos.z = graphicsConfig.getint("BaseLayout", "building_start_z")
+        print(self.obj)
 
     def on_x(self, _instance, value):
         self.obj.pos.x = value
@@ -101,6 +103,8 @@ class BuildingBase(EventDispatcher, BetterLogger):
         get_screen("BaseBuildScreen").ids["scatter"].rotation += 0.001
 
         Clock.schedule_once(un_turn, 0)
+
+        gameData.add_to_inventory(self.id, 1)
 
 
 # A rather hacky fix to update the canvas, I don't exactly know how the kivy and kivy3 drawing works so i went with this
