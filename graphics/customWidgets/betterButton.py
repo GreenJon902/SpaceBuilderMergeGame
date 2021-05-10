@@ -99,9 +99,11 @@ class TextBetterButton(BetterButton):
 
     def __init__(self, **kwargs):
         self.main_text = Label(halign=graphicsConfig.get("Buttons", "amount_text_valign"),
-                               valign=graphicsConfig.get("Buttons", "amount_text_halign"))
+                               valign=graphicsConfig.get("Buttons", "amount_text_halign"),
+                               font_name="Buttons-amount_text")
         self.amount_text = Label(halign=graphicsConfig.get("Buttons", "amount_text_valign"),
-                                 valign=graphicsConfig.get("Buttons", "amount_text_halign"))
+                                 valign=graphicsConfig.get("Buttons", "amount_text_halign"),
+                                 font_name="Buttons-amount_text")
 
         BetterButton.__init__(self, **kwargs)
 

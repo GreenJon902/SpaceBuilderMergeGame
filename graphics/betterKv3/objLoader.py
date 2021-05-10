@@ -16,13 +16,15 @@ class OBJLoader(BetterLogger, kv3OBJLoader):
 
     def _load_meshes(self):  # Ripped from kivy3/loaders/objloader.py and edited by GJ
 
+        file = open(self.source, "r")
+
         wvobj = WaveObject(self)
         self.vertices = []
         self.normals = []
         self.texcoords = []
         faces_section = False
 
-        for line in open(self.source, "r"):
+        for line in file:
             if line.startswith('#'):
                 continue
             if line.startswith('s'):
@@ -91,6 +93,8 @@ class OBJLoader(BetterLogger, kv3OBJLoader):
                             norms.append(-1)
                     wvobj.faces.append((face, norms, texcoords))
         yield wvobj
+
+        file.close()
 
 
     def get_meshes(self, source: str, **kw) -> list[Mesh]:

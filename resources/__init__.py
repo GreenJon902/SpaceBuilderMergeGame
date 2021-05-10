@@ -2,18 +2,17 @@ import json
 import os
 from configparser import ExtendedInterpolation
 
+from kivy.core.image import Image as CoreImage
+from kivy.core.text import LabelBase
 from kivy.lang import Builder
 
 import AppInfo
 from AppInfo import resources_dir
-from lib.betterLogger import BetterLogger
 from lib.ConfigParsers import PathConfigParser
-
+from lib.betterLogger import BetterLogger
 from resources.lang import Lang
 from resources.models import Models
 from resources.textures import Textures
-
-from kivy.core.image import Image as CoreImage
 
 current_threaded_tasks = list()
 
@@ -124,24 +123,39 @@ class ResourceLoader(BetterLogger):
 
                     self.total_links += 1
 
-                    if path not in self.paths_to_resources:
-                        self.paths_to_resources[path] = None
+                    if link_name not in ["font"]:
+                        if path not in self.paths_to_resources:
+                            self.paths_to_resources[path] = None
+                            self.tasks.append({
+                                "type": "load_resource",
+                                "resource_type": link_name,
+                                "path": path
+                            })
+                            self.log_trace("Appended to list")
+                        else:
+                            self.log_trace("Already in list, no changes!")
+                        self.tasks.append({
+                            "type": "deal_resource",
+                            "resource_type": link_name,
+                            "section": section,
+                            "option": option,
+                            "path": path
+                        })
+
+                    elif link_name == "font":
                         self.tasks.append({
                             "type": "load_resource",
                             "resource_type": link_name,
+                            "section": section,
+                            "option": option,
                             "path": path
                         })
                         self.log_trace("Appended to list")
+
                     else:
-                        self.log_trace("Already in list, no changes!")
-                    self.tasks.append({
-                        "type": "deal_resource",
-                        "resource_type": link_name,
-                        "section": section,
-                        "option": option,
-                        "path": path
-                    })
-                    self.log_trace()
+                        self.log_critical("Link name ib first sort exclusion list isn't sorted -", link_name)
+
+        self.log_trace()
 
         self.__log_name_suffix__ = ""
         self.log_info("Finished getting all paths")
@@ -167,8 +181,7 @@ class ResourceLoader(BetterLogger):
                                                   {"type": "load_resource", "resource_type": "language"},
                                                   {"type": "deal_resource", "resource_type": "language"},
 
-                                                  {"type": "load_resource", "resource_type": "fonts"},
-                                                  {"type": "deal_resource", "resource_type": "fonts"},
+                                                  {"type": "load_resource", "resource_type": "font"},
 
                                                   {"type": "load_resource", "resource_type": "audio"},
                                                   {"type": "deal_resource", "resource_type": "audio"},
@@ -221,9 +234,13 @@ class ResourceLoader(BetterLogger):
         if task_info["type"] == "load_resource":
 
             if task_info["resource_type"] == "language":
-                array = json.load(open(task_info["path"] + ".json", "r"))
+                file = open(task_info["path"] + ".json", "r")
+
+                array = json.load(file)
                 array = lang.convert(array)
                 self.paths_to_resources[task_info["path"]] = array
+
+                file.close()
 
             elif task_info["resource_type"] == "texture":
                 core_image = CoreImage.load(task_info["path"])
@@ -241,7 +258,10 @@ class ResourceLoader(BetterLogger):
                 pass
 
             elif task_info["resource_type"] == "font":
-                pass
+                LabelBase.register(name=task_info["section"] + "-" + task_info["option"],
+                                   fn_regular=task_info["path"])
+                self.log_trace("Registered font -", task_info["path"], "for", task_info["section"] + "-" +
+                               task_info["option"])
 
             else:
                 self.log_critical("No know resource_type -", task_info["resource_type"])
@@ -261,9 +281,6 @@ class ResourceLoader(BetterLogger):
                 Models.register_model(task_info["option"], self.paths_to_resources[task_info["path"]])
 
             elif task_info["resource_type"] == "audio":
-                pass
-
-            elif task_info["resource_type"] == "font":
                 pass
 
             else:
