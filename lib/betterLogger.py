@@ -49,11 +49,8 @@ def redo_logger_formatting():
     import logging
     from kivy import logger as kvLogger
 
-    ENABLE_DEEP_DEBUG = False  # Requires normal debug to be enabled
-
-    if os.environ.get("ENABLE_DEEP_DEBUG") is not None:
-        ENABLE_DEEP_DEBUG = bool(os.environ.get("ENABLE_DEEP_DEBUG"))
-    else:
+    ENABLE_DEEP_DEBUG = bool(os.environ.get("ENABLE_DEEP_DEBUG"))  # Requires normal debug to be enabled
+    if not ENABLE_DEEP_DEBUG:
         try:
             # noinspection PyUnresolvedReferences
             #  we have the attribute error for a reason, this is set outside during run time
