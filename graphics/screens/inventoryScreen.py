@@ -2,7 +2,7 @@ from kivy.uix.screenmanager import Screen
 
 from configurables import gameData
 from graphics import graphicsConfig, height
-from graphics.customWidgets.betterButton import BetterButton
+from graphics.customWidgets.betterButton import TextBetterButton
 from lib.betterLogger import BetterLogger
 
 
@@ -21,7 +21,7 @@ class InventoryScreen(Screen, BetterLogger):
         items = unordered_items
 
         for item, amount in items.items():
-            b = BetterButton(button_id=str(item), size_type="big")
+            b = TextBetterButton(button_id=str(item), size_type="big", show_amount_text=True, amount=amount)
             self.ids["inventory_items_holder"].add_widget(b)
 
             self.log_trace("Added button -", b)
