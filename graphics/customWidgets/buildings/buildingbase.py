@@ -1,10 +1,11 @@
 from kivy.clock import Clock
 from kivy.event import EventDispatcher
+from kivy.graphics.transformation import Matrix
 from kivy.properties import StringProperty, NumericProperty, BooleanProperty
 from kivy3 import Renderer, Scene, Object3D
 
 from configurables import gameData
-from graphics import graphicsConfig
+from graphics import graphicsConfig, height, width
 from graphics.spaceBuilderMergeGameScreenManager import get_screen
 from lib.betterLogger import BetterLogger
 from resources import Models
@@ -103,6 +104,19 @@ class BuildingBase(EventDispatcher, BetterLogger):
         Clock.schedule_once(un_turn, 0)
 
         gameData.add_to_inventory(self.id, 1)
+
+
+    def get_corners(self) -> tuple[tuple[int, int], tuple[int, int]]:
+        m = Matrix()
+        x, y, z = m.project(self.obj.pos[0] - 5, self.obj.pos[1] - 5, self.obj.pos[2] - 5,
+                             self.parent.camera.model_matrix, self.parent.camera.projection_matrix,
+                             self.parent.camera.pos.x, self.parent.camera.pos.y, width(), height())
+
+        x2, y2, z2 = m.project(self.obj.pos[0] + 5, self.obj.pos[1] + 5, self.obj.pos[2],
+                               self.parent.camera.model_matrix, self.parent.camera.projection_matrix,
+                               self.parent.camera.pos.x, self.parent.camera.pos.y, width(), height())
+
+        return (x, y), (x2, y2)
 
 
 # A rather hacky fix to update the canvas, I don't exactly know how the kivy and kivy3 drawing works so i went with this

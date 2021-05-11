@@ -2,7 +2,6 @@ import os.path
 import random
 
 from kivy.clock import Clock
-from kivy.graphics.transformation import Matrix
 from kivy.properties import ListProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivy3 import Mesh, Scene, Renderer, Material, PerspectiveCamera
@@ -10,7 +9,6 @@ from kivy3.extras.geometries import BoxGeometry
 
 import AppInfo
 from configurables import gameData
-from graphics import width, height
 from graphics.customWidgets.buildings import str_to_building
 from graphics.customWidgets.buildings.buildingbase import BuildingBase
 from graphics.spaceBuilderMergeGameScreenManager import get_screen
@@ -163,14 +161,8 @@ class BaseLayout(FloatLayout, BetterLogger):
             print(Matrix().project(building.obj.pos[0], building.obj.pos[1], building.obj.pos[2], Matrix(), Matrix(), 
                   self.camera.pos.x, self.camera.pos.y, width(), height()))"""
 
-            m = Matrix()
-            x, y, z2 = m.project(building.obj.pos[0]-5, building.obj.pos[1]-5, building.obj.pos[2]-5,
-                                   self.camera.model_matrix, self.camera.projection_matrix,
-                                   self.camera.pos.x, self.camera.pos.y, width(), height())
 
-            x2, y2, z2 = m.project(building.obj.pos[0]+5, building.obj.pos[1]+5, building.obj.pos[2],
-                                   self.camera.model_matrix, self.camera.projection_matrix,
-                                   self.camera.pos.x, self.camera.pos.y, width(), height())
+            (x, y), (x2, y2) = building.get_corners()
 
 
             # Will leave here for debug
