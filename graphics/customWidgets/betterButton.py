@@ -27,33 +27,41 @@ class BetterButton(ButtonBehavior, FloatLayout, BetterLogger):
         self.fg_image = Image(allow_stretch=True, keep_ratio=True)
 
         BetterLogger.__init__(self)
-
         ButtonBehavior.__init__(self)
         Widget.__init__(self, **kwargs)
 
         self.add_widget(self.bg_image)
         self.add_widget(self.fg_image)
 
+        self.bg_image.texture = Textures.get("Buttons", "bg_" + str(self.bg_type))
+        self.size_hint_x = None
+        self.size_hint_y = graphicsConfig.getfloat("Buttons", "size_hint_y_" + str(self.size_type))
+
+
+
+
+    def update_size_hint(self):
         if not self.let_parent_size:
-            self.size_hint = None, None
+            if self.force_size_hint_y is None:
+                self.size_hint_y = graphicsConfig.getfloat("Buttons", "size_hint_y_" + str(self.size_type))
 
+            else:
+                self.size_hint_y = None
 
-    def on_force_size_hint_y(self, _instance, value):
-        if value is not None:
-            self.size_hint_y = value
+        else:
+            self.size_hint_y = None
 
+    def on_let_parent_size(self, _instance, _value):
+        self.update_size_hint()
 
-    def on_kv_post(self, base_widget: Widget):
-        self.update()
+    def on_force_size_hint_y(self, _instance, _value):
+        self.update_size_hint()
+
 
     def on_size_type(self, _instance, _value: str):
-        self.update()
+        self.size_hint_y = graphicsConfig.getfloat("Buttons", "size_hint_y_" + str(self.size_type))
 
     def on_button_id(self, _instance, _value: str):
-        self.update()
-
-
-    def update(self):
         if self.button_id == "None":
             self.fg_image.opacity = 0
         else:
@@ -65,24 +73,21 @@ class BetterButton(ButtonBehavior, FloatLayout, BetterLogger):
                 self.log_critical("No know texture -", "Buttons -", str(self.button_id))
 
 
-        self.bg_image.texture = Textures.get("Buttons", "bg_" + str(self.bg_type))
-
+    def on_height(self, _instance, height: int):
         if not self.let_parent_size:
-            if self.force_size_hint_y is None:
-                self.size_hint_y = graphicsConfig.getfloat("Buttons", "size_hint_y_" + str(self.size_type))
+            self.width = height
 
-    def on_height(self, _instance, value: int):
-        if not self.let_parent_size:
-            self.width = value
+        self.bg_image.width = height
+        self.fg_image.width = height
 
 
     def on_pos(self, _instance, pos):
         self.bg_image.pos = pos
         self.fg_image.pos = pos
 
-    def on_size(self, _instance, size):
-        self.bg_image.size = size
-        self.fg_image.size = size
+    def on_width(self, _instance, width):
+        self.bg_image.width = width
+        self.fg_image.width = width
 
     def __repr__(self):
         return "BetterButton(button_id=" + str(self.button_id) + ", size_type=" + str(self.size_type) + ", bg_type=" + \
