@@ -20,8 +20,11 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
         self.add_widget(self.move_buttons_holder)
         self.add_widget(self.custom_buttons_holder)
 
-    def get_positions_of_move_buttons(self, building: BuildingBase) -> tuple[tuple[int, int], tuple[int, int]]:
-        print(building.get_corners())
+
+    def on_size(self, _instance, _size):
+        self.custom_buttons_holder.size = _size
+        self.move_buttons_holder.size = _size
+
 
     def redo_buttons(self, button_ids: list[str], building: BuildingBase):
         self.clear_buttons()
@@ -37,12 +40,19 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
         self.custom_buttons_holder.add_widget(self.spacer2)
 
 
-        self.get_positions_of_move_buttons(building)
+        (x, y), (x2, y2) = building.get_corners()
+        b1 = BetterButton(button_id="move", size_type="small", pos=(x, y))
+        b2 = BetterButton(button_id="move", size_type="small", pos=(x2, y2))
+
+        self.move_buttons_holder.add_widget(b1)
+        self.move_buttons_holder.add_widget(b2)
+
 
         self.log_trace("Added buttons to self, they are", self.custom_buttons_holder.children)
 
 
     def clear_buttons(self):
+        self.move_buttons_holder.clear_widgets()
         self.custom_buttons_holder.clear_widgets()
         self.log_trace("Cleared buttons")
 

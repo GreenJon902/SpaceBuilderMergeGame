@@ -10,7 +10,7 @@ from lib.betterLogger import BetterLogger
 from resources import Textures
 
 
-class BetterButton(ButtonBehavior, FloatLayout, BetterLogger):
+class BetterButton(ButtonBehavior, FloatLayout, BetterLogger):  # TODO: Fix bug where functions are ran too many times
     button_storage: any = ObjectProperty(None)
     size_type: str = OptionProperty("small", options=["small", "big", "flat"])
     bg_type: str = OptionProperty("both_blues", options=["dark_blue", "both_blues", "light_blue"])
@@ -44,12 +44,15 @@ class BetterButton(ButtonBehavior, FloatLayout, BetterLogger):
         if not self.let_parent_size:
             if self.force_size_hint_y is None:
                 self.size_hint_y = graphicsConfig.getfloat("Buttons", "size_hint_y_" + str(self.size_type))
+                self.size_hint_x = None
 
             else:
                 self.size_hint_y = None
+                self.size_hint_x = None
 
         else:
-            self.size_hint_y = None
+            self.size_hint_y = 1
+            self.size_hint_x = None
 
     def on_let_parent_size(self, _instance, _value):
         self.update_size_hint()
@@ -59,7 +62,7 @@ class BetterButton(ButtonBehavior, FloatLayout, BetterLogger):
 
 
     def on_size_type(self, _instance, _value: str):
-        self.size_hint_y = graphicsConfig.getfloat("Buttons", "size_hint_y_" + str(self.size_type))
+        self.update_size_hint()
 
     def on_button_id(self, _instance, _value: str):
         if self.button_id == "None":
@@ -74,8 +77,7 @@ class BetterButton(ButtonBehavior, FloatLayout, BetterLogger):
 
 
     def on_height(self, _instance, height: int):
-        if not self.let_parent_size:
-            self.width = height
+        self.width = height
 
         self.bg_image.width = height
         self.fg_image.width = height
@@ -92,6 +94,9 @@ class BetterButton(ButtonBehavior, FloatLayout, BetterLogger):
     def __repr__(self):
         return "BetterButton(button_id=" + str(self.button_id) + ", size_type=" + str(self.size_type) + ", bg_type=" + \
                str(self.bg_type) + ", button_storage=" + str(self.button_storage) + ")"
+
+    def on_press(self):
+        print(self, self.size_hint, self.pos, self.size, self.let_parent_size, self.force_size_hint_y)
 
 
 class TextBetterButton(BetterButton):
