@@ -95,8 +95,6 @@ class BetterButton(ButtonBehavior, FloatLayout, BetterLogger):  # TODO: Fix bug 
         return "BetterButton(button_id=" + str(self.button_id) + ", size_type=" + str(self.size_type) + ", bg_type=" + \
                str(self.bg_type) + ", button_storage=" + str(self.button_storage) + ")"
 
-    def on_press(self):
-        print(self, self.size_hint, self.pos, self.size, self.let_parent_size, self.force_size_hint_y)
 
 
 class TextBetterButton(BetterButton):
