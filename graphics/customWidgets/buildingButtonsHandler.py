@@ -49,7 +49,8 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
         x, y = get_screen("BaseBuildScreen").ids["scatter"].to_parent(x, y)
         x2, y2 = get_screen("BaseBuildScreen").ids["scatter"].to_parent(x2, y2)
 
-        b1 = BetterButton(button_id="move", size_type="small", pos=(x, y), on_touch_down=self.move_button_touch_down)
+        # TODO: Get correct positioning of button 1
+        b1 = BetterButton(button_id="move", size_type="small", right=x, top=y, on_touch_down=self.move_button_touch_down)
         b2 = BetterButton(button_id="move", size_type="small", pos=(x2, y2), on_touch_down=self.move_button_touch_down)
         get_screen("BaseBuildScreen").ids["scatter"].bind(
             on_transform_with_touch=lambda _instance, _value: self.redo_building_move_buttons(building, b1, b2))
@@ -66,7 +67,7 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
         x, y = self.scatter.to_parent(x, y)
         x2, y2 = self.scatter.to_parent(x2, y2)
 
-        b1.x, b1.y = x, y
+        b1.right, b1.top = x, y
         b2.x, b2.y = x2, y2
 
 
