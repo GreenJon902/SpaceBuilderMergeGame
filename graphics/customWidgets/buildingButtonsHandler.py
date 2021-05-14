@@ -17,6 +17,9 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
     move_buttons_holder: FloatLayout = FloatLayout()
     scatter: BetterScatter = None
 
+    transform_button_1: BetterButton = None
+    transform_button_2: BetterButton = None
+
     def __init__(self, **kwargs):
         BetterLogger.__init__(self)
         FloatLayout.__init__(self, **kwargs)
@@ -24,11 +27,9 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
         self.add_widget(self.move_buttons_holder)
         self.add_widget(self.custom_buttons_holder)
 
-
     def on_size(self, _instance, _size):
         self.custom_buttons_holder.size = _size
         self.move_buttons_holder.size = _size
-
 
     def redo_buttons(self, button_ids: list[str], building: BuildingBase):
         self.scatter = get_screen("BaseBuildScreen").ids["scatter"]
@@ -46,31 +47,31 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
 
         self.custom_buttons_holder.add_widget(self.spacer2)
 
-
         # TODO: Get correct positioning of button 1
-        b1 = BetterButton(button_id="move", size_type="small", on_touch_down=self.button_touch_down,
-                          on_touch_move=self.button_touch_move, on_touch_up=self.button_touch_up)
-        b2 = BetterButton(button_id="rotate", size_type="small", on_touch_down=self.button_touch_down,
-                          on_touch_move=self.button_touch_move, on_touch_up=self.button_touch_up)
-        self.redo_building_move_buttons(building, b1, b2)
+        self.transform_button_1 = BetterButton(button_id="move", size_type="small",
+                                               on_touch_down=self.button_touch_down,
+                                               on_touch_move=self.button_touch_move, on_touch_up=self.button_touch_up,
+                                               button_storage=building)
+        self.transform_button_2 = BetterButton(button_id="rotate", size_type="small",
+                                               on_touch_down=self.button_touch_down,
+                                               on_touch_move=self.button_touch_move, on_touch_up=self.button_touch_up,
+                                               button_storage=building)
+        self.redo_building_move_buttons(building)
         get_screen("BaseBuildScreen").ids["scatter"].bind(
-            on_transform_with_touch=lambda _instance, _value: self.redo_building_move_buttons(building, b1, b2))
+            on_transform_with_touch=lambda _instance, _value: self.redo_building_move_buttons(building))
 
-        self.move_buttons_holder.add_widget(b1)
-        self.move_buttons_holder.add_widget(b2)
-
+        self.move_buttons_holder.add_widget(self.transform_button_1)
+        self.move_buttons_holder.add_widget(self.transform_button_2)
 
         self.log_trace("Added buttons to self, they are", self.custom_buttons_holder.children)
 
-
-    def redo_building_move_buttons(self, building, b1, b2):
+    def redo_building_move_buttons(self, building):
         (x, y), (x2, y2) = building.get_corners()
         x, y = self.scatter.to_parent(x, y)
         x2, y2 = self.scatter.to_parent(x2, y2)
 
-        b1.right, b1.top = x, y
-        b2.x, b2.y = x2, y2
-
+        self.transform_button_1.right, self.transform_button_1.top = x, y
+        self.transform_button_2.x, self.transform_button_2.y = x2, y2
 
     def clear_buttons(self):
         get_screen("BaseBuildScreen").ids["scatter"].unbind(on_transform_with_touch=self.redo_building_move_buttons)
@@ -79,15 +80,20 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
         self.custom_buttons_holder.clear_widgets()
         self.log_trace("Cleared buttons")
 
-
     def button_touch_down(self, button: BetterButton, touch: MotionEvent):
-        if button.collide_point(touch.x, touch.y):
-            touch.grab(self)
+        if not touch.is_mouse_scrolling and button.collide_point(touch.x, touch.y):
+            self.log_trace("Started transforming building with button", button)
+            touch.grab(button)
 
     def button_touch_move(self, button: BetterButton, touch: MotionEvent):
-        if touch.grab_current == self:
-            if button.button_id == "move":
-                pass
+        if touch.grab_current == button:
+            building: BuildingBase = button.button_storage
+
+            if button.button_id == "move": # TODO: Make the is a bit better
+                building.x += touch.dx / (15 * self.scatter.scale)
+                building.y += touch.dy / (15 * self.scatter.scale)
+
+
 
             elif button.button_id == "rotate":
                 pass
@@ -95,10 +101,12 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
             else:
                 self.log_critical("Wrong button id for building transform buttons -", button.button_id)
 
+            self.redo_building_move_buttons(building)
 
-    def button_touch_up(self, _button: BetterButton, touch: MotionEvent):
-        if touch.grab_current == self:
-            touch.ungrab(self)
+    def button_touch_up(self, button: BetterButton, touch: MotionEvent):
+        if touch.grab_current == button:
+            self.log_trace("Finished transforming building with button", button)  # TODO: Remove double logging
+            touch.ungrab(button)
 
 
 building_button_id_to_function: dict[str, callable] = {
