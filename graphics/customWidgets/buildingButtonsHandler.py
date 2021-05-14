@@ -109,7 +109,8 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
                     building.obj.rotation.z = math.degrees(math.atan(mouse_dy / mouse_dx))
 
                 except ZeroDivisionError:
-                    self.log_warning("Got ZeroDivisionError from rotating building | mouse_dx, mouse_dy =", mouse_dx, mouse_dy)
+                    self.log_warning("Got ZeroDivisionError from rotating building | mouse_dx, mouse_dy =",
+                                     mouse_dx, mouse_dy)
 
 
 
