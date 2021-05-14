@@ -20,6 +20,7 @@ class BuildingBase(EventDispatcher, BetterLogger):
     scene: Scene = None
     selected: bool = BooleanProperty(False)
     parent = None
+    movable: bool = True
 
     def __init__(self, *args, **kwargs):
         BetterLogger.__init__(self)
