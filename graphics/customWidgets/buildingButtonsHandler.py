@@ -53,11 +53,13 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
             # TODO: Get correct positioning of button 1
             self.transform_button_1 = BetterButton(button_id="move", size_type="small",
                                                    on_touch_down=self.button_touch_down,
-                                                   on_touch_move=self.button_touch_move, on_touch_up=self.button_touch_up,
+                                                   on_touch_move=self.button_touch_move,
+                                                   on_touch_up=self.button_touch_up,
                                                    button_storage=building)
             self.transform_button_2 = BetterButton(button_id="rotate", size_type="small",
                                                    on_touch_down=self.button_touch_down,
-                                                   on_touch_move=self.button_touch_move, on_touch_up=self.button_touch_up,
+                                                   on_touch_move=self.button_touch_move,
+                                                   on_touch_up=self.button_touch_up,
                                                    button_storage=building)
             self.redo_building_move_buttons(building)
             get_screen("BaseBuildScreen").ids["scatter"].bind(
