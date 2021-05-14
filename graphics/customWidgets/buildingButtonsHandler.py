@@ -91,7 +91,7 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
         if touch.grab_current == button:
             building: BuildingBase = button.button_storage
 
-            if button.button_id == "move":  # TODO: Make the is a bit better
+            if button.button_id == "move":  # TODO: Make this a bit better
                 building.x += touch.dx / (15 * self.scatter.scale)
                 building.y += touch.dy / (15 * self.scatter.scale)
 
