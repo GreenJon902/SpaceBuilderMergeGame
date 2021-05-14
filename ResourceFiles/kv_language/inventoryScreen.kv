@@ -55,3 +55,18 @@
                     Rectangle:
                         pos: self.pos
                         size: self.size
+
+                Image: # Background
+                    pos: self.parent.pos
+                    size: self.parent.size
+
+                    texture: Textures.get("InventoryScreen", "merge_gui")
+
+                    allow_stretch: True
+                    keep_ratio: True
+
+                BetterButton:
+                    pos_hint: {"center_x": 0.5, "center_y": 0.5}
+
+                    bg_type: "alternate_very_dark_blue"
+                    button_id: "item_unknown"

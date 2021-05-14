@@ -13,7 +13,8 @@ from resources import Textures
 class BetterButton(ButtonBehavior, FloatLayout, BetterLogger):  # TODO: Fix bug where functions are ran too many times
     button_storage: any = ObjectProperty(None)
     size_type: str = OptionProperty("small", options=["small", "big", "flat"])
-    bg_type: str = OptionProperty("both_blues", options=["dark_blue", "both_blues", "light_blue"])
+    bg_type: str = OptionProperty("both_blues", options=["dark_blue", "both_blues", "light_blue",
+                                                         "alternate_very_dark_blue"])
     button_id: str = StringProperty("None")
     mouse_down: bool = False
     force_size_hint_y: int = NumericProperty(None)
