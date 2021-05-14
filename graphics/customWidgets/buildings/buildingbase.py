@@ -106,7 +106,7 @@ class BuildingBase(EventDispatcher, BetterLogger):
         gameData.add_to_inventory(self.id, 1)
 
 
-    def get_corners(self) -> tuple[tuple[int, int], tuple[int, int]]:
+    def get_projected_corners(self) -> tuple[tuple[int, int], tuple[int, int]]:
         m = Matrix()
         x, y, z = m.project(self.obj.pos[0] - 5, self.obj.pos[1] - 5, self.obj.pos[2] - 5,
                              self.parent.camera.model_matrix, self.parent.camera.projection_matrix,
@@ -117,6 +117,14 @@ class BuildingBase(EventDispatcher, BetterLogger):
                                self.parent.camera.pos.x, self.parent.camera.pos.y, width(), height())
 
         return (x, y), (x2, y2)
+
+    def get_projected_origin(self) -> tuple[int, int]:
+        m = Matrix()
+        x, y, z = m.project(self.obj.pos[0], self.obj.pos[1], self.obj.pos[2],
+                            self.parent.camera.model_matrix, self.parent.camera.projection_matrix,
+                            self.parent.camera.pos.x, self.parent.camera.pos.y, width(), height())
+
+        return x, y
 
 
 # A rather hacky fix to update the canvas, I don't exactly know how the kivy and kivy3 drawing works so i went with this

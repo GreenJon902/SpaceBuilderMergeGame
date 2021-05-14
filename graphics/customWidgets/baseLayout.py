@@ -162,7 +162,7 @@ class BaseLayout(FloatLayout, BetterLogger):
                   self.camera.pos.x, self.camera.pos.y, width(), height()))"""
 
 
-            (x, y), (x2, y2) = building.get_corners()
+            (x, y), (x2, y2) = building.get_projected_corners()
 
 
             # Will leave here for debug

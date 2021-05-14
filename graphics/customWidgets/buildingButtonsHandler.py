@@ -1,3 +1,5 @@
+import math
+
 from kivy.input import MotionEvent
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
@@ -66,7 +68,7 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
         self.log_trace("Added buttons to self, they are", self.custom_buttons_holder.children)
 
     def redo_building_move_buttons(self, building):
-        (x, y), (x2, y2) = building.get_corners()
+        (x, y), (x2, y2) = building.get_projected_corners()
         x, y = self.scatter.to_parent(x, y)
         x2, y2 = self.scatter.to_parent(x2, y2)
 
@@ -89,14 +91,27 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
         if touch.grab_current == button:
             building: BuildingBase = button.button_storage
 
-            if button.button_id == "move": # TODO: Make the is a bit better
+            if button.button_id == "move":  # TODO: Make the is a bit better
                 building.x += touch.dx / (15 * self.scatter.scale)
                 building.y += touch.dy / (15 * self.scatter.scale)
 
 
-
             elif button.button_id == "rotate":
-                pass
+                building_x, building_y = self.scatter.to_parent(*building.get_projected_origin())
+
+                mouse_x = touch.x
+                mouse_y = touch.y
+
+                mouse_dx = mouse_x - building_x  # adjacent
+                mouse_dy = mouse_y - building_y  # opposite
+
+                try:
+                    building.obj.rotation.z = math.degrees(math.atan(mouse_dy / mouse_dx))
+
+                except ZeroDivisionError:
+                    self.log_warning("Got ZeroDivisionError from rotating building | mouse_dx, mouse_dy =", mouse_dx, mouse_dy)
+
+
 
             else:
                 self.log_critical("Wrong button id for building transform buttons -", button.button_id)
