@@ -39,6 +39,9 @@ class BetterButton(ButtonBehavior, FloatLayout, BetterLogger):  # TODO: Fix bug 
 
 
 
+    def on_bg_type(self, _instance, bg_type):
+        self.bg_image.texture = Textures.get("Buttons", "bg_" + str(bg_type))
+
 
     def update_size_hint(self):
         if not self.let_parent_size:
