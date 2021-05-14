@@ -1,3 +1,4 @@
+from kivy.input import MotionEvent
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.widget import Widget
@@ -45,13 +46,13 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
 
         self.custom_buttons_holder.add_widget(self.spacer2)
 
-        (x, y), (x2, y2) = building.get_corners()
-        x, y = get_screen("BaseBuildScreen").ids["scatter"].to_parent(x, y)
-        x2, y2 = get_screen("BaseBuildScreen").ids["scatter"].to_parent(x2, y2)
 
         # TODO: Get correct positioning of button 1
-        b1 = BetterButton(button_id="move", size_type="small", right=x, top=y, on_touch_down=self.move_button_touch_down)
-        b2 = BetterButton(button_id="move", size_type="small", pos=(x2, y2), on_touch_down=self.move_button_touch_down)
+        b1 = BetterButton(button_id="move", size_type="small", on_touch_down=self.button_touch_down,
+                          on_touch_move=self.button_touch_move, on_touch_up=self.button_touch_up)
+        b2 = BetterButton(button_id="rotate", size_type="small", on_touch_down=self.button_touch_down,
+                          on_touch_move=self.button_touch_move, on_touch_up=self.button_touch_up)
+        self.redo_building_move_buttons(building, b1, b2)
         get_screen("BaseBuildScreen").ids["scatter"].bind(
             on_transform_with_touch=lambda _instance, _value: self.redo_building_move_buttons(building, b1, b2))
 
@@ -79,11 +80,25 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
         self.log_trace("Cleared buttons")
 
 
-    def move_button_touch_down(self, button, touch): # TODO: Implement this
+    def button_touch_down(self, button: BetterButton, touch: MotionEvent):
         if button.collide_point(touch.x, touch.y):
-            print(1)
-        else:
-            print(2)
+            touch.grab(self)
+
+    def button_touch_move(self, button: BetterButton, touch: MotionEvent):
+        if touch.grab_current == self:
+            if button.button_id == "move":
+                pass
+
+            elif button.button_id == "rotate":
+                pass
+
+            else:
+                self.log_critical("Wrong button id for building transform buttons -", button.button_id)
+
+
+    def button_touch_up(self, _button: BetterButton, touch: MotionEvent):
+        if touch.grab_current == self:
+            touch.ungrab(self)
 
 
 building_button_id_to_function: dict[str, callable] = {
