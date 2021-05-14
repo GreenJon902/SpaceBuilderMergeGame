@@ -49,7 +49,7 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
 
         self.custom_buttons_holder.add_widget(self.spacer2)
 
-        if building.movable:
+        if building.movable:  # TODO: Correct positioning when clicked on different building
             # TODO: Get correct positioning of button 1
             self.transform_button_1 = BetterButton(button_id="move", size_type="small",
                                                    on_touch_down=self.button_touch_down,
