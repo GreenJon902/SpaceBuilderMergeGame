@@ -49,7 +49,7 @@ def setup():
     from graphics.screens.inventoryScreen import InventoryScreen
     from graphics.customWidgets.multiLangLabel import MultiLangLabel
     from graphics.customWidgets.baseLayout import BaseLayout
-    from graphics.customWidgets.betterButton import BetterButton
+    from graphics.customWidgets.betterButton import BetterButton, TextBetterButton, FlatBetterButton
     from graphics.customWidgets.buildingButtonsHandler import BuildingButtonsHandler
 
     Factory.register("SpaceBuilderMergeGameApp",
@@ -104,6 +104,14 @@ def setup():
 
     Factory.register("BetterButton",
                      cls=BetterButton,
+                     module="graphics.customWidgets.betterButton")
+
+    Factory.register("TextBetterButton",
+                     cls=TextBetterButton,
+                     module="graphics.customWidgets.betterButton")
+
+    Factory.register("FlatBetterButton",
+                     cls=FlatBetterButton,
                      module="graphics.customWidgets.betterButton")
 
     Factory.register("BuildingButtonsHandler",

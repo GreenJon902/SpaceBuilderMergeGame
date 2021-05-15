@@ -46,27 +46,46 @@
                         pos: self.pos
                         size: self.size
 
+            BoxLayout:
+                orientation: "vertical"
 
-            FloatLayout: # Merge section
-                canvas.before:
-                    Color:
-                        rgb: 0, 0.20392156862, 0.5294117647
+                FloatLayout: # Merge section
+                    canvas.before:
+                        Color:
+                            rgb: 0, 0.20392156862, 0.5294117647
 
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
 
-                Image: # Background
-                    pos: self.parent.pos
-                    size: self.parent.size
+                    Image: # Background
+                        pos: self.parent.pos
+                        size: self.parent.size
 
-                    texture: Textures.get("InventoryScreen", "merge_gui")
+                        texture: Textures.get("InventoryScreen", "merge_gui")
 
-                    allow_stretch: True
-                    keep_ratio: True
+                        allow_stretch: True
+                        keep_ratio: True
 
-                BetterButton:
-                    pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                    BetterButton:
+                        pos_hint: {"center_x": 0.5, "center_y": 0.5}
 
-                    bg_type: "alternate_very_dark_blue"
-                    button_id: "item_unknown"
+                        bg_type: "alternate_very_dark_blue"
+                        button_id: "item_unknown"
+
+
+                BoxLayout: # Option
+                    canvas.before:
+                        Color:
+                            rgb: 0, 0.16862745098, 0.43921568627
+
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+                    orientation: "horizontal"
+                    size_hint_y: graphicsConfig.get("InventoryScreen", "merge_options_size_hint_y")
+                    padding: 5
+
+                    FlatBetterButton:
+                        text_id: "inventory.buttons.place"

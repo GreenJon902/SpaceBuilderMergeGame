@@ -1,11 +1,14 @@
+from kivy.graphics import RoundedRectangle, Color
 from kivy.properties import OptionProperty, StringProperty, NumericProperty, ObjectProperty, BooleanProperty
 from kivy.uix.behaviors import ButtonBehavior
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.image import Image
 from kivy.uix.label import Label
 from kivy.uix.widget import Widget
 
 from graphics import graphicsConfig
+from graphics.customWidgets.multiLangLabel import MultiLangLabel
 from lib.betterLogger import BetterLogger
 from resources import Textures
 
@@ -106,13 +109,13 @@ class TextBetterButton(BetterButton):  # TODO: Main text
     show_amount_text: bool = BooleanProperty(False)
     amount: int = NumericProperty(0)
 
-    main_text: Label = None
+    main_text_id: Label = None
     amount_text: Label = None
 
     def __init__(self, **kwargs):
         self.main_text = Label(halign=graphicsConfig.get("Buttons", "amount_text_valign"),
-                               valign=graphicsConfig.get("Buttons", "amount_text_halign"),
-                               font_name="Buttons-amount_text")
+                                        valign=graphicsConfig.get("Buttons", "amount_text_halign"),
+                                        font_name="Buttons-amount_text")
         self.amount_text = Label(halign=graphicsConfig.get("Buttons", "amount_text_valign"),
                                  valign=graphicsConfig.get("Buttons", "amount_text_halign"),
                                  font_name="Buttons-amount_text")
@@ -149,3 +152,34 @@ class TextBetterButton(BetterButton):  # TODO: Main text
                ", bg_type=" + str(self.bg_type) + ", button_storage=" + str(self.button_storage) + ", show_main_text=" \
                + str(self.show_main_text) + ", show_amount_text=" + str(self.show_amount_text) + ", amount=" + \
                str(self.amount) + ")"
+
+
+class FlatBetterButton(BetterLogger, ButtonBehavior, BoxLayout):
+
+    label: MultiLangLabel = None
+    text_id: str = StringProperty()
+
+    def __init__(self, **kwargs):
+        BetterLogger.__init__(self)
+        ButtonBehavior.__init__(self)
+        BoxLayout.__init__(self, **kwargs)
+
+        self.label = MultiLangLabel()
+
+        self.add_widget(self.label)
+
+    def on_text_id(self, _instance, text_id):
+        self.label.text_id = text_id
+
+    def redraw_bg(self):
+        self.canvas.before.clear()
+
+        with self.canvas.before:
+            Color(rgb=graphicsConfig.gettuple("Buttons", "flat_color"))
+            RoundedRectangle(pos=self.pos, size=self.size, radius=[(40, 40), (40, 40), (40, 40), (40, 40)])
+
+    def on_pos(self, _instance, _value):
+        self.redraw_bg()
+
+    def on_size(self, _instance, _value):
+        self.redraw_bg()
