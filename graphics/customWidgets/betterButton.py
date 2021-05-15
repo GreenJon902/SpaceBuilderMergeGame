@@ -101,7 +101,7 @@ class BetterButton(ButtonBehavior, FloatLayout, BetterLogger):  # TODO: Fix bug 
 
 
 
-class TextBetterButton(BetterButton): # TODO: Main text
+class TextBetterButton(BetterButton):  # TODO: Main text
     show_main_text: bool = BooleanProperty(False)
     show_amount_text: bool = BooleanProperty(False)
     amount: int = NumericProperty(0)
