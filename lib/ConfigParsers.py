@@ -55,7 +55,8 @@ class ExtendedConfigParser(LoggedConfigParser):
         return transition
 
     def gettuple(self, *args: any, **kwargs: any) -> list:
-        return self.get(*args, **kwargs, called_by="gettuple").split(", ")
+        string = self.get(*args, **kwargs, called_by="gettuple").replace("'",'\"')
+        return json.loads(string)
 
 
 
