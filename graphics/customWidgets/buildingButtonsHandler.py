@@ -19,6 +19,8 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
     move_buttons_holder: FloatLayout = FloatLayout()
     scatter: BetterScatter = None
 
+    last_rotation: float = 0
+
     transform_button_1: BetterButton = None
     transform_button_2: BetterButton = None
 
@@ -90,6 +92,23 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
             self.log_trace("Started transforming building with button", button)
             touch.grab(button)
 
+            building: BuildingBase = button.button_storage
+
+            building_x, building_y = self.scatter.to_parent(*building.get_projected_origin())
+
+            mouse_x = touch.x
+            mouse_y = touch.y
+
+            mouse_dx = mouse_x - building_x  # adjacent
+            mouse_dy = mouse_y - building_y  # opposite
+
+            try:
+                self.last_rotation = math.degrees(math.atan(mouse_dy / mouse_dx))
+
+            except ZeroDivisionError:
+                self.last_rotation = math.degrees(math.atan(mouse_dy / mouse_dx + 1))
+
+
     def button_touch_move(self, button: BetterButton, touch: MotionEvent):
         if touch.grab_current == button:
             building: BuildingBase = button.button_storage
@@ -109,7 +128,10 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
                 mouse_dy = mouse_y - building_y  # opposite
 
                 try:
-                    building.obj.rotation.z = math.degrees(math.atan(mouse_dy / mouse_dx))
+                    rot = math.degrees(math.atan(mouse_dy / mouse_dx))
+                    delta_rot = rot - self.last_rotation
+                    building.rotation += delta_rot
+                    self.last_rotation = rot
 
                 except ZeroDivisionError:
                     self.log_warning("Got ZeroDivisionError from rotating building | mouse_dx, mouse_dy =",

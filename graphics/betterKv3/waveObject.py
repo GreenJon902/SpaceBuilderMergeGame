@@ -22,7 +22,7 @@ class WaveObject(BetterLogger, kv3WaveObject):
         kv3WaveObject.__init__(self, loader,  name='')
 
     def convert_to_mesh(self, vertex_format=None):  # Ripped from kivy3/loaders/objloader.py and edited by GJ
-        """Converts data gotten from the .obj definition
+        """Converts data gotten from the ._obj definition
         file and create Kivy3 Mesh object which may be used
         for drawing object in the scene
         """

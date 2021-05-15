@@ -13,9 +13,10 @@ from resources import Models
 
 class BuildingBase(EventDispatcher, BetterLogger):
     id: str = StringProperty(defaultvalue="None")
-    obj: Object3D = None
+    _obj: Object3D = None
     x: float = NumericProperty(0)
     y: float = NumericProperty(0)
+    rotation: float = NumericProperty(0)
     renderer: Renderer = None
     scene: Scene = None
     selected: bool = BooleanProperty(False)
@@ -33,22 +34,25 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
     def on_building_id(self, _instance, value):
         self.log_trace("building_id changed to", value)
-        self.obj = Models.get(value)
-        self.obj.pos.z = graphicsConfig.getint("BaseLayout", "building_start_z")
+        self._obj = Models.get(value)
+        self._obj.pos.z = graphicsConfig.getint("BaseLayout", "building_start_z")
 
     def on_x(self, _instance, value):
-        self.obj.pos.x = value
+        self._obj.pos.x = value
 
     def on_y(self, _instance, value):
-        self.obj.pos.y = value
+        self._obj.pos.y = value
+
+    def on_rotation(self, _instance, value):
+        self._obj.rotation.z = value
 
     def set_renderer_and_scene(self, renderer: Renderer, scene: Scene):
         self.renderer = renderer
         self.scene = scene
 
-        self.scene.add(self.obj)
+        self.scene.add(self._obj)
         # noinspection PyProtectedMember
-        self.renderer._instructions.add(self.obj.as_instructions())
+        self.renderer._instructions.add(self._obj.as_instructions())
 
 
     def get_buttons(self) -> list[str]:
@@ -88,11 +92,11 @@ class BuildingBase(EventDispatcher, BetterLogger):
         self.log_debug("Storing self -", self)
 
         # noinspection PyProtectedMember
-        self.obj._instructions.clear()
+        self._obj._instructions.clear()
         # noinspection PyProtectedMember
-        self.renderer._instructions.remove(self.obj.as_instructions())
+        self.renderer._instructions.remove(self._obj.as_instructions())
 
-        self.scene.children.remove(self.obj)
+        self.scene.children.remove(self._obj)
         self.selected = False
 
         self.parent.buildings.remove(self)
@@ -109,11 +113,11 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
     def get_projected_corners(self) -> tuple[tuple[int, int], tuple[int, int]]:
         m = Matrix()
-        x, y, z = m.project(self.obj.pos[0] - 5, self.obj.pos[1] - 5, self.obj.pos[2] - 5,
-                             self.parent.camera.model_matrix, self.parent.camera.projection_matrix,
-                             self.parent.camera.pos.x, self.parent.camera.pos.y, width(), height())
+        x, y, z = m.project(self._obj.pos[0] - 5, self._obj.pos[1] - 5, self._obj.pos[2] - 5,
+                            self.parent.camera.model_matrix, self.parent.camera.projection_matrix,
+                            self.parent.camera.pos.x, self.parent.camera.pos.y, width(), height())
 
-        x2, y2, z2 = m.project(self.obj.pos[0] + 5, self.obj.pos[1] + 5, self.obj.pos[2],
+        x2, y2, z2 = m.project(self._obj.pos[0] + 5, self._obj.pos[1] + 5, self._obj.pos[2],
                                self.parent.camera.model_matrix, self.parent.camera.projection_matrix,
                                self.parent.camera.pos.x, self.parent.camera.pos.y, width(), height())
 
@@ -121,7 +125,7 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
     def get_projected_origin(self) -> tuple[int, int]:
         m = Matrix()
-        x, y, z = m.project(self.obj.pos[0], self.obj.pos[1], self.obj.pos[2],
+        x, y, z = m.project(self._obj.pos[0], self._obj.pos[1], self._obj.pos[2],
                             self.parent.camera.model_matrix, self.parent.camera.projection_matrix,
                             self.parent.camera.pos.x, self.parent.camera.pos.y, width(), height())
 

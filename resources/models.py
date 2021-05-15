@@ -25,10 +25,10 @@ class Models(BetterLogger):
         if not self.mtl_file_loaded:
             self.log_warning("Loading model before materials!")
 
-        # obj = self.loader.load(path, swapyz=graphicsConfig.getboolean("General", "swap_object_yz"))
+        # _obj = self.loader.load(path, swapyz=graphicsConfig.getboolean("General", "swap_object_yz"))
         meshes = self.loader.get_meshes(path, swapyz=graphicsConfig.getboolean("General", "swap_object_yz"))
         self.log_trace("Loaded model-", path)
-        return meshes  # obj
+        return meshes  # _obj
 
     def register_model(self, option: str, meshes: list[Mesh]):
         self._all_meshes[option] = meshes

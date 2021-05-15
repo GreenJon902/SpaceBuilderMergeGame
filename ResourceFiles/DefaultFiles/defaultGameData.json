@@ -3,17 +3,20 @@
     {
       "id": "drill",
       "x": 20,
-      "y": 12
+      "y": 12,
+      "rotation": 34
     },
     {
       "id": "drill",
       "x": 0,
-      "y": -8
+      "y": -8,
+      "rotation": 298
     },
     {
       "id": "rocket",
       "x": -4,
-      "y": 2
+      "y": 2,
+      "rotation": 97
     }
   ],
   "inventory": {

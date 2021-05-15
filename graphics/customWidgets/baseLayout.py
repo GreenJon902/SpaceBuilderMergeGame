@@ -101,9 +101,9 @@ class BaseLayout(FloatLayout, BetterLogger):
         building: BuildingBase
         for building in self.buildings:
             # I want my long time and effort to be remembered, this to so long, AND THE ANSWER WAS SO SIMPLE OMG
-            """bPos = building.obj.pos[0], building.obj.pos[1],  building.obj.pos[2]
-            bPos2 = building.obj.pos[0] + self.renderer.width, building.obj.pos[1] + self.renderer.height, 
-                    building.obj.pos[2]
+            """bPos = building._obj.pos[0], building._obj.pos[1],  building._obj.pos[2]
+            bPos2 = building._obj.pos[0] + self.renderer.width, building._obj.pos[1] + self.renderer.height, 
+                    building._obj.pos[2]
             cPos = self.camera.pos"""
 
             """bVPos = Vector3(bPos)
@@ -131,34 +131,34 @@ class BaseLayout(FloatLayout, BetterLogger):
             print(self.camera.rotation)"""
 
             """print(building)
-            print(building.obj.pos, building.obj.scale)
-            print(building.obj._instructions, building.obj._instructions.children)
+            print(building._obj.pos, building._obj.scale)
+            print(building._obj._instructions, building._obj._instructions.children)
             print()
             print()
-            print(building.obj._translate.matrix)
+            print(building._obj._translate.matrix)
             print()
             print()
-            print(building.obj._scale.matrix)
+            print(building._obj._scale.matrix)
             print()
             print()
-            print(building.obj._rotors["x"].matrix)
+            print(building._obj._rotors["x"].matrix)
             print()
-            print(building.obj._rotors["y"].matrix)
+            print(building._obj._rotors["y"].matrix)
             print()
-            print(building.obj._rotors["z"].matrix)"""
-            """print(building.obj.pos, (building.obj.pos[0] - (width() / 2), building.obj.pos[1] - (height() / 2)), 
-               building.obj.scale.xyz)
+            print(building._obj._rotors["z"].matrix)"""
+            """print(building._obj.pos, (building._obj.pos[0] - (width() / 2), building._obj.pos[1] - (height() / 2)), 
+               building._obj.scale.xyz)
             print(touch.pos)
             print(touch.pos[0] - (width() / 2), touch.pos[1] - (height() / 2))
             print(self.renderer.size)
             print(self.scatter_widget.scale)
-            print(Vector3.get_XY_from_camera(building.obj.pos, self.camera))
+            print(Vector3.get_XY_from_camera(building._obj.pos, self.camera))
             print()
             print()
             print()
             print()
             print(Matrix())
-            print(Matrix().project(building.obj.pos[0], building.obj.pos[1], building.obj.pos[2], Matrix(), Matrix(), 
+            print(Matrix().project(building._obj.pos[0], building._obj.pos[1], building._obj.pos[2], Matrix(), Matrix(), 
                   self.camera.pos.x, self.camera.pos.y, width(), height()))"""
 
 
