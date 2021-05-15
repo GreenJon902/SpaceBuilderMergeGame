@@ -30,11 +30,11 @@ if __name__ == "__main__":
     import kivy.core.window
     # Fixes sigsegv error when loading images because openGL was not initiated-https://github.com/kivy/kivy/issues/6173
     from kivy.logger import Logger
-    Logger.info("Base: kivy module fully loaded")
+    Logger.info("Base: Kivy module fully loaded")
 
     from lib.betterLogger import redo_logger_formatting, BetterLogger
     redo_logger_formatting()
-    Logger.info("Base: kivy logger overwritten")
+    Logger.info("Base: Kivy logger overwritten")
     base_logger: BetterLogger = BetterLogger(name="Base")
 
     """
@@ -44,15 +44,19 @@ if __name__ == "__main__":
     Resources.load_all()
     Logger.info("Base: resources setup and loaded")"""
 
+    from lib.saveManager import SaveManager
+    SaveManager.setup()
+    base_logger.log_info("SaveManager setup")
+
 
     import graphics
     graphics.setup()
-    base_logger.log_info("graphics module setup")
+    base_logger.log_info("Graphics module setup")
 
     graphics.load_pre_load_kv()
-    base_logger.log_info("pre load kv_language loaded")
+    base_logger.log_info("Pre load kv_language loaded")
 
-    base_logger.log_info("graphics ready too start")
+    base_logger.log_info("Graphics ready too start")
 
     graphics.start()
 

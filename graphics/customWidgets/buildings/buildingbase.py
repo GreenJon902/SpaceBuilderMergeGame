@@ -8,6 +8,7 @@ from configurables import gameData
 from graphics import graphicsConfig, height, width
 from graphics.spaceBuilderMergeGameScreenManager import get_screen
 from lib.betterLogger import BetterLogger
+from lib.saveManager import SaveManager
 from resources import Models
 
 
@@ -31,6 +32,8 @@ class BuildingBase(EventDispatcher, BetterLogger):
         self.on_building_id(self, self.type)
 
         EventDispatcher.__init__(self, *args, **kwargs)
+
+        SaveManager.register_update_game_data_function(self.update_game_data)
 
 
     def on_building_id(self, _instance, value):
@@ -81,7 +84,7 @@ class BuildingBase(EventDispatcher, BetterLogger):
             get_screen("BaseBuildScreen").ids["building_buttons_handler"].redo_buttons(self.button_ids, self)
 
     def __repr__(self) -> str:
-        return "Building(id=" + str(self.id) + "type=" + str(self.type) + "pos=" + str((self.x, self.y)) + \
+        return "Building(id=" + str(self.id) + ", type=" + str(self.type) + ", pos=" + str((self.x, self.y)) + \
                ", selected=" + str(self.selected) + ")"
 
 
@@ -112,6 +115,9 @@ class BuildingBase(EventDispatcher, BetterLogger):
     def save_values(self) -> dict[str, any]:
         return {"x": self.x, "y": self.y, "rotation": self.rotation, "type": self.type}
 
+    def update_game_data(self):
+        gameData.set_building_info(self.id, self.save_values)
+        print("updating for", self)
 
     def get_projected_corners(self) -> tuple[tuple[int, int], tuple[int, int]]:
         m = Matrix()

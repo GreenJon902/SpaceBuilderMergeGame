@@ -9,5 +9,6 @@
 
   "controls": {
     "scroll_sensitivity": 0.1
-  }
+  },
+  "time_between_save": 10
 }
