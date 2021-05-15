@@ -12,7 +12,8 @@ from resources import Models
 
 
 class BuildingBase(EventDispatcher, BetterLogger):
-    id: str = StringProperty(defaultvalue="None")
+    id: int = None
+    type: str = StringProperty(defaultvalue="None")
     _obj: Object3D = None
     x: float = NumericProperty(0)
     y: float = NumericProperty(0)
@@ -26,8 +27,8 @@ class BuildingBase(EventDispatcher, BetterLogger):
     def __init__(self, *args, **kwargs):
         BetterLogger.__init__(self)
         self.log_trace("Creating building with args", args, kwargs)
-        self.id = kwargs.pop("id")
-        self.on_building_id(self, self.id)
+        self.type = kwargs.pop("type")
+        self.on_building_id(self, self.type)
 
         EventDispatcher.__init__(self, *args, **kwargs)
 
@@ -80,12 +81,8 @@ class BuildingBase(EventDispatcher, BetterLogger):
             get_screen("BaseBuildScreen").ids["building_buttons_handler"].redo_buttons(self.button_ids, self)
 
     def __repr__(self) -> str:
-        base = str(object.__repr__(self))
-        base = base.replace("<", "")
-        base = base.replace(">", "")
-
-        return "<'" + base + "' pos=" + str((self.x, self.y)) + \
-               ", selected=" + str(self.selected) + ">"
+        return "Building(id=" + str(self.id) + "type=" + str(self.type) + "pos=" + str((self.x, self.y)) + \
+               ", selected=" + str(self.selected) + ")"
 
 
     def store(self):
@@ -108,12 +105,12 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
         Clock.schedule_once(un_turn, 0)
 
-        gameData.move_to_inventory(self.save_values)
+        gameData.move_to_inventory(self.id)
 
 
     @property
     def save_values(self) -> dict[str, any]:
-        return {"x": self.x, "y": self.y, "rotation": self.rotation, "id": self.id}
+        return {"x": self.x, "y": self.y, "rotation": self.rotation, "type": self.type}
 
 
     def get_projected_corners(self) -> tuple[tuple[int, int], tuple[int, int]]:

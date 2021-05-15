@@ -1,27 +1,22 @@
 {
-  "placed_buildings": [
-    {
-      "id": "drill",
-      "x": 20,
-      "y": 12,
-      "rotation": 34
+    "placed_buildings": {
+        "0": {
+            "type": "drill",
+            "x": 20,
+            "y": 12,
+            "rotation": 34
+        },
+        "1": {
+            "type": "rocket",
+            "x": -4,
+            "y": 2,
+            "rotation": 97
+        }
     },
-    {
-      "id": "drill",
-      "x": 0,
-      "y": -8,
-      "rotation": 298
-    },
-    {
-      "id": "rocket",
-      "x": -4,
-      "y": 2,
-      "rotation": 97
+    "inventory": {
+        "scrap_metal": 15,
+        "battery": 4,
+        "rocket": 1,
+        "drill": 2
     }
-  ],
-  "inventory": {
-    "scrap_metal": 15,
-    "battery": 4,
-    "rocket": 1
-  }
 }

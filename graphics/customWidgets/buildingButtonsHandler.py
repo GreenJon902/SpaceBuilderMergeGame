@@ -140,7 +140,7 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
 
 
             else:
-                self.log_critical("Wrong button id for building transform buttons -", button.button_id)
+                self.log_critical("Wrong button type for building transform buttons -", button.button_id)
 
             self.redo_building_move_buttons(building)
 
@@ -160,7 +160,7 @@ def button_pressed(better_button: BetterButton):
         function = building_button_id_to_function[better_button.button_id]
 
     except KeyError:
-        better_button.log_warning("Couldn't find function in building_button_id_to_function with the id -",
+        better_button.log_warning("Couldn't find function in building_button_id_to_function with the type -",
                                   better_button.button_id)
         return
 

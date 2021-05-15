@@ -41,11 +41,13 @@ class BaseLayout(FloatLayout, BetterLogger):
 
         self.log_info("Created renderer, starting to create building objects")
 
-        for building_info in gameData.get("placed_buildings"):
-            building_class = str_to_building[building_info["id"]]
+        for building_id in gameData.get("placed_buildings"):
+            building_info = gameData.get("placed_buildings", building_id)
+            building_class = str_to_building[building_info["type"]]
             building = building_class(**building_info)
+            building.id = building_id
 
-            self.log_debug("Created building object for", building_info)
+            self.log_debug("Created building object for building", building_id, "with info", building_info)
             self.add_building(building)
 
         self.log_info("Created objects -", self.buildings)
