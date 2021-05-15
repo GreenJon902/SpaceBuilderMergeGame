@@ -1,7 +1,7 @@
 from kivy3 import Object3D, Mesh
 
 from graphics import graphicsConfig
-from graphics.betterKv3 import OBJLoader
+from graphics.betterKv3.objLoader import OBJLoader
 from lib.betterLogger import BetterLogger
 
 
