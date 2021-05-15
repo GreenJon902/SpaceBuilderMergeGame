@@ -1,0 +1,12 @@
+{
+  "General": {
+    "Title": "RaumBaumeisterVerschmelzenSpiel",
+    "NoTextId": "Es wurde keine Text-ID angegeben",
+    "InvalidTextId": "Die Text-ID ist ungültig"
+  },
+  "Buttons": {
+    "Place": "Platz",
+    "Merge": "Verschmelzen",
+    "Recipes": "Rezepte"
+  }
+}
