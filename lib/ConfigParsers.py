@@ -1,7 +1,6 @@
 import json
 import os
 from configparser import ConfigParser
-from pprint import pprint
 
 from kivy.uix import screenmanager
 from kivy.uix.screenmanager import TransitionBase
@@ -140,6 +139,4 @@ class GameDataJSONParser(JSONParser):
 
     def move_to_inventory(self, building_id):
         self.add_to_inventory(self.array["placed_buildings"][str(building_id)]["type"], 1)
-        pprint(self.array)
         del self.array["placed_buildings"][str(building_id)]
-        pprint(self.array)
