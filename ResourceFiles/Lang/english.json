@@ -4,6 +4,9 @@
     "NoTextId": "No text id was given",
     "InvalidTextId": "Text ID is invalid"
   },
-  "BaseBuilder": {
+  "Buttons": {
+    "Place": "Place",
+    "Merge": "Merge",
+    "Recipes": "Recipes"
   }
 }

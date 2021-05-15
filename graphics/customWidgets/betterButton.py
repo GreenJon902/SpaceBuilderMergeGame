@@ -158,13 +158,16 @@ class FlatBetterButton(BetterLogger, ButtonBehavior, BoxLayout):
 
     label: MultiLangLabel = None
     text_id: str = StringProperty()
+    radius: dict[int] = graphicsConfig.gettuple("Buttons", "flat_radius")
+    color: dict[float] = graphicsConfig.gettuple("Buttons", "flat_color")
 
     def __init__(self, **kwargs):
         BetterLogger.__init__(self)
         ButtonBehavior.__init__(self)
         BoxLayout.__init__(self, **kwargs)
 
-        self.label = MultiLangLabel()
+        self.label = MultiLangLabel(font_name="Buttons-merge_options_text",
+                                    font_size=graphicsConfig.getint("Buttons", "flat_font_size"))
 
         self.add_widget(self.label)
 
@@ -175,8 +178,8 @@ class FlatBetterButton(BetterLogger, ButtonBehavior, BoxLayout):
         self.canvas.before.clear()
 
         with self.canvas.before:
-            Color(rgb=graphicsConfig.gettuple("Buttons", "flat_color"))
-            RoundedRectangle(pos=self.pos, size=self.size, radius=graphicsConfig.gettuple("Buttons", "flat_radius"))
+            Color(rgb=self.color)
+            RoundedRectangle(pos=self.pos, size=self.size, radius=self.radius)
 
     def on_pos(self, _instance, _value):
         self.redraw_bg()
