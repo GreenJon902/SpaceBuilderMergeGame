@@ -74,7 +74,7 @@
                         button_id: "item_unknown"
 
 
-                BoxLayout: # Option
+                BoxLayout: # Options
                     canvas.before:
                         Color:
                             rgb: 0, 0.16862745098, 0.43921568627
@@ -87,5 +87,12 @@
                     size_hint_y: graphicsConfig.get("InventoryScreen", "merge_options_size_hint_y")
                     padding: 5
 
+
                     FlatBetterButton:
                         text_id: "inventory.buttons.place"
+
+                    FlatBetterButton:
+                        text_id: "inventory.buttons.merge"
+
+                    FlatBetterButton:
+                        text_id: "inventory.buttons.recipes"
