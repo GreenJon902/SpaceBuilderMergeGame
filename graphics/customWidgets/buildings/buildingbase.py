@@ -117,7 +117,6 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
     def update_game_data(self):
         gameData.set_building_info(self.id, self.save_values)
-        print("updating for", self)
 
     def get_projected_corners(self) -> tuple[tuple[int, int], tuple[int, int]]:
         m = Matrix()
