@@ -12,7 +12,7 @@ from resources import Textures
 
 class BetterButton(ButtonBehavior, FloatLayout, BetterLogger):  # TODO: Fix bug where functions are ran too many times
     button_storage: any = ObjectProperty(None)
-    size_type: str = OptionProperty("small", options=["small", "big", "flat"])
+    size_type: str = OptionProperty("small", options=["small", "big"])
     bg_type: str = OptionProperty("both_blues", options=["dark_blue", "both_blues", "light_blue",
                                                          "alternate_very_dark_blue"])
     button_id: str = StringProperty("None")
