@@ -176,7 +176,7 @@ class FlatBetterButton(BetterLogger, ButtonBehavior, BoxLayout):
 
         with self.canvas.before:
             Color(rgb=graphicsConfig.gettuple("Buttons", "flat_color"))
-            RoundedRectangle(pos=self.pos, size=self.size, radius=[(40, 40), (40, 40), (40, 40), (40, 40)])
+            RoundedRectangle(pos=self.pos, size=self.size, radius=graphicsConfig.gettuple("Buttons", "flat_radius"))
 
     def on_pos(self, _instance, _value):
         self.redraw_bg()
