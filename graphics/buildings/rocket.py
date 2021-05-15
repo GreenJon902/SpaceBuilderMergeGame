@@ -1,4 +1,4 @@
-from graphics.customWidgets.buildings.buildingbase import BuildingBase
+from graphics.buildings.buildingbase import BuildingBase
 
 
 class Rocket(BuildingBase):

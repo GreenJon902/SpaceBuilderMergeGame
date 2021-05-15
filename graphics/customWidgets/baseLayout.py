@@ -9,8 +9,8 @@ from kivy3.extras.geometries import BoxGeometry
 
 import AppInfo
 from configurables import gameData
-from graphics.customWidgets.buildings import str_to_building
-from graphics.customWidgets.buildings.buildingbase import BuildingBase
+from graphics.buildings import str_to_building
+from graphics.buildings.buildingbase import BuildingBase
 from graphics.spaceBuilderMergeGameScreenManager import get_screen
 from lib.betterLogger import BetterLogger
 

@@ -1,5 +1,5 @@
-from graphics.customWidgets.buildings.drill import Drill
-from graphics.customWidgets.buildings.rocket import Rocket
+from graphics.buildings.drill import Drill
+from graphics.buildings.rocket import Rocket
 
 str_to_building = {
     "drill": Drill,

@@ -5,9 +5,9 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.widget import Widget
 
+from graphics.buildings.buildingbase import BuildingBase
 from graphics.customWidgets.betterButton import BetterButton
 from graphics.customWidgets.betterScatter import BetterScatter
-from graphics.customWidgets.buildings.buildingbase import BuildingBase
 from graphics.spaceBuilderMergeGameScreenManager import get_screen
 from lib.betterLogger import BetterLogger
 
