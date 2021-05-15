@@ -69,12 +69,20 @@ def value_from_list_of_keys(array, keys, i=0):
 
 class JSONParser(BetterLogger):
     array: dict = {}
+    path: str = ""
 
     def __init__(self, path: str):
         BetterLogger.__init__(self)
 
+        self.path = path
+
         self.log_debug("Loading file", path)
         self.array = json.load(open(path))
+
+    def save(self):
+        self.log_debug("Saving file", self.path)
+        json.dump(self.array, open(self.path, "w"), indent=4)
+        self.log_debug("Saved")
 
     def _get(self, *args):
         return value_from_list_of_keys(self.array, args)
@@ -111,13 +119,16 @@ class JSONParser(BetterLogger):
     def getbool(self, *args: any) -> bool:
         return bool(self.get(*args, called_by="t"))
 
+    def delete(self, *args: any):
+        print(value_from_list_of_keys(self.array, args))
+
 
 class GameDataJSONParser(JSONParser):
     """
     A nice wrapper class with some functions to help with saving game data like configuring inventory and dealing with
     that array!
     """
-    def add_to_inventory(self, item_id: str, amount: int):
+    def add_to_inventory(self, item_id: str, amount: int = 1):
         if item_id in self.array["inventory"]:
             self.array["inventory"][item_id] += amount
 
@@ -125,3 +136,8 @@ class GameDataJSONParser(JSONParser):
             self.array["inventory"][item_id] = amount
 
         self.log_trace("Added", amount, str(item_id) + "(s)", "to inventory")
+
+    def move_to_inventory(self, building_info):
+        self.add_to_inventory(building_info["id"], 1)
+        array: list = self.array["placed_buildings"]
+        array.remove(building_info)

@@ -108,7 +108,12 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
         Clock.schedule_once(un_turn, 0)
 
-        gameData.add_to_inventory(self.id, 1)
+        gameData.move_to_inventory(self.save_values)
+
+
+    @property
+    def save_values(self) -> dict[str, any]:
+        return {"x": self.x, "y": self.y, "rotation": self.rotation, "id": self.id}
 
 
     def get_projected_corners(self) -> tuple[tuple[int, int], tuple[int, int]]:
