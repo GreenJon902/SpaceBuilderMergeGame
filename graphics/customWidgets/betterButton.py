@@ -167,7 +167,7 @@ class FlatBetterButton(BetterLogger, ButtonBehavior, BoxLayout):
         BoxLayout.__init__(self, **kwargs)
 
         self.label = MultiLangLabel(font_name="Buttons-merge_options_text",
-                                    font_size=graphicsConfig.getint("Buttons", "flat_font_size"))
+                                    font_size=graphicsConfig.getint("Buttons", "flat_font_size"), size_hint=(1, 1))
 
         self.add_widget(self.label)
 
