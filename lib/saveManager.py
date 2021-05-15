@@ -1,4 +1,6 @@
 # noinspection PyProtectedMember
+from threading import Thread
+
 from kivy._clock import ClockEvent
 from kivy.clock import Clock
 from kivy.event import EventDispatcher
@@ -8,7 +10,7 @@ from lib.betterLogger import BetterLogger
 
 
 class _SaveManager(EventDispatcher, BetterLogger):
-    __log_name__ = "SaveManager"
+    tick_logger = BetterLogger(name="SaveManager_tick() | ")
 
     save_clock: ClockEvent = None
 
@@ -16,7 +18,7 @@ class _SaveManager(EventDispatcher, BetterLogger):
 
     def __init__(self):
         EventDispatcher.__init__(self)
-        BetterLogger.__init__(self)
+        BetterLogger.__init__(self, name="SaveManager")
 
     def setup(self):
         pass
@@ -32,21 +34,29 @@ class _SaveManager(EventDispatcher, BetterLogger):
         self.log_info("Clock stopped")
 
     def tick(self):
-        self.log_debug("Getting info to save for gameData")
+        t = Thread(target=self._tick)
+        self.log_trace("Created thread -", t, " Starting now")
+        self.tick_logger.__log_name_suffix__ = str(t.getName())
+        t.start()
+
+    def _tick(self):
+        logger = self.tick_logger
+
+        logger.log_debug("Getting info to save for gameData")
 
         for updater in self._game_data_updaters:
             updater()
 
+        logger.log_debug("Getting info to save for userSettings")
 
-        self.log_debug("Getting info to save for userSettings")
-
-
-        self.log_info("Saving...")
+        logger.log_info("Saving...")
 
         gameData.save()
         userSettings.save()
 
-        self.log_info("Saved")
+        logger.log_info("Saved")
+
+
 
     def register_update_game_data_function(self, function: callable):
         self._game_data_updaters.append(function)

@@ -82,7 +82,7 @@ class JSONParser(BetterLogger):
     def save(self):
         self.log_debug("Saving file", self.path)
         json.dump(self.array, open(self.path, "w"), indent=4)
-        self.log_debug("Saved")
+        self.log_trace("Saved")
 
     def _get(self, *args):
         return value_from_list_of_keys(self.array, args)
