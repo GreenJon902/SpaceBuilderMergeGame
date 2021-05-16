@@ -8,8 +8,9 @@ from kivy.lang import Builder
 
 import AppInfo
 from AppInfo import resources_dir
-from lib.ConfigParsers import PathConfigParser
+from lib.ConfigParsers import PathConfigParser, JSONParser
 from lib.betterLogger import BetterLogger
+from resources.gameConfig import GameConfig
 from resources.lang import Lang
 from resources.models import Models
 from resources.textures import Textures
@@ -23,19 +24,22 @@ class ResourceLinks(BetterLogger):
     language: PathConfigParser = PathConfigParser(interpolation=ExtendedInterpolation())
     texture: PathConfigParser = PathConfigParser(interpolation=ExtendedInterpolation())
     model: PathConfigParser = PathConfigParser(interpolation=ExtendedInterpolation())
+    gameConfig: PathConfigParser = PathConfigParser(interpolation=ExtendedInterpolation())
 
     audio_file_name: str = "audioLink.ini"
     font_file_name: str = "fontLink.ini"
     language_file_name: str = "langLink.ini"
     texture_file_name: str = "textureLink.ini"
     model_file_name: str = "modelLink.ini"
+    game_data_file_name: str = "gameConfigLink.ini"
 
     array: {str: PathConfigParser} = {
         "audio": audio,
         "font": font,
         "language": language,
         "texture": texture,
-        "model": model}
+        "model": model,
+        "gameConfig": gameConfig}
 
     def __init__(self, *args, **kwargs):
         BetterLogger.__init__(self, *args, **kwargs)
@@ -44,6 +48,7 @@ class ResourceLinks(BetterLogger):
         self.language.__log_name_prefix__ = "Language_"
         self.texture.__log_name_prefix__ = "Textures_"
         self.model.__log_name_prefix__ = "Models_"
+        self.gameConfig.__log_name_prefix__ = "GameConfig_"
 
     def load_link_files(self):
         self.log_debug("Loading link files")
@@ -53,6 +58,7 @@ class ResourceLinks(BetterLogger):
         self.language.read(os.path.join(resources_dir, self.language_file_name))
         self.texture.read(os.path.join(resources_dir, self.texture_file_name))
         self.model.read(os.path.join(resources_dir, self.model_file_name))
+        self.gameConfig.read(os.path.join(resources_dir, self.game_data_file_name))
 
         self.log_info("Loaded link files")
 
@@ -186,6 +192,9 @@ class ResourceLoader(BetterLogger):
                                                   {"type": "load_resource", "resource_type": "audio"},
                                                   {"type": "deal_resource", "resource_type": "audio"},
 
+                                                  {"type": "load_resource", "resource_type": "gameConfig"},
+                                                  {"type": "deal_resource", "resource_type": "gameConfig"},
+
                                                   {"type": "load_kv_lang"}]
             """{"resource_type": "texture", "resource_type": "mtlFile",
                                                       "resource_type": "model", "resource_type": "language",
@@ -263,6 +272,10 @@ class ResourceLoader(BetterLogger):
                 self.log_trace("Registered font -", task_info["path"], "for", task_info["section"] + "-" +
                                task_info["option"])
 
+            elif task_info["resource_type"] == "gameConfig":
+                parser = JSONParser(task_info["path"])
+                self.paths_to_resources[task_info["path"]] = parser
+
             else:
                 self.log_critical("No know resource_type -", task_info["resource_type"])
 
@@ -282,6 +295,10 @@ class ResourceLoader(BetterLogger):
 
             elif task_info["resource_type"] == "audio":
                 pass
+
+            elif task_info["resource_type"] == "gameConfig":
+                GameConfig.register(task_info["section"], task_info["option"],
+                                    self.paths_to_resources[task_info["path"]])
 
             else:
                 self.log_critical("No know resource_type -", task_info["resource_type"])
