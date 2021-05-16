@@ -138,11 +138,22 @@ class GameDataJSONParser(JSONParser):
 
         self.log_trace("Added", amount, str(item_id) + "(s)", "to inventory")
 
-    def move_to_inventory(self, building_id):
+    def move_to_inventory(self, building_id: str):
         self.add_to_inventory(self.array["placed_buildings"][str(building_id)]["type"], 1)
         self.array["placed_buildings"].pop(str(building_id))
 
         self.log_trace("Moved", str(building_id), "from placed to inventory")
+
+    def move_to_placed_buildings(self, building_type: str):
+        self.array["inventory"][str(building_type)] -= 1
+        if self.array["inventory"][str(building_type)] == 0:
+            self.array["inventory"].pop(str(building_type))
+
+        from graphics.spaceBuilderMergeGameScreenManager import get_screen
+        layout = get_screen("BaseBuildScreen").ids["base_layout"]
+        layout.add_building_with_id(building_type)
+
+        self.log_trace("Moved", building_type, "from inventory to place buildings")
 
     def set_building_info(self, building_id: int, building_save_values: dict[str, any]):
         self.array["placed_buildings"][str(building_id)] = building_save_values

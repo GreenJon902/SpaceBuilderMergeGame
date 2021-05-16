@@ -69,6 +69,28 @@ class BaseLayout(FloatLayout, BetterLogger):
         building.parent = self
         self.buildings.append(building)
 
+    def get_next_building_id(self):
+        ids = [building.id for building in self.buildings]
+
+        for i in range(len(self.buildings)+5):
+            if i not in ids:
+                return i
+
+        self.log_critical("Cant find valid id")
+
+    def add_building_with_id(self, building_type: str):
+        """
+        Puts building in any position, this is here because of move from inventory to placed buildings
+        """
+
+        pos = random.randint(-10, 10), random.randint(-10, 10)
+        building_class = str_to_building[building_type]
+        building = building_class(type=building_type, x=pos[0], y=pos[1])
+        building.id = self.get_next_building_id()
+        self.add_building(building)
+
+        self.log_debug("Created building object for building", building_type, "at pos", pos)
+
 
     def create_renderer(self):
         self.renderer.render(self.scene, self.camera)

@@ -1,3 +1,5 @@
+import functools
+
 from kivy.properties import ColorProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
@@ -6,6 +8,15 @@ from configurables import gameData
 from graphics import graphicsConfig, height
 from graphics.customWidgets.betterButton import TextBetterButton, FlatBetterButton
 from lib.betterLogger import BetterLogger
+
+
+# From https://stackoverflow.com/a/32922362/11411477 bc i dont know stuff like this well
+def ignore_args(func, *args, **kwargs):
+    @functools.wraps(func)
+    def newfunc(*_args, **_kwargs):
+        return func(*args, **kwargs)
+    return newfunc
+
 
 
 class InventoryScreen(Screen, BetterLogger):
@@ -30,7 +41,8 @@ class InventoryScreen(Screen, BetterLogger):
         for item, amount in items.items():
             b = TextBetterButton(button_id=str(item), size_type="big", show_amount_text=True, amount=amount
                                  )
-            b.on_release = lambda: self.item_pressed(b)
+            b.bind(on_release=ignore_args(self.item_pressed, b))
+            b.button_storage = str(item)
             self.ids["inventory_items_holder"].add_widget(b)
 
             self.log_trace("Added button -", b)
@@ -40,7 +52,10 @@ class InventoryScreen(Screen, BetterLogger):
 
 
     def item_pressed(self, button: TextBetterButton):
-        print(button, self.merge_option)
+        print(button, button.button_storage)
+        if self.merge_option == "place":
+            building_type = str(button.button_storage)
+            gameData.move_to_placed_buildings(building_type)
 
 
     def on_touch_down(self, touch):
