@@ -54,8 +54,8 @@ class ExtendedConfigParser(LoggedConfigParser):
         self.log_trace("Transition is", transition)
         return transition
 
-    def gettuple(self, *args: any, **kwargs: any) -> list:
-        string = self.get(*args, **kwargs, called_by="gettuple").replace("'",'\"')
+    def getdict(self, *args: any, **kwargs: any) -> list:
+        string = self.get(*args, **kwargs, called_by="getdict").replace("'", '\"')
         return json.loads(string)
 
 

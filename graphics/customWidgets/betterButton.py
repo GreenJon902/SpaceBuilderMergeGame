@@ -159,9 +159,9 @@ class FlatBetterButton(BetterLogger, ButtonBehavior, BoxLayout):
 
     label: MultiLangLabel = None
     text_id: str = StringProperty()
-    radius: dict[int] = graphicsConfig.gettuple("Buttons", "flat_radius")
-    bg_color: dict[float] = ColorProperty(graphicsConfig.gettuple("Buttons", "flat_color"))
-    label_color: dict[float] = ColorProperty(graphicsConfig.gettuple("Buttons", "flat_label_color"))
+    radius: dict[int] = graphicsConfig.getdict("Buttons", "flat_radius")
+    bg_color: dict[float] = ColorProperty(graphicsConfig.getdict("Buttons", "flat_color"))
+    label_color: dict[float] = ColorProperty(graphicsConfig.getdict("Buttons", "flat_label_color"))
 
     def __init__(self, **kwargs):
         BetterLogger.__init__(self)

@@ -86,8 +86,8 @@ class InventoryScreen(Screen, BetterLogger):
 
 
     def merge_option_button_clicked(self, id_of_clicked: str):
-        outer_color = graphicsConfig.gettuple("Buttons", "flat_color")
-        label_color = graphicsConfig.gettuple("Buttons", "flat_label_color")
+        outer_color = graphicsConfig.getdict("Buttons", "flat_color")
+        label_color = graphicsConfig.getdict("Buttons", "flat_label_color")
 
         button: FlatBetterButton
         for button_id in self.ids:
@@ -110,7 +110,7 @@ class InventoryScreen(Screen, BetterLogger):
             handled = True
             self.log_trace("Switched merge option to place")
 
-            self.merge_layout_cover_color = graphicsConfig.gettuple("InventoryScreen", "merge_cover_active_color")
+            self.merge_layout_cover_color = graphicsConfig.getdict("InventoryScreen", "merge_cover_active_color")
             self.merge_option = "place"
 
         else:
