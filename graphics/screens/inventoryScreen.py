@@ -54,7 +54,7 @@ class InventoryScreen(Screen, BetterLogger):
             if button_id != "merge_option_buttons_holder" and str(button_id).startswith("merge_option_"):
                 button = self.ids[button_id]
 
-                if button_id == id_of_clicked:
+                if button_id == id_of_clicked:  # TODO: Fix selected text coloring, for some reason its the wrong blue
                     button.bg_color = label_color
                     button.label_color = outer_color
 
