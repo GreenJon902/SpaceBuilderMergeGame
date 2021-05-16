@@ -107,8 +107,8 @@ class JSONParser(BetterLogger):
         return transition
 
 
-    def gettuple(self, *args: any) -> list:
-        return self.get(*args, called_by="gettuple").split(", ")
+    def getlist(self, *args: any) -> list:
+        return list(self.get(*args, called_by="getlist"))
 
 
     def getfloat(self, *args: any) -> float:

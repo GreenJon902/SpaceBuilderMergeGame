@@ -8,9 +8,10 @@ from configurables import gameData
 from graphics import graphicsConfig, height
 from graphics.customWidgets.betterButton import TextBetterButton, FlatBetterButton
 from lib.betterLogger import BetterLogger
-
-
 # From https://stackoverflow.com/a/32922362/11411477 bc i dont know stuff like this well
+from resources import GameConfig
+
+
 def ignore_args(func, *args, **kwargs):
     @functools.wraps(func)
     def newfunc(*_args, **_kwargs):
@@ -52,12 +53,17 @@ class InventoryScreen(Screen, BetterLogger):
             self.log_trace("Added button -", b)
 
 
-    def item_pressed(self, button: TextBetterButton):  # TODO: Check if building is actually a building
+    def item_pressed(self, button: TextBetterButton):
         if self.merge_option == "place":
             building_type = str(button.button_storage)
-            gameData.move_to_placed_buildings(building_type)
 
-            self.update_inventory()
+            if building_type in GameConfig.getlist("Buildings", "list"):
+                gameData.move_to_placed_buildings(building_type)
+
+                self.update_inventory()
+
+            else:
+                self.log_debug("Item", building_type, "was clicked on but is not a building")
 
 
     def on_touch_down(self, touch):
