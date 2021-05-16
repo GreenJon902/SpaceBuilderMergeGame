@@ -51,8 +51,8 @@ class InventoryScreen(Screen, BetterLogger):
         self.merge_option_button_clicked(graphicsConfig.get("InventoryScreen", "default_merge_option_id"))
 
 
-    def item_pressed(self, button: TextBetterButton):
-        print(button, button.button_storage)
+    def item_pressed(self, button: TextBetterButton):  # TODO: Check if building is actually a building
+        # TODO: Update buttons
         if self.merge_option == "place":
             building_type = str(button.button_storage)
             gameData.move_to_placed_buildings(building_type)
