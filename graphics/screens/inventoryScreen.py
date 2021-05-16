@@ -11,6 +11,9 @@ from lib.betterLogger import BetterLogger
 class InventoryScreen(Screen, BetterLogger):
     merge_layout_cover_color = ColorProperty([0, 0, 0, 0])
 
+    merge_option: str = None
+
+
     def __init__(self, **kwargs):
         BetterLogger.__init__(self)
         Screen.__init__(self, **kwargs)
@@ -25,13 +28,20 @@ class InventoryScreen(Screen, BetterLogger):
         items = unordered_items
 
         for item, amount in items.items():
-            b = TextBetterButton(button_id=str(item), size_type="big", show_amount_text=True, amount=amount)
+            b = TextBetterButton(button_id=str(item), size_type="big", show_amount_text=True, amount=amount
+                                 )
+            b.on_release = lambda: self.item_pressed(b)
             self.ids["inventory_items_holder"].add_widget(b)
 
             self.log_trace("Added button -", b)
 
 
         self.merge_option_button_clicked(graphicsConfig.get("InventoryScreen", "default_merge_option_id"))
+
+
+    def item_pressed(self, button: TextBetterButton):
+        print(button, self.merge_option)
+
 
     def on_touch_down(self, touch):
         Screen.on_touch_down(self, touch)
@@ -78,6 +88,7 @@ class InventoryScreen(Screen, BetterLogger):
             self.log_trace("Switched merge option to place")
 
             self.merge_layout_cover_color = graphicsConfig.gettuple("InventoryScreen", "merge_cover_active_color")
+            self.merge_option = "place"
 
         else:
             self.merge_layout_cover_color = 0, 0, 0, 0
