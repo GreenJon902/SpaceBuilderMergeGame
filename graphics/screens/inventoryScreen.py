@@ -45,7 +45,7 @@ class InventoryScreen(Screen, BetterLogger):
         items = unordered_items
 
         for item, amount in items.items():
-            b = TextBetterButton(button_id=str(item), size_type="big", show_amount_text=True, amount=amount)
+            b = TextBetterButton(button_id=str(item) + "_item", size_type="big", show_amount_text=True, amount=amount)
             b.bind(on_release=ignore_args(self.item_pressed, b))
             b.button_storage = str(item)
             self.ids["inventory_items_holder"].add_widget(b)
