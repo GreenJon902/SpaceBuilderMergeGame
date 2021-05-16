@@ -5,8 +5,10 @@
     "InvalidTextId": "Text ID is invalid"
   },
   "Buttons": {
-    "Place": "Place",
-    "Merge": "Merge",
-    "Recipes": "Recipes"
+    "MergeOptions": {
+      "Place": "Place",
+      "Merge": "Merge",
+      "Recipes": "Recipes"
+    }
   }
 }

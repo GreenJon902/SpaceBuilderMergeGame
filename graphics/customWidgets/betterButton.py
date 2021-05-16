@@ -1,5 +1,6 @@
 from kivy.graphics import RoundedRectangle, Color
-from kivy.properties import OptionProperty, StringProperty, NumericProperty, ObjectProperty, BooleanProperty
+from kivy.properties import OptionProperty, StringProperty, NumericProperty, ObjectProperty, BooleanProperty, \
+    ColorProperty
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
@@ -159,14 +160,15 @@ class FlatBetterButton(BetterLogger, ButtonBehavior, BoxLayout):
     label: MultiLangLabel = None
     text_id: str = StringProperty()
     radius: dict[int] = graphicsConfig.gettuple("Buttons", "flat_radius")
-    color: dict[float] = graphicsConfig.gettuple("Buttons", "flat_color")
+    bg_color: dict[float] = ColorProperty(graphicsConfig.gettuple("Buttons", "flat_color"))
+    label_color: dict[float] = ColorProperty(graphicsConfig.gettuple("Buttons", "flat_label_color"))
 
     def __init__(self, **kwargs):
         BetterLogger.__init__(self)
         ButtonBehavior.__init__(self)
         BoxLayout.__init__(self, **kwargs)
 
-        self.label = MultiLangLabel(font_name="Buttons-merge_options_text",
+        self.label = MultiLangLabel(font_name="Buttons-merge_options_text", color=self.label_color,
                                     font_size=graphicsConfig.getint("Buttons", "flat_font_size"), size_hint=(1, 1))
 
         self.add_widget(self.label)
@@ -178,7 +180,7 @@ class FlatBetterButton(BetterLogger, ButtonBehavior, BoxLayout):
         self.canvas.before.clear()
 
         with self.canvas.before:
-            Color(rgb=self.color)
+            Color(rgba=self.bg_color)
             RoundedRectangle(pos=self.pos, size=self.size, radius=self.radius)
 
     def on_pos(self, _instance, _value):
@@ -186,3 +188,9 @@ class FlatBetterButton(BetterLogger, ButtonBehavior, BoxLayout):
 
     def on_size(self, _instance, _value):
         self.redraw_bg()
+
+    def on_bg_color(self, _instance, _value):
+        self.redraw_bg()
+
+    def on_label_color(self, _instance, value):
+        self.label.color = value

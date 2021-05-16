@@ -2,7 +2,7 @@ from kivy.uix.screenmanager import Screen
 
 from configurables import gameData
 from graphics import graphicsConfig, height
-from graphics.customWidgets.betterButton import TextBetterButton
+from graphics.customWidgets.betterButton import TextBetterButton, FlatBetterButton
 from lib.betterLogger import BetterLogger
 
 
@@ -43,3 +43,21 @@ class InventoryScreen(Screen, BetterLogger):
             building.height = height() * graphicsConfig.getfloat("Buttons", "size_hint_y_big")
 
             # TODO: fix bug where not proper sizing on first open
+
+
+    def merge_option_button_clicked(self, id_of_clicked: str):
+        outer_color = graphicsConfig.gettuple("Buttons", "flat_color")
+        label_color = graphicsConfig.gettuple("Buttons", "flat_label_color")
+
+        button: FlatBetterButton
+        for button_id in self.ids:
+            if button_id != "merge_option_buttons_holder" and str(button_id).startswith("merge_option_"):
+                button = self.ids[button_id]
+
+                if button_id == id_of_clicked:
+                    button.bg_color = label_color
+                    button.label_color = outer_color
+
+                else:
+                    button.bg_color = outer_color
+                    button.label_color = label_color

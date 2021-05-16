@@ -1,5 +1,6 @@
 from kivy.core.image import Texture
-from kivy.properties import StringProperty
+from kivy.core.text import DEFAULT_FONT
+from kivy.properties import StringProperty, ColorProperty
 from kivy.uix.image import Image
 from kivy.uix.label import Label
 
@@ -9,7 +10,8 @@ from resources import Lang
 
 class MultiLangLabel(Image, BetterLogger):
     text_id: str = StringProperty("General.NoTextId")
-    font_name: str = StringProperty("regular")
+    font_name: str = StringProperty(DEFAULT_FONT)
+    color: dict = ColorProperty([1, 1, 1, 1])
     _text: str = ""
 
     _label: Label = Label(font_size="1000dp")
@@ -33,6 +35,7 @@ class MultiLangLabel(Image, BetterLogger):
     def do_texture(self):
         self._label.text = self._text
         self._label.font_name = self.font_name
+        self._label.color = self.color
 
         self._label.texture_update()
         self.texture = self._label.texture
@@ -43,3 +46,6 @@ class MultiLangLabel(Image, BetterLogger):
         except AttributeError:
             pass
         # self.source = "./ResourceFiles/Textures/buttons/chests.png"
+
+    def on_color(self, _instance, value):
+        self.do_texture()

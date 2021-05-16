@@ -74,7 +74,9 @@
                         button_id: "item_unknown"
 
 
-                BoxLayout: # Options
+                BoxLayout: # Merge Options
+                    id: merge_option_buttons_holder
+
                     canvas.before:
                         Color:
                             rgb: 0, 0.16862745098, 0.43921568627
@@ -90,10 +92,19 @@
 
 
                     FlatBetterButton:
-                        text_id: "Buttons.Place"
+                        id: merge_option_place
+
+                        text_id: "Buttons.MergeOptions.Place"
+                        on_release: root.merge_option_button_clicked("merge_option_place")
 
                     FlatBetterButton:
-                        text_id: "Buttons.Merge"
+                        id: merge_option_merge
+
+                        text_id: "Buttons.MergeOptions.Merge"
+                        on_release: root.merge_option_button_clicked("merge_option_merge")
 
                     FlatBetterButton:
-                        text_id: "Buttons.Recipes"
+                        id: merge_option_recipes
+
+                        text_id: "Buttons.MergeOptions.Recipes"
+                        on_release: root.merge_option_button_clicked("merge_option_recipes")
