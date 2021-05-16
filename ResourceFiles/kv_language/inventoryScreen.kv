@@ -71,6 +71,8 @@
 
 
                     Image: # Background
+                        id: merge_bg
+
                         pos: self.parent.pos
                         size: self.parent.size
 
@@ -84,6 +86,12 @@
 
                         bg_type: "alternate_very_dark_blue"
                         button_id: "unknown_item"
+
+                    MergeItemHolder: # Item Holder
+                        id: merge_item_holder
+
+                        bg_image_width: merge_bg.width
+                        bg_image_height: merge_bg.height
 
 
                 BoxLayout: # Merge Options
