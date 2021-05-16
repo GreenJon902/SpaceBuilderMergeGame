@@ -1,3 +1,5 @@
+from kivy.properties import ColorProperty
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
 
 from configurables import gameData
@@ -7,6 +9,8 @@ from lib.betterLogger import BetterLogger
 
 
 class InventoryScreen(Screen, BetterLogger):
+    merge_layout_cover_color = ColorProperty([0, 0, 0, 0])
+
     def __init__(self, **kwargs):
         BetterLogger.__init__(self)
         Screen.__init__(self, **kwargs)
@@ -25,6 +29,9 @@ class InventoryScreen(Screen, BetterLogger):
             self.ids["inventory_items_holder"].add_widget(b)
 
             self.log_trace("Added button -", b)
+
+
+        self.merge_option_button_clicked(graphicsConfig.get("InventoryScreen", "default_merge_option_id"))
 
     def on_touch_down(self, touch):
         Screen.on_touch_down(self, touch)
@@ -61,3 +68,19 @@ class InventoryScreen(Screen, BetterLogger):
                 else:
                     button.bg_color = outer_color
                     button.label_color = label_color
+
+
+        merge_layout: BoxLayout = self.ids["merge_layout"]
+        handled = False
+
+        if id_of_clicked == "merge_option_place":
+            handled = True
+            self.log_trace("Switched merge option to place")
+
+            self.merge_layout_cover_color = graphicsConfig.gettuple("InventoryScreen", "merge_cover_active_color")
+
+        else:
+            self.merge_layout_cover_color = 0, 0, 0, 0
+
+        if not handled:
+            self.log_critical("No know merge option", id_of_clicked)

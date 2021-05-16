@@ -50,6 +50,8 @@
                 orientation: "vertical"
 
                 FloatLayout: # Merge section
+                    id: merge_layout
+
                     canvas.before:
                         Color:
                             rgb: 0, 0.20392156862, 0.5294117647
@@ -57,6 +59,16 @@
                         Rectangle:
                             pos: self.pos
                             size: self.size
+
+
+                    canvas.after:
+                        Color:
+                            rgba: root.merge_layout_cover_color
+
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
 
                     Image: # Background
                         pos: self.parent.pos
