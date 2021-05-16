@@ -47,5 +47,5 @@ class MultiLangLabel(Image, BetterLogger):
             pass
         # self.source = "./ResourceFiles/Textures/buttons/chests.png"
 
-    def on_color(self, _instance, value):
+    def on_color(self, _instance, _value):
         self.do_texture()
