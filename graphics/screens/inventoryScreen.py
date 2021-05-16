@@ -31,7 +31,12 @@ class InventoryScreen(Screen, BetterLogger):
 
     def on_pre_enter(self, *args):
         self.ids["inventory_items_holder"].bind(size=self.on_inventory_items_holder_size)
+        self.update_inventory()
 
+        self.merge_option_button_clicked(graphicsConfig.get("InventoryScreen", "default_merge_option_id"))
+
+
+    def update_inventory(self):
         self.ids["inventory_items_holder"].clear_widgets()
 
         unordered_items: dict[str, int] = dict(gameData.get("inventory"))
@@ -39,8 +44,7 @@ class InventoryScreen(Screen, BetterLogger):
         items = unordered_items
 
         for item, amount in items.items():
-            b = TextBetterButton(button_id=str(item), size_type="big", show_amount_text=True, amount=amount
-                                 )
+            b = TextBetterButton(button_id=str(item), size_type="big", show_amount_text=True, amount=amount)
             b.bind(on_release=ignore_args(self.item_pressed, b))
             b.button_storage = str(item)
             self.ids["inventory_items_holder"].add_widget(b)
@@ -48,14 +52,12 @@ class InventoryScreen(Screen, BetterLogger):
             self.log_trace("Added button -", b)
 
 
-        self.merge_option_button_clicked(graphicsConfig.get("InventoryScreen", "default_merge_option_id"))
-
-
     def item_pressed(self, button: TextBetterButton):  # TODO: Check if building is actually a building
-        # TODO: Update buttons
         if self.merge_option == "place":
             building_type = str(button.button_storage)
             gameData.move_to_placed_buildings(building_type)
+
+            self.update_inventory()
 
 
     def on_touch_down(self, touch):
