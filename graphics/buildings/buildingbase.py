@@ -100,6 +100,8 @@ class BuildingBase(EventDispatcher, BetterLogger):
         self.selected = False
 
         self.parent.buildings.remove(self)
+        SaveManager.un_register_update_game_data_function(self.update_game_data)
+
         get_screen("BaseBuildScreen").ids["building_buttons_handler"].clear_buttons()
 
         self.parent = None

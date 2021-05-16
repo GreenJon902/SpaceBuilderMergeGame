@@ -140,9 +140,9 @@ class GameDataJSONParser(JSONParser):
 
     def move_to_inventory(self, building_id):
         self.add_to_inventory(self.array["placed_buildings"][str(building_id)]["type"], 1)
-        del self.array["placed_buildings"][str(building_id)]
+        self.array["placed_buildings"].pop(str(building_id))
 
-        self.log_trace("Moved", str(building_id) + "from placed to inventory")
+        self.log_trace("Moved", str(building_id), "from placed to inventory")
 
     def set_building_info(self, building_id: int, building_save_values: dict[str, any]):
         self.array["placed_buildings"][str(building_id)] = building_save_values

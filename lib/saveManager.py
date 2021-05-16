@@ -60,6 +60,11 @@ class _SaveManager(EventDispatcher, BetterLogger):
 
     def register_update_game_data_function(self, function: callable):
         self._game_data_updaters.append(function)
+        self.log_trace("Registered save function -", function)
+
+    def un_register_update_game_data_function(self, function: callable):
+        self._game_data_updaters.remove(function)
+        self.log_trace("Unregistered save function -", function)
 
 
 SaveManager: _SaveManager = _SaveManager()
