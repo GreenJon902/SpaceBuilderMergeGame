@@ -43,14 +43,15 @@ class MergeGUI(BetterLogger, FloatLayout):
         if mode == "merge_option_place":
             handled = True
 
-            self.set_all({})
+            self.clear_widgets()
+            self.log_trace("Mode set to place, cleared widgets")
 
 
         if mode == "merge_option_recipes":
             handled = True
 
         if not handled:
-            self.log_critical("No know merge option", mode)
+            self.log_critical("No know mode", mode)
 
 
     def do_layout(self, *args, **kwargs):
