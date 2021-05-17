@@ -81,6 +81,8 @@
                         allow_stretch: True
                         keep_ratio: True
 
+                        on_size: merge_item_holder.do_size(*args)
+
                     BetterButton:
                         pos_hint: {"center_x": 0.5, "center_y": 0.5}
 
@@ -89,8 +91,6 @@
 
                     MergeItemHolder: # Item Holder
                         id: merge_item_holder
-
-                        bg_image: merge_bg
 
 
                 BoxLayout: # Merge Options

@@ -1,5 +1,3 @@
-import functools
-
 from kivy.properties import ColorProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
@@ -7,17 +5,9 @@ from kivy.uix.screenmanager import Screen
 from configurables import gameData
 from graphics import graphicsConfig, height
 from graphics.customWidgets.betterButton import TextBetterButton, FlatBetterButton
+from lib import ignore_args
 from lib.betterLogger import BetterLogger
-# From https://stackoverflow.com/a/32922362/11411477 bc i dont know stuff like this well
 from resources import GameConfig
-
-
-def ignore_args(func, *args, **kwargs):
-    @functools.wraps(func)
-    def newfunc(*_args, **_kwargs):
-        return func(*args, **kwargs)
-    return newfunc
-
 
 
 class InventoryScreen(Screen, BetterLogger):
@@ -57,13 +47,25 @@ class InventoryScreen(Screen, BetterLogger):
         if self.merge_option == "place":
             building_type = str(button.button_storage)
 
-            if building_type in GameConfig.getlist("Buildings", "list"):
+            if building_type in GameConfig.get("Buildings", "list"):
                 gameData.move_to_placed_buildings(building_type)
 
                 self.update_inventory()
 
             else:
-                self.log_debug("Item", building_type, "was clicked on but is not a building")
+                self.log_trace("Item", building_type, "was clicked on but is not a building")
+
+        elif self.merge_option == "recipes":
+            item = str(button.button_storage)
+
+            if item in GameConfig.get("Buildings", "recipes"):
+                recipe = GameConfig.get("Buildings", "recipes", item)
+                self.log_trace("Creating GUI for recipe of item", item, "| Recipe is", recipe)
+
+                self.ids["merge_item_holder"].set_all(recipe)
+
+            else:
+                self.log_trace("Item", item, "was clicked on but is doesnt have a merge recipe")
 
 
     def on_touch_down(self, touch):
@@ -108,13 +110,19 @@ class InventoryScreen(Screen, BetterLogger):
 
         if id_of_clicked == "merge_option_place":
             handled = True
-            self.log_trace("Switched merge option to place")
+
 
             self.merge_layout_cover_color = graphicsConfig.getdict("InventoryScreen", "merge_cover_active_color")
             self.merge_option = "place"
 
         else:
             self.merge_layout_cover_color = 0, 0, 0, 0
+
+        if id_of_clicked == "merge_option_recipes":
+            handled = True
+            self.log_trace("Switched merge option to recipes")
+
+            self.merge_option = "recipes"
 
         if not handled:
             self.log_critical("No know merge option", id_of_clicked)
