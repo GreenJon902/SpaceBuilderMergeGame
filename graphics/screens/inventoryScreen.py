@@ -1,10 +1,10 @@
 from kivy.properties import ColorProperty
-from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
 
 from configurables import gameData
 from graphics import graphicsConfig, height
 from graphics.customWidgets.betterButton import TextBetterButton, FlatBetterButton
+from graphics.customWidgets.mergeGUI import MergeGUI
 from lib import ignore_args
 from lib.betterLogger import BetterLogger
 from resources import GameConfig
@@ -62,7 +62,7 @@ class InventoryScreen(Screen, BetterLogger):
                 recipe = GameConfig.get("Buildings", "recipes", item)
                 self.log_trace("Creating GUI for recipe of item", item, "| Recipe is", recipe)
 
-                self.ids["merge_item_holder"].set_all(recipe)
+                self.ids["merge_gui"].set_all(recipe)
 
             else:
                 self.log_trace("Item", item, "was clicked on but is doesnt have a merge recipe")
@@ -105,7 +105,8 @@ class InventoryScreen(Screen, BetterLogger):
                     button.label_color = label_color
 
 
-        merge_layout: BoxLayout = self.ids["merge_layout"]
+        merge_gui: MergeGUI = self.ids["merge_gui"]
+        merge_gui.mode = id_of_clicked
         handled = False
 
         if id_of_clicked == "merge_option_place":

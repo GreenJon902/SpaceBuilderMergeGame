@@ -1,3 +1,4 @@
+from kivy.properties import StringProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.image import Image
 
@@ -7,7 +8,8 @@ from lib import ignore_args
 from lib.betterLogger import BetterLogger
 
 
-class MergeItemHolder(BetterLogger, FloatLayout):
+class MergeGUI(BetterLogger, FloatLayout):
+    mode: str = StringProperty(None)
 
     def __init__(self, **kwargs):
         BetterLogger.__init__(self)
@@ -17,6 +19,8 @@ class MergeItemHolder(BetterLogger, FloatLayout):
 
     def set_all(self, items: dict):
         self.log_trace("Set all to", items)
+
+        self.clear_widgets()
 
         for item, amount in items.items():
             b = TextBetterButton(button_id=str(item) + "_item", size_type="big", show_amount_text=True, amount=amount)
@@ -31,6 +35,22 @@ class MergeItemHolder(BetterLogger, FloatLayout):
 
     def item_pressed(self, button: TextBetterButton):
         pass
+
+
+    def on_mode(self, _instance, mode):
+        handled = False
+
+        if mode == "merge_option_place":
+            handled = True
+
+            self.set_all({})
+
+
+        if mode == "merge_option_recipes":
+            handled = True
+
+        if not handled:
+            self.log_critical("No know merge option", mode)
 
 
     def do_layout(self, *args, **kwargs):

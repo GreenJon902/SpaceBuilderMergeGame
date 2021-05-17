@@ -51,7 +51,7 @@ def setup():
     from graphics.customWidgets.baseLayout import BaseLayout
     from graphics.customWidgets.betterButton import BetterButton, TextBetterButton, FlatBetterButton
     from graphics.customWidgets.buildingButtonsHandler import BuildingButtonsHandler
-    from graphics.customWidgets.mergeItemHolder import MergeItemHolder
+    from graphics.customWidgets.mergeGUI import MergeGUI
 
     Factory.register("SpaceBuilderMergeGameApp",
                      cls=SpaceBuilderMergeGameApp,
@@ -119,8 +119,8 @@ def setup():
                      cls=BuildingButtonsHandler,
                      module="graphics.customWidgets.buildingButtonsHandler")
 
-    Factory.register("MergeItemHolder",
-                     cls=MergeItemHolder,
+    Factory.register("MergeGUI",
+                     cls=MergeGUI,
                      module="graphics.customWidgets.mergeItemHolder")
 
     Logger.info("All classes have been assigned to Factory")
