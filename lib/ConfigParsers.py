@@ -17,7 +17,7 @@ class LoggedConfigParser(ConfigParser, BetterLogger):
     def get(self, *args: any, **kwargs: any) -> str:
         result: str = str(ConfigParser.get(self, *args, **kwargs))
         if "raw" not in kwargs:
-            self.log_debug("Got result", result, "from ini path", args[0], "|",
+            self.log_trace("Got result", result, "from ini path", args[0], "|",
                            args[1], ". Called with args", args, kwargs)
         return result
 
@@ -31,7 +31,7 @@ class PathConfigParser(LoggedConfigParser):
         result: str = str(LoggedConfigParser.get(self, *args, **kwargs))
         path = os.path.join(AppInfo.resources_dir, result)
         if "raw" not in kwargs:
-            self.log_debug("Got result", path, "from ini path", args[0], "|",
+            self.log_trace("Got result", path, "from ini path", args[0], "|",
                            args[1], ". Called with args", args, kwargs)
         return path
 
@@ -40,7 +40,7 @@ class ExtendedConfigParser(LoggedConfigParser):
     def get(self, *args: any, called_by: str = "MainScript", **kwargs: any) -> str:
         result = str(LoggedConfigParser.get(self, *args, **kwargs))
         if "raw" not in kwargs:
-            self.log_debug("Got result", result, "from ini path", args[0], "|",
+            self.log_trace("Got result", result, "from ini path", args[0], "|",
                            args[1], ". Called by", called_by, "with args", args, kwargs)
         return result
 
@@ -54,7 +54,7 @@ class ExtendedConfigParser(LoggedConfigParser):
         self.log_trace("Transition is", transition)
         return transition
 
-    def getdict(self, *args: any, **kwargs: any) -> list:
+    def getdict(self, *args: any, **kwargs: any) -> any:
         string = self.get(*args, **kwargs, called_by="getdict").replace("'", '\"')
         return json.loads(string)
 
@@ -91,7 +91,7 @@ class JSONParser(BetterLogger):
     def get(self, *args: any, called_by: str = "MainScript") -> any:
         result = self._get(*args)
 
-        self.log_debug("Got result", result, "from path", args, ". Called by", called_by, "with args", args)
+        self.log_trace("Got result", result, "from path", args, ". Called by", called_by, "with args", args)
         return result
 
 
@@ -122,6 +122,7 @@ class JSONParser(BetterLogger):
 
     def delete(self, *args: any):
         print(value_from_list_of_keys(self.array, args))
+
 
 
 class GameDataJSONParser(JSONParser):
