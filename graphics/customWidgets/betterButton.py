@@ -27,6 +27,8 @@ class BetterButton(ButtonBehavior, FloatLayout, BetterLogger):  # TODO: Fix bug 
     bg_image: Image = None
     fg_image: Image = None
 
+    bg_visible = BooleanProperty(True)
+
     def __init__(self, **kwargs):
         self.bg_image = Image(allow_stretch=True, keep_ratio=True)
         self.fg_image = Image(allow_stretch=True, keep_ratio=True)
@@ -98,6 +100,14 @@ class BetterButton(ButtonBehavior, FloatLayout, BetterLogger):  # TODO: Fix bug 
     def on_width(self, _instance, width):
         self.bg_image.width = width
         self.fg_image.width = width
+
+
+    def on_bg_visible(self, _instance, value):
+        if value:
+            self.bg_image.opacity = 1
+
+        else:
+            self.bg_image.opacity = 0
 
     def __repr__(self):
         return "BetterButton(button_id=" + str(self.button_id) + ", size_type=" + str(self.size_type) + ", bg_type=" + \

@@ -23,7 +23,8 @@ class MergeGUI(BetterLogger, FloatLayout):
         self.clear_widgets()
 
         for item, amount in items.items():
-            b = TextBetterButton(button_id=str(item) + "_item", size_type="big", show_amount_text=True, amount=amount)
+            b = TextBetterButton(button_id=str(item) + "_item", size_type="big", show_amount_text=True, amount=amount,
+                                 bg_visible=False)
             b.bind(on_release=ignore_args(self.item_pressed, b))
             b.button_storage = str(item)
             self.add_widget(b)
