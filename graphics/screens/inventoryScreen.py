@@ -62,7 +62,7 @@ class InventoryScreen(Screen, BetterLogger):
                 recipe = GameConfig.get("Buildings", "recipes", item)
                 self.log_trace("Creating GUI for recipe of item", item, "| Recipe is", recipe)
 
-                self.ids["merge_gui"].set_all(recipe)
+                self.ids["recipe_gui"].set_all(recipe)
 
             else:
                 self.log_trace("Item", item, "was clicked on but is doesnt have a merge recipe")
@@ -106,7 +106,7 @@ class InventoryScreen(Screen, BetterLogger):
 
 
         merge_gui: MergeGUI = self.ids["merge_gui"]
-        merge_gui.mode = id_of_clicked
+        recipe_gui: MergeGUI = self.ids["recipe_gui"]
         handled = False
 
         if id_of_clicked == "merge_option_place":
@@ -116,6 +116,9 @@ class InventoryScreen(Screen, BetterLogger):
             self.merge_layout_cover_color = graphicsConfig.getdict("InventoryScreen", "merge_cover_active_color")
             self.merge_option = "place"
 
+            merge_gui.active = False
+            recipe_gui.active = False
+
         else:
             self.merge_layout_cover_color = 0, 0, 0, 0
 
@@ -124,6 +127,9 @@ class InventoryScreen(Screen, BetterLogger):
             self.log_trace("Switched merge option to recipes")
 
             self.merge_option = "recipes"
+
+            merge_gui.active = False
+            recipe_gui.active = True
 
         if not handled:
             self.log_critical("No know merge option", id_of_clicked)

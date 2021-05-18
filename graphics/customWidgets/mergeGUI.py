@@ -1,4 +1,4 @@
-from kivy.properties import StringProperty
+from kivy.properties import BooleanProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.image import Image
 
@@ -9,7 +9,7 @@ from lib.betterLogger import BetterLogger
 
 
 class MergeGUI(BetterLogger, FloatLayout):
-    mode: str = StringProperty(None)
+    active: str = BooleanProperty(None)
 
     def __init__(self, **kwargs):
         BetterLogger.__init__(self)
@@ -37,21 +37,13 @@ class MergeGUI(BetterLogger, FloatLayout):
         pass
 
 
-    def on_mode(self, _instance, mode):
-        handled = False
+    def on_active(self, _instance, value: bool):
+        if bool(value):
+            self.opacity = 1
 
-        if mode == "merge_option_place":
-            handled = True
+        else:
+            self.opacity = 0
 
-            self.clear_widgets()
-            self.log_trace("Mode set to place, cleared widgets")
-
-
-        if mode == "merge_option_recipes":
-            handled = True
-
-        if not handled:
-            self.log_critical("No know mode", mode)
 
 
     def do_layout(self, *args, **kwargs):
