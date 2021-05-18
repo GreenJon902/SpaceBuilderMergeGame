@@ -18,7 +18,7 @@ class MergeGUI(BetterLogger, FloatLayout):
         self.size_hint = None, None
 
     def set_all(self, items: dict):
-        self.log_trace("Set all to", items)
+        self.log_deep_debug("Set all to", items)
 
         self.clear_widgets()
 
@@ -28,7 +28,7 @@ class MergeGUI(BetterLogger, FloatLayout):
             b.button_storage = str(item)
             self.add_widget(b)
 
-            self.log_trace("Added button -", b)
+            self.log_deep_debug("Added button -", b)
 
         self._trigger_layout()
 

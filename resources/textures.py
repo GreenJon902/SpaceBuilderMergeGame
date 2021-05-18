@@ -12,7 +12,7 @@ class Textures(BetterLogger):
     _textures: dict[str, dict[str, CoreImage]] = {}
 
     def register(self, section: str, option: str, core_image: CoreImage):
-        self.log_trace("Registering texture", core_image, "for", section, option)
+        self.log_deep_debug("Registering texture", core_image, "for", section, option)
 
         if section not in self._textures:
             self._textures[section] = {}

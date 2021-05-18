@@ -27,7 +27,7 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
     def __init__(self, *args, **kwargs):
         BetterLogger.__init__(self)
-        self.log_trace("Creating building with args", args, kwargs)
+        self.log_deep_debug("Creating building with args", args, kwargs)
         self.type = kwargs.pop("type")
         self.on_building_id(self, self.type)
 
@@ -37,7 +37,7 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
 
     def on_building_id(self, _instance, value):
-        self.log_trace("building_id changed to", value)
+        self.log_deep_debug("building_id changed to", value)
         self._obj = Models.get(value)
         self._obj.pos.z = graphicsConfig.getint("BaseLayout", "building_start_z")
 
@@ -74,12 +74,12 @@ class BuildingBase(EventDispatcher, BetterLogger):
     def button_ids(self) -> list[str]:
         b_ids = self.get_buttons()
 
-        self.log_trace("Getting buttons ids for", self, "got", b_ids)
+        self.log_deep_debug("Getting buttons ids for", self, "got", b_ids)
         return b_ids
 
 
     def on_selected(self, instance, value: bool):
-        self.log_trace("Selected switched to", value, "on building", instance)
+        self.log_deep_debug("Selected switched to", value, "on building", instance)
         if value:
             get_screen("BaseBuildScreen").ids["building_buttons_handler"].redo_buttons(self.button_ids, self)
 

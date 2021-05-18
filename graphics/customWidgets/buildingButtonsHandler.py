@@ -70,7 +70,7 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
             self.move_buttons_holder.add_widget(self.transform_button_1)
             self.move_buttons_holder.add_widget(self.transform_button_2)
 
-        self.log_trace("Added buttons to self, they are", self.custom_buttons_holder.children)
+        self.log_deep_debug("Added buttons to self, they are", self.custom_buttons_holder.children)
 
     def redo_building_move_buttons(self, building):
         (x, y), (x2, y2) = building.get_projected_corners()
@@ -85,11 +85,11 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
 
         self.move_buttons_holder.clear_widgets()
         self.custom_buttons_holder.clear_widgets()
-        self.log_trace("Cleared buttons")
+        self.log_deep_debug("Cleared buttons")
 
     def button_touch_down(self, button: BetterButton, touch: MotionEvent):
         if not touch.is_mouse_scrolling and button.collide_point(touch.x, touch.y):
-            self.log_trace("Started transforming building with button", button)
+            self.log_deep_debug("Started transforming building with button", button)
             touch.grab(button)
 
             building: BuildingBase = button.button_storage
@@ -146,7 +146,7 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
 
     def button_touch_up(self, button: BetterButton, touch: MotionEvent):
         if touch.grab_current == button:
-            self.log_trace("Finished transforming building with button", button)  # TODO: Remove double logging
+            self.log_deep_debug("Finished transforming building with button", button)  # TODO: Remove double logging
             touch.ungrab(button)
 
 

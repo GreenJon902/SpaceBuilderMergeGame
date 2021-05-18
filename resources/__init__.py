@@ -89,13 +89,13 @@ class ResourceLoader(BetterLogger):
 
         for file in os.listdir(AppInfo.kv_language_dir):
             path = os.path.join(AppInfo.kv_language_dir, file)
-            self.log_trace("Found file", file, " Path is", path)
+            self.log_deep_debug("Found file", file, " Path is", path)
 
             self.tasks.append({
                 "type": "load_kv_lang",
                 "path": path
             })
-            self.log_trace("Appended to list")
+            self.log_deep_debug("Appended to list")
 
         self.log_info("Finished getting all kv_file paths")
         self.__log_name_suffix__ = ""
@@ -123,9 +123,9 @@ class ResourceLoader(BetterLogger):
 
             for section in link.sections():
                 for option in link.options(section):
-                    self.log_trace("Getting path from |", section, "|", option, "...")
+                    self.log_deep_debug("Getting path from |", section, "|", option, "...")
                     path: str = link.get(section, option)
-                    self.log_trace("Path is", path)
+                    self.log_deep_debug("Path is", path)
 
                     self.total_links += 1
 
@@ -137,9 +137,9 @@ class ResourceLoader(BetterLogger):
                                 "resource_type": link_name,
                                 "path": path
                             })
-                            self.log_trace("Appended to list")
+                            self.log_deep_debug("Appended to list")
                         else:
-                            self.log_trace("Already in list, no changes!")
+                            self.log_deep_debug("Already in list, no changes!")
                         self.tasks.append({
                             "type": "deal_resource",
                             "resource_type": link_name,
@@ -156,12 +156,12 @@ class ResourceLoader(BetterLogger):
                             "option": option,
                             "path": path
                         })
-                        self.log_trace("Appended to list")
+                        self.log_deep_debug("Appended to list")
 
                     else:
                         self.log_critical("Link name ib first sort exclusion list isn't sorted -", link_name)
 
-        self.log_trace()
+        self.log_deep_debug()
 
         self.__log_name_suffix__ = ""
         self.log_info("Finished getting all paths")
@@ -174,7 +174,7 @@ class ResourceLoader(BetterLogger):
         # self.load_resource_from_path(str(self.paths_to_resources[list(self.paths_to_resources.keys())[self.paths_loaded]]))
 
         if self.tasks_completed == -1:  # order task list
-            self.log_trace("Ordering task list")
+            self.log_deep_debug("Ordering task list")
 
             correct_order_of_tasks: list[dict] = [{"type": "load_resource", "resource_type": "texture"},
                                                   {"type": "deal_resource", "resource_type": "texture"},
@@ -223,10 +223,10 @@ class ResourceLoader(BetterLogger):
 
             self.tasks = new_tasks_list
 
-            self.log_trace("Ordered task list -\n", str(self.tasks).replace("}, {", "},\n {"))
+            self.log_deep_debug("Ordered task list -\n", str(self.tasks).replace("}, {", "},\n {"))
 
         else:  # Task list is ordered
-            self.log_trace("Doing next task. Number is", self.tasks_completed)
+            self.log_deep_debug("Doing next task. Number is", self.tasks_completed)
 
             self.run_task(self.tasks[self.tasks_completed])
 
@@ -238,7 +238,7 @@ class ResourceLoader(BetterLogger):
 
     def run_task(self, task_info):
         self.__log_name_suffix__ = " | " + str(task_info["type"])
-        self.log_trace("Current task array is", task_info)
+        self.log_deep_debug("Current task array is", task_info)
 
         if task_info["type"] == "load_resource":
 
@@ -269,8 +269,8 @@ class ResourceLoader(BetterLogger):
             elif task_info["resource_type"] == "font":
                 LabelBase.register(name=task_info["section"] + "-" + task_info["option"],
                                    fn_regular=task_info["path"])
-                self.log_trace("Registered font -", task_info["path"], "for", task_info["section"] + "-" +
-                               task_info["option"])
+                self.log_deep_debug("Registered font -", task_info["path"], "for", task_info["section"] + "-" +
+                                    task_info["option"])
 
             elif task_info["resource_type"] == "gameConfig":
                 parser = JSONParser(task_info["path"])

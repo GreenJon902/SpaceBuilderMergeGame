@@ -75,7 +75,7 @@ class BetterScatter(ScatterLayout, BetterLogger):
                 graphicsConfig.getint("BaseLayout", "maximum_move_distance_for_select") and not \
                 touch.is_mouse_scrolling and touch.grab_current == self:
 
-            self.log_trace("Touch up and within 5 of touch origin, running base layout building select")
+            self.log_deep_debug("Touch up and within 5 of touch origin, running base layout building select")
             self.base_layout_on_touch_up_function(*self.to_local(*touch.pos))
 
         self.fix_transform_edges(touch)

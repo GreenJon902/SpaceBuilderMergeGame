@@ -35,7 +35,7 @@ class _SaveManager(EventDispatcher, BetterLogger):
 
     def tick(self):
         t = Thread(target=self._tick)
-        self.log_trace("Created thread -", t, " Starting now")
+        self.log_deep_debug("Created thread -", t, " Starting now")
         self.tick_logger.__log_name_suffix__ = str(t.getName())
         t.start()
 
@@ -60,11 +60,11 @@ class _SaveManager(EventDispatcher, BetterLogger):
 
     def register_update_game_data_function(self, function: callable):
         self._game_data_updaters.append(function)
-        self.log_trace("Registered save function -", function)
+        self.log_deep_debug("Registered save function -", function)
 
     def un_register_update_game_data_function(self, function: callable):
         self._game_data_updaters.remove(function)
-        self.log_trace("Unregistered save function -", function)
+        self.log_deep_debug("Unregistered save function -", function)
 
 
 SaveManager: _SaveManager = _SaveManager()

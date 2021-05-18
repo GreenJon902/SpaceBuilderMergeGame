@@ -44,8 +44,8 @@ def convert(array: {str: str}):
                 path[p + str(i)] = a[i]
 
     loop_inner(array, "")
-    BetterLogger(name="lang_converter").log_trace("Converted", array)
-    BetterLogger(name="lang_converter").log_trace("to", path)
+    BetterLogger(name="lang_converter").log_deep_debug("Converted", array)
+    BetterLogger(name="lang_converter").log_deep_debug("to", path)
     return path
 
 
@@ -60,7 +60,7 @@ class Lang(BetterLogger, EventDispatcher):
         self.language_code = userSettings.get("UI", "language")
 
     def register_array(self, array: {str: str}, language_code: str):
-        self.log_trace("Registering array for", language_code)
+        self.log_deep_debug("Registering array for", language_code)
 
         self.languages[language_code] = array
 

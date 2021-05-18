@@ -200,7 +200,7 @@ class BaseLayout(FloatLayout, BetterLogger):
                 break
 
         if to_select is None:
-            self.log_trace("User touched but no building was clicked")
+            self.log_deep_debug("User touched but no building was clicked")
             get_screen("BaseBuildScreen").ids["building_buttons_handler"].clear_buttons()
 
 

@@ -40,7 +40,7 @@ class InventoryScreen(Screen, BetterLogger):
             b.button_storage = str(item)
             self.ids["inventory_items_holder"].add_widget(b)
 
-            self.log_trace("Added button -", b)
+            self.log_deep_debug("Added button -", b)
 
 
     def item_pressed(self, button: TextBetterButton):
@@ -53,19 +53,19 @@ class InventoryScreen(Screen, BetterLogger):
                 self.update_inventory()
 
             else:
-                self.log_trace("Item", building_type, "was clicked on but is not a building")
+                self.log_deep_debug("Item", building_type, "was clicked on but is not a building")
 
         elif self.merge_option == "recipes":
             item = str(button.button_storage)
 
             if item in GameConfig.get("Buildings", "recipes"):
                 recipe = GameConfig.get("Buildings", "recipes", item)
-                self.log_trace("Creating GUI for recipe of item", item, "| Recipe is", recipe)
+                self.log_deep_debug("Creating GUI for recipe of item", item, "| Recipe is", recipe)
 
                 self.ids["recipe_gui"].set_all(recipe)
 
             else:
-                self.log_trace("Item", item, "was clicked on but is doesnt have a merge recipe")
+                self.log_deep_debug("Item", item, "was clicked on but is doesnt have a merge recipe")
 
 
     def on_touch_down(self, touch):
@@ -124,7 +124,7 @@ class InventoryScreen(Screen, BetterLogger):
 
         if id_of_clicked == "merge_option_recipes":
             handled = True
-            self.log_trace("Switched merge option to recipes")
+            self.log_deep_debug("Switched merge option to recipes")
 
             self.merge_option = "recipes"
 

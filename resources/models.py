@@ -11,7 +11,7 @@ class Models(BetterLogger):
     _all_meshes: dict[str, list[Mesh]] = {}
 
     def load_materials(self, path: str):
-        self.log_trace("Loading materials")
+        self.log_deep_debug("Loading materials")
 
         self.loader.mtl_source = path
         self.loader.load_mtl()
@@ -20,14 +20,14 @@ class Models(BetterLogger):
         self.log_debug("Loaded materials")
 
     def load_model(self, path: str) -> list[Mesh]:
-        self.log_trace("Loading model -", path)
+        self.log_deep_debug("Loading model -", path)
 
         if not self.mtl_file_loaded:
             self.log_warning("Loading model before materials!")
 
         # _obj = self.loader.load(path, swapyz=graphicsConfig.getboolean("General", "swap_object_yz"))
         meshes = self.loader.get_meshes(path, swapyz=graphicsConfig.getboolean("General", "swap_object_yz"))
-        self.log_trace("Loaded model-", path)
+        self.log_deep_debug("Loaded model-", path)
         return meshes  # _obj
 
     def register_model(self, option: str, meshes: list[Mesh]):

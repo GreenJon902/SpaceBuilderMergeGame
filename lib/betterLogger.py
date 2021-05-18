@@ -20,7 +20,7 @@ class BetterLogger:
         if suffix is not None:
             self.__log_name_suffix__ = str(suffix)
 
-    def log_trace(self, *args: any):
+    def log_deep_debug(self, *args: any):
         _Logger.debug(str(self.__log_name_prefix__) + str(self.__log_name__) + str(self.__log_name_suffix__) +
                       ": " + " ".join([str(arg) for arg in args]) + "" + "|||DEEP DEBUG|||")
 

@@ -28,7 +28,7 @@ class SpaceBuilderMergeGameScreenManager(ScreenManager, BetterLogger):
 
 
 def get_sm() -> SpaceBuilderMergeGameScreenManager:
-    BetterLogger().log_trace("get_sm(): Returning screen manager")
+    BetterLogger().log_deep_debug("get_sm(): Returning screen manager")
     return App.get_running_app().root.current
 
 

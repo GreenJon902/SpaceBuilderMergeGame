@@ -13,7 +13,7 @@ class GameConfig(JSONParser):
         BetterLogger.__init__(self)
 
     def register(self, section: str, option: str, parser: JSONParser):
-        self.log_trace("Registering config", parser, "for", section, option)
+        self.log_deep_debug("Registering config", parser, "for", section, option)
 
         if section not in self.array:
             self.array[section] = {}
