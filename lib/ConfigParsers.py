@@ -139,11 +139,13 @@ class GameDataJSONParser(JSONParser):
 
         self.log_trace("Added", amount, str(item_id) + "(s)", "to inventory")
 
-    def move_to_inventory(self, building_id: str):
-        self.add_to_inventory(self.array["placed_buildings"][str(building_id)]["type"], 1)
-        self.array["placed_buildings"].pop(str(building_id))
+    def move_to_inventory(self, building_id: int):
+        str_building_id = str(building_id)
 
-        self.log_trace("Moved", str(building_id), "from placed to inventory")
+        self.add_to_inventory(self.array["placed_buildings"][str_building_id]["type"], 1)
+        self.array["placed_buildings"].pop(str_building_id)
+
+        self.log_trace("Moved", str_building_id, "from placed to inventory")
 
     def move_to_placed_buildings(self, building_type: str):
         self.array["inventory"][str(building_type)] -= 1
