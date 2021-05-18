@@ -17,7 +17,7 @@ class LoggedConfigParser(ConfigParser, BetterLogger):
     def get(self, *args: any, **kwargs: any) -> str:
         result: str = str(ConfigParser.get(self, *args, **kwargs))
         if "raw" not in kwargs:
-            self.log_deep_debug("Got result", result, "from ini path", args[0], "|",
+            self.log_config("Got result", result, "from ini path", args[0], "|",
                                 args[1], ". Called with args", args, kwargs)
         return result
 
@@ -31,7 +31,7 @@ class PathConfigParser(LoggedConfigParser):
         result: str = str(LoggedConfigParser.get(self, *args, **kwargs))
         path = os.path.join(AppInfo.resources_dir, result)
         if "raw" not in kwargs:
-            self.log_deep_debug("Got result", path, "from ini path", args[0], "|",
+            self.log_config("Got result", path, "from ini path", args[0], "|",
                                 args[1], ". Called with args", args, kwargs)
         return path
 
@@ -40,7 +40,7 @@ class ExtendedConfigParser(LoggedConfigParser):
     def get(self, *args: any, called_by: str = "MainScript", **kwargs: any) -> str:
         result = str(LoggedConfigParser.get(self, *args, **kwargs))
         if "raw" not in kwargs:
-            self.log_deep_debug("Got result", result, "from ini path", args[0], "|",
+            self.log_config("Got result", result, "from ini path", args[0], "|",
                                 args[1], ". Called by", called_by, "with args", args, kwargs)
         return result
 
@@ -51,7 +51,7 @@ class ExtendedConfigParser(LoggedConfigParser):
     def getkivytranition(self, *args: any, **kwargs: any) -> TransitionBase:
         transition_str = self.get(*args, **kwargs, called_by="getkivytranition")
         transition = screenmanager.__dict__[transition_str]()
-        self.log_deep_debug("Transition is", transition)
+        self.log_config("Transition is", transition)
         return transition
 
     def getdict(self, *args: any, **kwargs: any) -> any:
@@ -83,7 +83,7 @@ class JSONParser(BetterLogger):
     def save(self):
         self.log_debug("Saving file", self.path)
         json.dump(self.array, open(self.path, "w"), indent=4)
-        self.log_deep_debug("Saved")
+        self.log_config("Saved")
 
     def _get(self, *args):
         return value_from_list_of_keys(self.array, args)
@@ -91,7 +91,7 @@ class JSONParser(BetterLogger):
     def get(self, *args: any, called_by: str = "MainScript") -> any:
         result = self._get(*args)
 
-        self.log_deep_debug("Got result", result, "from path", args, ". Called by", called_by, "with args", args)
+        self.log_config("Got result", result, "from path", args, ". Called by", called_by, "with args", args)
         return result
 
 
@@ -103,7 +103,7 @@ class JSONParser(BetterLogger):
     def getkivytranition(self, *args: any) -> str:
         transition_str = self.get(*args, called_by="getkivytranition")
         transition = screenmanager.__dict__[transition_str]()
-        self.log_deep_debug("Transition is", transition)
+        self.log_config("Transition is", transition)
         return transition
 
 
@@ -137,7 +137,7 @@ class GameDataJSONParser(JSONParser):
         else:
             self.array["inventory"][item_id] = amount
 
-        self.log_deep_debug("Added", amount, str(item_id) + "(s)", "to inventory")
+        self.log_config("Added", amount, str(item_id) + "(s)", "to inventory")
 
     def move_to_inventory(self, building_id: int):
         str_building_id = str(building_id)
@@ -145,7 +145,7 @@ class GameDataJSONParser(JSONParser):
         self.add_to_inventory(self.array["placed_buildings"][str_building_id]["type"], 1)
         self.array["placed_buildings"].pop(str_building_id)
 
-        self.log_deep_debug("Moved", str_building_id, "from placed to inventory")
+        self.log_config("Moved", str_building_id, "from placed to inventory")
 
     def move_to_placed_buildings(self, building_type: str):
         self.array["inventory"][str(building_type)] -= 1
@@ -156,9 +156,9 @@ class GameDataJSONParser(JSONParser):
         layout = get_screen("BaseBuildScreen").ids["base_layout"]
         layout.add_building_with_id(building_type)
 
-        self.log_deep_debug("Moved", building_type, "from inventory to place buildings")
+        self.log_config("Moved", building_type, "from inventory to place buildings")
 
     def set_building_info(self, building_id: int, building_save_values: dict[str, any]):
         self.array["placed_buildings"][str(building_id)] = building_save_values
 
-        self.log_deep_debug("Set building info for", building_id, "to", building_save_values)
+        self.log_config("Set building info for", building_id, "to", building_save_values)

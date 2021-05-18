@@ -1,6 +1,6 @@
 import os
 
-from kivy.logger import Logger as _Logger
+from kivy.logger import Logger as _Logger, BLACK
 
 
 class BetterLogger:
@@ -19,6 +19,10 @@ class BetterLogger:
 
         if suffix is not None:
             self.__log_name_suffix__ = str(suffix)
+
+    def log_config(self, *args: any):
+        _Logger.debug(str(self.__log_name_prefix__) + str(self.__log_name__) + str(self.__log_name_suffix__) +
+                      ": " + " ".join([str(arg) for arg in args]) + "" + "|||CONFIG|||")
 
     def log_deep_debug(self, *args: any):
         _Logger.debug(str(self.__log_name_prefix__) + str(self.__log_name__) + str(self.__log_name_suffix__) +
@@ -60,6 +64,18 @@ def redo_logger_formatting():
         except AttributeError:
             pass
 
+    ENABLE_CONFIG_LOGGING = bool(
+        os.environ.get("ENABLE_CONFIG_LOGGING"))  # Requires normal debug to be enabled
+    if not ENABLE_CONFIG_LOGGING:
+        try:
+            # noinspection PyUnresolvedReferences
+            #  we have the attribute error for a reason, this is set outside during run time
+            if logging.ENABLE_CONFIG_LOGGING:
+                ENABLE_CONFIG_LOGGING = True
+
+        except AttributeError:
+            pass
+
     class ColoredFormatter(_ColoredFormatter):
         def format(self, record: logging.LogRecord) -> str:
             # noinspection PyBroadException
@@ -79,6 +95,13 @@ def redo_logger_formatting():
                             str(COLOR_SEQ % (30 + WHITE)) + "[DEEP DEBUG")
                     record.levelname = levelname_color
                     record.msg = record.msg.replace("|||DEEP DEBUG|||", "")
+
+                elif "|||CONFIG|||" in record.msg:
+                    levelname_color: str = (
+                            str(COLOR_SEQ % (30 + BLACK)) + "[CONFIG")
+                    record.levelname = levelname_color
+                    record.msg = record.msg.replace("|||CONFIG|||", "")
+
                 else:
                     levelname_color: str = (
                             str(COLOR_SEQ % (30 + COLORS[levelname])) + "[" + levelname)
@@ -90,8 +113,13 @@ def redo_logger_formatting():
             if not ENABLE_DEEP_DEBUG and "|||DEEP DEBUG|||" in record.msg:
                 return False
 
+            elif not ENABLE_CONFIG_LOGGING and "|||CONFIG|||" in record.msg:
+                return False
+
             else:
                 return True
+
+
 
     # noinspection SpellCheckingInspection
     use_color: bool = (
