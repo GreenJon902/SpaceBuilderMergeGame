@@ -61,8 +61,8 @@ class InventoryScreen(Screen, BetterLogger):
         elif self.merge_option == "recipes":
             item = str(button.button_storage)
 
-            if item in GameConfig.get("Buildings", "recipes"):
-                recipe = GameConfig.get("Buildings", "recipes", item)
+            if item in GameConfig.get("Items", "recipes"):
+                recipe = GameConfig.get("Items", "recipes", item)
                 self.log_deep_debug("Creating GUI for recipe of item", item, "| Recipe is", recipe)
 
                 self.ids["recipe_gui"].set_all(recipe)
@@ -82,8 +82,33 @@ class InventoryScreen(Screen, BetterLogger):
                 self.log_deep_debug("Item was pressed while merge mode active cant move anymore because all "
                                     "have already been moved")
 
+            self.update_merge_option_gui_output()
+
         else:
             self.log_critical("No know merge option", self.merge_option)
+
+
+    def update_merge_option_gui_output(self):
+        items = list(self.ids["merge_gui"].get_all())
+        self.log_deep_debug("Updating merge option gui output with items -", items)
+
+        for recipe_product, recipe in GameConfig.get("Items", "recipes").items():
+            print(recipe_product, recipe)
+            matches: int = 0
+
+            if len(items) == len(recipe):  # If not then it cant be, this is probably more efficient
+                for i1 in recipe.items():
+                    for i2 in items:
+                        if i1[0] == i2[0]:
+                            if i1[1] <= i2[1]:
+                                self.log_deep_debug("Correct match for merge recipe part", i1, i2)
+                                matches += 1
+
+            if matches == len(recipe):
+                self.ids["merge_output_button"].button_id = str(recipe_product) + "_item"
+                break
+
+
 
 
     def on_touch_down(self, touch):
@@ -137,7 +162,7 @@ class InventoryScreen(Screen, BetterLogger):
             merge_gui.active = False
             recipe_gui.active = False
 
-            #self.ids["merge_output_button"].button_id = "unknown_item"
+            self.ids["merge_output_button"].button_id = "unknown_item"
 
         else:
             self.merge_layout_cover_color = 0, 0, 0, 0
@@ -151,7 +176,7 @@ class InventoryScreen(Screen, BetterLogger):
             merge_gui.active = False
             recipe_gui.active = True
 
-            #self.ids["merge_output_button"].button_id = self.current_recipe_button_id
+            self.ids["merge_output_button"].button_id = self.current_recipe_button_id
 
         if id_of_clicked == "merge_option_merge":
             handled = True
@@ -162,7 +187,7 @@ class InventoryScreen(Screen, BetterLogger):
             merge_gui.active = True
             recipe_gui.active = False
 
-            #self.ids["merge_output_button"].button_id = self.current_merge_output_button_id
+            self.ids["merge_output_button"].button_id = self.current_merge_output_button_id
 
         if not handled:
             self.log_critical("No know merge option", id_of_clicked)

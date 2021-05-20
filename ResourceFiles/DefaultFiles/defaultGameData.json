@@ -17,6 +17,7 @@
         "scrap_metal": 15,
         "battery": 4,
         "rocket": 1,
-        "drill": 2
+        "drill": 2,
+        "screw": 10
     }
 }
