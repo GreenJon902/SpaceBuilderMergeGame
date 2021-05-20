@@ -59,9 +59,16 @@ class MergeGUI(BetterLogger, FloatLayout):
                     self.remove_widget(button)
                     self.log_debug("Removed", button)
 
+                break
 
+    def get_moved_amount(self, item: str):
+        button: TextBetterButton
+        for button in self.children:
+            if button.button_storage == str(item):
+                return button.amount
 
-                return
+        self.log_deep_debug("Ran get_moved_amount but no button had that item - this is probably not a bug")
+        return 0
 
     def item_pressed(self, button: TextBetterButton):
         if self.mode == "merge":  # Move back

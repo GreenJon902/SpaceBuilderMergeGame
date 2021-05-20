@@ -70,7 +70,12 @@ class InventoryScreen(Screen, BetterLogger):
         elif self.merge_option == "merge":
             item = str(button.button_storage)
 
-            self.ids["merge_gui"].add(item)
+            if self.ids["merge_gui"].get_moved_amount(item) < gameData.get("inventory")[item]:
+                self.ids["merge_gui"].add(item)
+
+            else:
+                self.log_deep_debug("Item was pressed while merge mode active cant move anymore because all "
+                                    "have already been moved")
 
         else:
             self.log_critical("No know merge option", self.merge_option)
