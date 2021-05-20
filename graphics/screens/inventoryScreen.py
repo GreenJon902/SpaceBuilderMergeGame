@@ -15,6 +15,9 @@ class InventoryScreen(Screen, BetterLogger):
 
     merge_option: str = None
 
+    current_merge_output_button_id = "unknown_item"
+    current_recipe_button_id = "unknown_item"
+
 
     def __init__(self, **kwargs):
         BetterLogger.__init__(self)
@@ -63,6 +66,8 @@ class InventoryScreen(Screen, BetterLogger):
                 self.log_deep_debug("Creating GUI for recipe of item", item, "| Recipe is", recipe)
 
                 self.ids["recipe_gui"].set_all(recipe)
+                self.current_recipe_button_id = item + "_item"
+                self.ids["merge_output_button"].button_id = item + "_item"
 
             else:
                 self.log_deep_debug("Item", item, "was clicked on but is doesnt have a merge recipe")
@@ -132,6 +137,8 @@ class InventoryScreen(Screen, BetterLogger):
             merge_gui.active = False
             recipe_gui.active = False
 
+            #self.ids["merge_output_button"].button_id = "unknown_item"
+
         else:
             self.merge_layout_cover_color = 0, 0, 0, 0
 
@@ -144,6 +151,8 @@ class InventoryScreen(Screen, BetterLogger):
             merge_gui.active = False
             recipe_gui.active = True
 
+            #self.ids["merge_output_button"].button_id = self.current_recipe_button_id
+
         if id_of_clicked == "merge_option_merge":
             handled = True
             self.log_deep_debug("Switched merge option to merge")
@@ -152,6 +161,8 @@ class InventoryScreen(Screen, BetterLogger):
 
             merge_gui.active = True
             recipe_gui.active = False
+
+            #self.ids["merge_output_button"].button_id = self.current_merge_output_button_id
 
         if not handled:
             self.log_critical("No know merge option", id_of_clicked)

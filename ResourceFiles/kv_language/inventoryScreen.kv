@@ -84,10 +84,13 @@
                         on_size: merge_gui.do_size(*args)
                         on_size: recipe_gui.do_size(*args)
 
-                    BetterButton:
+                    TextBetterButton:
+                        id: merge_output_button
+
                         pos_hint: {"center_x": 0.5, "center_y": 0.5}
 
-                        bg_type: "alternate_very_dark_blue"
+                        bg_visible: False
+                        size_type: "big"
                         button_id: "unknown_item"
 
                     MergeGUI: # Item Holder
