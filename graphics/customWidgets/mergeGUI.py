@@ -1,4 +1,4 @@
-from kivy.properties import BooleanProperty
+from kivy.properties import BooleanProperty, OptionProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.image import Image
 
@@ -10,6 +10,7 @@ from lib.betterLogger import BetterLogger
 
 class MergeGUI(BetterLogger, FloatLayout):
     active: str = BooleanProperty(None)
+    mode: str = OptionProperty(None, options=["merge", "recipes"])
 
     def __init__(self, **kwargs):
         BetterLogger.__init__(self)
@@ -29,7 +30,7 @@ class MergeGUI(BetterLogger, FloatLayout):
             button.button_storage = str(item)
             self.add_widget(button)
 
-            self.log_deep_debug("Added button -", button)
+            self.log_debug("Added button -", button)
 
         self._trigger_layout()
 
@@ -47,12 +48,24 @@ class MergeGUI(BetterLogger, FloatLayout):
         button.button_storage = str(item)
         self.add_widget(button)
 
-        self.log_deep_debug("Added button -", button)
+        self.log_debug("Added button -", button)
+
+    def remove(self, item: str):
+        button: TextBetterButton
+        for button in self.children:
+            if button.button_storage == str(item):
+                button.amount -= 1
+                if button.amount <= 0:
+                    self.remove_widget(button)
+                    self.log_debug("Removed", button)
 
 
+
+                return
 
     def item_pressed(self, button: TextBetterButton):
-        pass
+        if self.mode == "merge":  # Move back
+            self.remove(button.button_storage)
 
 
     def on_active(self, _instance, value: bool):

@@ -72,6 +72,9 @@ class InventoryScreen(Screen, BetterLogger):
 
             self.ids["merge_gui"].add(item)
 
+        else:
+            self.log_critical("No know merge option", self.merge_option)
+
 
     def on_touch_down(self, touch):
         Screen.on_touch_down(self, touch)
