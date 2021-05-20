@@ -67,6 +67,11 @@ class InventoryScreen(Screen, BetterLogger):
             else:
                 self.log_deep_debug("Item", item, "was clicked on but is doesnt have a merge recipe")
 
+        elif self.merge_option == "merge":
+            item = str(button.button_storage)
+
+            self.ids["merge_gui"].add(item)
+
 
     def on_touch_down(self, touch):
         Screen.on_touch_down(self, touch)
@@ -130,6 +135,15 @@ class InventoryScreen(Screen, BetterLogger):
 
             merge_gui.active = False
             recipe_gui.active = True
+
+        if id_of_clicked == "merge_option_merge":
+            handled = True
+            self.log_deep_debug("Switched merge option to merge")
+
+            self.merge_option = "merge"
+
+            merge_gui.active = True
+            recipe_gui.active = False
 
         if not handled:
             self.log_critical("No know merge option", id_of_clicked)

@@ -23,15 +23,32 @@ class MergeGUI(BetterLogger, FloatLayout):
         self.clear_widgets()
 
         for item, amount in items.items():
-            b = TextBetterButton(button_id=str(item) + "_item", size_type="big", show_amount_text=True, amount=amount,
-                                 bg_visible=False)
-            b.bind(on_release=ignore_args(self.item_pressed, b))
-            b.button_storage = str(item)
-            self.add_widget(b)
+            button = TextBetterButton(button_id=str(item) + "_item", size_type="big", show_amount_text=True, amount=amount,
+                                      bg_visible=False)
+            button.bind(on_release=ignore_args(self.item_pressed, button))
+            button.button_storage = str(item)
+            self.add_widget(button)
 
-            self.log_deep_debug("Added button -", b)
+            self.log_deep_debug("Added button -", button)
 
         self._trigger_layout()
+
+
+    def add(self, item: str):
+        button: TextBetterButton
+        for button in self.children:
+            if button.button_storage == str(item):
+                button.amount += 1
+                return
+
+        button = TextBetterButton(button_id=str(item) + "_item", size_type="big", show_amount_text=True, amount=1,
+                                  bg_visible=False)
+        button.bind(on_release=ignore_args(self.item_pressed, button))
+        button.button_storage = str(item)
+        self.add_widget(button)
+
+        self.log_deep_debug("Added button -", button)
+
 
 
     def item_pressed(self, button: TextBetterButton):
@@ -44,6 +61,8 @@ class MergeGUI(BetterLogger, FloatLayout):
 
         else:
             self.opacity = 0
+
+        self.log_deep_debug("self.active set to", value, "and self.opacity set to", self.opacity, "for", self)
 
 
 
