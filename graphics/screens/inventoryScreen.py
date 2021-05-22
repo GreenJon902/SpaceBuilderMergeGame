@@ -134,19 +134,20 @@ class InventoryScreen(Screen, BetterLogger):
     def do_merge(self, product):
         if self.merge_option == "merge":
             if product is not None:
+
                 for item, amount in GameConfig.get("Items", "recipes", product).items():
                     self.ids["merge_gui"].remove(item, amount)
-
                     gameData.set("inventory", item, to=gameData.getint("inventory", item) - amount)
-                    gameData.set("inventory", product, to=gameData.getint("inventory", product) + 1)
 
-
+                gameData.set("inventory", product, to=gameData.getint("inventory", product) + 1)
 
             else:
                 self.log_deep_debug("merge_output button was pressed but nothing inside, ignoring it")
 
         else:
             self.log_deep_debug("merge_output button was pressed while merge_mode is not \"merge\", ignoring it")
+
+        self.update_inventory()
 
     def on_touch_down(self, touch):
         Screen.on_touch_down(self, touch)
