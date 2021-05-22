@@ -52,7 +52,7 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
 
         self.custom_buttons_holder.add_widget(self.spacer2)
 
-        if building.movable:  # TODO: Correct positioning when clicked on different building
+        if building.movable:  # TODO: Fix problem of buttons going everywhere because of fix of positioning
             self.transform_button_1 = BetterButton(button_id="move", size_type="small",
                                                    on_touch_down=self.button_touch_down,
                                                    on_touch_move=self.button_touch_move,
