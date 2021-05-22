@@ -92,6 +92,9 @@
                         bg_visible: False
                         size_type: "big"
                         button_id: "unknown_item"
+                        button_storage: None
+
+                        on_release: root.do_merge(self.button_storage)
 
                     MergeGUI: # Item Holder
                         id: merge_gui

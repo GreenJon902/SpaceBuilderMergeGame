@@ -111,6 +111,7 @@ class InventoryScreen(Screen, BetterLogger):
 
                 if not matched:
                     try:
+                        # noinspection PyUnboundLocalVariable
                         self.log_deep_debug("No merge recipe part", i1, i2)
                     except UnboundLocalError:  # Nothing in items dict
                         pass
@@ -121,13 +122,31 @@ class InventoryScreen(Screen, BetterLogger):
             if correct:
                 self.log_deep_debug("All merge recipe part matches found, item is", recipe_product)
                 self.ids["merge_output_button"].button_id = str(recipe_product) + "_item"
+                self.ids["merge_output_button"].button_storage = str(recipe_product)
                 has_changed_image = True
                 break
 
         if not has_changed_image:
             self.ids["merge_output_button"].button_id = "unknown_item"
+            self.ids["merge_output_button"].button_storage = None
 
 
+    def do_merge(self, product):
+        if self.merge_option == "merge":
+            if product is not None:
+                for item, amount in GameConfig.get("Items", "recipes", product).items():
+                    self.ids["merge_gui"].remove(item, amount)
+
+                    gameData.set("inventory", item, to=gameData.getint("inventory", item) - amount)
+                    gameData.set("inventory", product, to=gameData.getint("inventory", product) + 1)
+
+
+
+            else:
+                self.log_deep_debug("merge_output button was pressed but nothing inside, ignoring it")
+
+        else:
+            self.log_deep_debug("merge_output button was pressed while merge_mode is not \"merge\", ignoring it")
 
     def on_touch_down(self, touch):
         Screen.on_touch_down(self, touch)

@@ -68,6 +68,13 @@ def value_from_list_of_keys(array, keys, i=0):
         return value_from_list_of_keys(array[keys[i]], keys, i+1)
 
 
+def set_from_list_of_keys(array, keys, to, i=0,):
+    if len(keys) - 1 == i:
+        array[keys[i]] = to
+    else:
+        set_from_list_of_keys(array[keys[i]], keys, to, i+1)
+
+
 class JSONParser(BetterLogger):
     array: dict = {}
     path: str = ""
@@ -93,6 +100,16 @@ class JSONParser(BetterLogger):
 
         self.log_config("Got result", result, "from path", args, ". Called by", called_by, "with args", args)
         return result
+
+
+    def set(self, *args: any, to: any = None):
+        if to is None:
+            raise ValueError("argument to should be set to a value and should not be None")
+
+        else:
+            set_from_list_of_keys(self.array, args, to)
+            self.log_config("Set", args, "to", to)
+
 
 
     def getpath(self, *args: any) -> str:
