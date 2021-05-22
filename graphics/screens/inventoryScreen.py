@@ -87,7 +87,7 @@ class InventoryScreen(Screen, BetterLogger):
             self.log_critical("No know merge option", self.merge_option)
 
 
-    def update_merge_option_gui_output(self, instance):
+    def update_merge_option_gui_output(self, instance):  # TODO: Show how many you can make
         items = list(instance.get_all())
         self.log_deep_debug("Updating merge option gui output with items -", items)
         has_changed_image = False
