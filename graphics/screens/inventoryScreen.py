@@ -91,30 +91,29 @@ class InventoryScreen(Screen, BetterLogger):
     def update_merge_option_gui_output(self):
         items = list(self.ids["merge_gui"].get_all())
         self.log_deep_debug("Updating merge option gui output with items -", items)
-
-
         has_changed_image = False
 
 
         for recipe_product, recipe in GameConfig.get("Items", "recipes").items():
             correct = True
-            print(1, recipe, items, len(items), len(recipe), len(items) == len(recipe))
 
-            if len(items) == len(recipe):  # If not then it cant be, this is probably more efficient
-                print(2, recipe, items, len(items), len(recipe), len(items) == len(recipe))
-                for i1 in recipe.items():
-                    for i2 in items:
-                        matched = False
+            for i2 in items:
+                if i2[0] not in recipe.keys():
+                    correct = False
 
-                        if i1[0] == i2[0]:
-                            if i1[1] <= i2[1]:
-                                self.log_deep_debug("Correct match for merge recipe part", i1, i2)
-                                matched = True
 
-                        if not matched:
-                            self.log_deep_debug("No merge recipe part", i1, i2)
+            for i1 in recipe.items():
+                matched = False
+                for i2 in items:
+                    if i1[0] == i2[0]:
+                        if i1[1] <= i2[1]:
+                            self.log_deep_debug("Correct match for merge recipe part", i1, i2)
+                            matched = True
 
-                            correct = False
+                if not matched:
+                    self.log_deep_debug("No merge recipe part", i1, i2)
+
+                    correct = False
 
 
             if correct:
