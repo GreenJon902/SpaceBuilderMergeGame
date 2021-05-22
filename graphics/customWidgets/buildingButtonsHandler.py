@@ -64,7 +64,8 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
                                                    on_touch_up=self.button_touch_up,
                                                    button_storage=building)
             get_screen("BaseBuildScreen").ids["scatter"].bind(
-                on_transform_with_touch=lambda _instance, _value: self.redo_building_move_buttons(building), size=lambda _instance, _value: self.redo_building_move_buttons(building))
+                on_transform_with_touch=lambda _instance, _value: self.redo_building_move_buttons(building),
+                size=lambda _instance, _value: print(_instance, _value))
 
             self.move_buttons_holder.add_widget(self.transform_button_1)
             self.move_buttons_holder.add_widget(self.transform_button_2)

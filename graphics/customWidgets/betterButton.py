@@ -6,7 +6,6 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.image import Image
 from kivy.uix.label import Label
-from kivy.uix.widget import Widget
 
 from graphics import graphicsConfig
 from graphics.customWidgets.multiLangLabel import MultiLangLabel
@@ -35,7 +34,7 @@ class BetterButton(ButtonBehavior, FloatLayout, BetterLogger):  # TODO: Fix bug 
 
         BetterLogger.__init__(self)
         ButtonBehavior.__init__(self)
-        Widget.__init__(self, **kwargs)
+        FloatLayout.__init__(self, **kwargs)
 
         self.add_widget(self.bg_image)
         self.add_widget(self.fg_image)
