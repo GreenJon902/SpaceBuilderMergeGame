@@ -18,6 +18,11 @@ class MergeGUI(BetterLogger, FloatLayout):
 
         self.size_hint = None, None
 
+        self.register_event_type("on_items")
+
+    def on_items(self, *args):
+        pass
+
     def set_all(self, items: dict):
         self.log_deep_debug("Set all to", items)
 
@@ -40,6 +45,8 @@ class MergeGUI(BetterLogger, FloatLayout):
         for button in self.children:
             if button.button_storage == str(item):
                 button.amount += 1
+
+                self.dispatch("on_items")
                 return
 
         button = TextBetterButton(button_id=str(item) + "_item", size_type="big", show_amount_text=True, amount=1,
@@ -49,6 +56,8 @@ class MergeGUI(BetterLogger, FloatLayout):
         self.add_widget(button)
 
         self.log_debug("Added button -", button)
+
+        self.dispatch("on_items")
 
     def remove(self, item: str):
         button: TextBetterButton
@@ -60,6 +69,8 @@ class MergeGUI(BetterLogger, FloatLayout):
                     self.log_debug("Removed", button)
 
                 break
+
+        self.dispatch("on_items")
 
     def get_moved_amount(self, item: str):
         button: TextBetterButton

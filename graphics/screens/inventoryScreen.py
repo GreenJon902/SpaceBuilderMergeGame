@@ -25,6 +25,7 @@ class InventoryScreen(Screen, BetterLogger):
 
     def on_pre_enter(self, *args):
         self.ids["inventory_items_holder"].bind(size=self.on_inventory_items_holder_size)
+        self.ids["merge_gui"].bind(on_items=self.update_merge_option_gui_output)
         self.update_inventory()
 
         self.merge_option_button_clicked(graphicsConfig.get("InventoryScreen", "default_merge_option_id"))
@@ -82,14 +83,12 @@ class InventoryScreen(Screen, BetterLogger):
                 self.log_deep_debug("Item was pressed while merge mode active cant move anymore because all "
                                     "have already been moved")
 
-            self.update_merge_option_gui_output()
-
         else:
             self.log_critical("No know merge option", self.merge_option)
 
 
-    def update_merge_option_gui_output(self):
-        items = list(self.ids["merge_gui"].get_all())
+    def update_merge_option_gui_output(self, instance):
+        items = list(instance.get_all())
         self.log_deep_debug("Updating merge option gui output with items -", items)
         has_changed_image = False
 
@@ -111,7 +110,10 @@ class InventoryScreen(Screen, BetterLogger):
                             matched = True
 
                 if not matched:
-                    self.log_deep_debug("No merge recipe part", i1, i2)
+                    try:
+                        self.log_deep_debug("No merge recipe part", i1, i2)
+                    except UnboundLocalError:  # Nothing in items dict
+                        pass
 
                     correct = False
 
