@@ -1,5 +1,6 @@
 import math
 
+from kivy.clock import Clock
 from kivy.input import MotionEvent
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
@@ -52,7 +53,6 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
         self.custom_buttons_holder.add_widget(self.spacer2)
 
         if building.movable:  # TODO: Correct positioning when clicked on different building
-            # TODO: Get correct positioning of button 1
             self.transform_button_1 = BetterButton(button_id="move", size_type="small",
                                                    on_touch_down=self.button_touch_down,
                                                    on_touch_move=self.button_touch_move,
@@ -63,12 +63,15 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
                                                    on_touch_move=self.button_touch_move,
                                                    on_touch_up=self.button_touch_up,
                                                    button_storage=building)
-            self.redo_building_move_buttons(building)
             get_screen("BaseBuildScreen").ids["scatter"].bind(
-                on_transform_with_touch=lambda _instance, _value: self.redo_building_move_buttons(building))
+                on_transform_with_touch=lambda _instance, _value: self.redo_building_move_buttons(building), size=lambda _instance, _value: self.redo_building_move_buttons(building))
 
             self.move_buttons_holder.add_widget(self.transform_button_1)
             self.move_buttons_holder.add_widget(self.transform_button_2)
+
+            # TODO: Find better solution
+            Clock.schedule_once(lambda _elapsed_time: self.redo_building_move_buttons(building), 0)
+
 
         self.log_deep_debug("Added buttons to self, they are", self.custom_buttons_holder.children)
 
@@ -81,7 +84,7 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
         self.transform_button_2.x, self.transform_button_2.y = x2, y2
 
     def clear_buttons(self):
-        get_screen("BaseBuildScreen").ids["scatter"].unbind(on_transform_with_touch=self.redo_building_move_buttons)
+        get_screen("BaseBuildScreen").ids["scatter"].unbind(on_transform_with_touch=self.redo_building_move_buttons, size=self.redo_building_move_buttons)
 
         self.move_buttons_holder.clear_widgets()
         self.custom_buttons_holder.clear_widgets()
