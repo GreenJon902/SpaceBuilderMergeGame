@@ -14,7 +14,6 @@
         }
     },
     "inventory": {
-        "scrap_metal": 15,
         "battery": 4,
         "rocket": 1,
         "drill": 2,

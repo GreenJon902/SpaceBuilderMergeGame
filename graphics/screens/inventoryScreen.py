@@ -139,7 +139,11 @@ class InventoryScreen(Screen, BetterLogger):
                     self.ids["merge_gui"].remove(item, amount)
                     gameData.set("inventory", item, to=gameData.getint("inventory", item) - amount)
 
-                gameData.set("inventory", product, to=gameData.getint("inventory", product) + 1)
+                try:
+                    gameData.set("inventory", product, to=gameData.getint("inventory", product) + 1)
+
+                except KeyError:
+                    gameData.set("inventory", product, to=1)
 
             else:
                 self.log_deep_debug("merge_output button was pressed but nothing inside, ignoring it")
