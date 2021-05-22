@@ -59,14 +59,14 @@ class MergeGUI(BetterLogger, FloatLayout):
 
         self.dispatch("on_items")
 
-    def remove(self, item: str):
+    def remove(self, item: str, amount: int = 1):
         button: TextBetterButton
         for button in self.children:
             if button.button_storage == str(item):
-                button.amount -= 1
+                button.amount -= amount
                 if button.amount <= 0:
                     self.remove_widget(button)
-                    self.log_debug("Removed", button)
+                    self.log_debug("Removed", amount, "of", button)
 
                 break
 
@@ -88,7 +88,7 @@ class MergeGUI(BetterLogger, FloatLayout):
 
     def item_pressed(self, button: TextBetterButton):
         if self.mode == "merge":  # Move back
-            self.remove(button.button_storage)
+            self.remove(button.button_storage, amount=1)
 
 
     def on_active(self, _instance, value: bool):
