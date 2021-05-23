@@ -1,3 +1,4 @@
+from kivy.input import MotionEvent
 from kivy.properties import BooleanProperty, OptionProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.image import Image
@@ -87,8 +88,16 @@ class MergeGUI(BetterLogger, FloatLayout):
             yield button.button_storage, button.amount
 
     def item_pressed(self, button: TextBetterButton):
+        item = str(button.button_storage)
+        touch: MotionEvent = button.last_touch
+        item_large_move_amount = graphicsConfig.getint("InventoryScreen", "item_large_move_amount")
+
         if self.mode == "merge":  # Move back
-            self.remove(button.button_storage, amount=1)
+            if (touch.is_double_tap or touch.is_triple_tap):
+                self.remove(item, item_large_move_amount)
+
+            else:
+                self.remove(item, 1)
 
 
     def on_active(self, _instance, value: bool):
