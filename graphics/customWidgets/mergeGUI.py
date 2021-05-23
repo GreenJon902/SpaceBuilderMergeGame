@@ -40,11 +40,11 @@ class MergeGUI(BetterLogger, FloatLayout):
         self._trigger_layout()
 
 
-    def add(self, item: str):
+    def add(self, item: str, amount: int = 1):
         button: TextBetterButton
         for button in self.children:
             if button.button_storage == str(item):
-                button.amount += 1
+                button.amount += amount
 
                 self.dispatch("on_items")
                 return

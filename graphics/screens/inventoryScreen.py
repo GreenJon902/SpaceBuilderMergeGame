@@ -1,3 +1,4 @@
+from kivy.input import MotionEvent
 from kivy.properties import ColorProperty
 from kivy.uix.screenmanager import Screen
 
@@ -75,9 +76,16 @@ class InventoryScreen(Screen, BetterLogger):
 
         elif self.merge_option == "merge":
             item = str(button.button_storage)
+            touch: MotionEvent = button.last_touch
+            item_large_move_amount = graphicsConfig.getint("InventoryScreen", "item_large_move_amount")
 
-            if self.ids["merge_gui"].get_moved_amount(item) < gameData.get("inventory")[item]:
-                self.ids["merge_gui"].add(item)
+            if (touch.is_double_tap or touch.is_triple_tap) and \
+                    (self.ids["merge_gui"].get_moved_amount(item) < gameData.get("inventory")[item] -
+                     (item_large_move_amount - 1)):
+                self.ids["merge_gui"].add(item, item_large_move_amount)
+
+            elif self.ids["merge_gui"].get_moved_amount(item) < gameData.get("inventory")[item]:
+                self.ids["merge_gui"].add(item, 1)
 
             else:
                 self.log_deep_debug("Item was pressed while merge mode active cant move anymore because all "
