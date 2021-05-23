@@ -9,7 +9,7 @@ from graphics import graphicsConfig, height, width
 from graphics.spaceBuilderMergeGameScreenManager import get_screen
 from lib.betterLogger import BetterLogger
 from lib.saveManager import SaveManager
-from resources import Models
+from resources import Models, GameConfig
 
 
 class BuildingBase(EventDispatcher, BetterLogger):
@@ -111,6 +111,34 @@ class BuildingBase(EventDispatcher, BetterLogger):
         Clock.schedule_once(un_turn, 0)
 
         gameData.move_to_inventory(self.id)
+
+
+    def scrap(self):
+        self.log_debug("Storing self -", self)
+
+        # noinspection PyProtectedMember
+        self._obj._instructions.clear()
+        # noinspection PyProtectedMember
+        self.renderer._instructions.remove(self._obj.as_instructions())
+
+        self.scene.children.remove(self._obj)
+        self.selected = False
+
+        self.parent.buildings.remove(self)
+        SaveManager.un_register_update_game_data_function(self.update_game_data)
+
+        get_screen("BaseBuildScreen").ids["building_buttons_handler"].clear_buttons()
+
+        self.parent = None
+
+        get_screen("BaseBuildScreen").ids["scatter"].rotation += 0.001
+
+        Clock.schedule_once(un_turn, 0)
+
+        for item, amount in dict(GameConfig.get("Buildings", "scrap_products", self.type)).items():
+            gameData.add_to_inventory(item, amount)
+
+        print(gameData.get("inventory"))
 
 
     @property

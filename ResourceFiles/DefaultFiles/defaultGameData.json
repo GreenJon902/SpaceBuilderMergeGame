@@ -4,26 +4,9 @@
             "x": 4,
             "y": -7,
             "rotation": 0,
-            "type": "drill"
-        },
-        "1": {
-            "x": -4,
-            "y": 2,
-            "rotation": 97,
             "type": "rocket"
-        },
-        "2": {
-            "x": -8,
-            "y": -7.43,
-            "rotation": 34,
-            "type": "drill"
         }
     },
     "inventory": {
-        "battery": 4,
-        "rocket": 1,
-        "drill": 1,
-        "screw": 10,
-        "scrap_metal":32
     }
 }

@@ -1,12 +1,11 @@
 {
     "drill": {
-      "scrap_metal": 13,
+      "metal": 13,
       "screw": 64,
       "battery": 12
     },
-
-  "scrap_metal": {
-    "screw": 4,
-    "battery": 2
+  "metal": {
+    "scrap_metal": 1,
+    "oil": 1
   }
 }

@@ -1,0 +1,8 @@
+{
+  "rocket": {
+    "screw": 94,
+    "scrap_metal": 24,
+    "oil": 16,
+    "battery": 28
+  }
+}

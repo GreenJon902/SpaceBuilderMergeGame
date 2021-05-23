@@ -155,7 +155,8 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
 
 
 building_button_id_to_function: dict[str, callable] = {
-    "store": lambda building: building.store()
+    "store": lambda building: building.store(),
+    "scrap": lambda building: building.scrap()
 }
 
 
