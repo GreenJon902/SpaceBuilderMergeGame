@@ -138,8 +138,6 @@ class BuildingBase(EventDispatcher, BetterLogger):
         for item, amount in dict(GameConfig.get("Buildings", "scrap_products", self.type)).items():
             gameData.add_to_inventory(item, amount)
 
-        print(gameData.get("inventory"))
-
 
     @property
     def save_values(self) -> dict[str, any]:
