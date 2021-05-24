@@ -35,17 +35,31 @@ class InventoryScreen(Screen, BetterLogger):
     def update_inventory(self):
         self.ids["inventory_items_holder"].clear_widgets()
 
-        unordered_items: dict[str, int] = dict(gameData.get("inventory"))
-        # TODO: order items
-        items = unordered_items
+        if self.merge_option == "recipes":
+            unordered_items: dict[str, int] = dict(GameConfig.get("Items", "recipes"))
+            # TODO: order items
+            items = unordered_items
 
-        for item, amount in items.items():
-            b = TextBetterButton(button_id=str(item) + "_item", size_type="big", show_amount_text=True, amount=amount)
-            b.bind(on_release=ignore_args(self.item_pressed, b))
-            b.button_storage = str(item)
-            self.ids["inventory_items_holder"].add_widget(b)
+            for item in items.keys():
+                b = TextBetterButton(button_id=str(item) + "_item", size_type="big", show_amount_text=True)
+                b.bind(on_release=ignore_args(self.item_pressed, b))
+                b.button_storage = str(item)
+                self.ids["inventory_items_holder"].add_widget(b)
 
-            self.log_deep_debug("Added button -", b)
+                self.log_deep_debug("Added button -", b)
+
+        else:
+            unordered_items: dict[str, int] = dict(gameData.get("inventory"))
+            # TODO: order items
+            items = unordered_items
+
+            for item, amount in items.items():
+                b = TextBetterButton(button_id=str(item) + "_item", size_type="big", show_amount_text=True, amount=amount)
+                b.bind(on_release=ignore_args(self.item_pressed, b))
+                b.button_storage = str(item)
+                self.ids["inventory_items_holder"].add_widget(b)
+
+                self.log_deep_debug("Added button -", b)
 
 
     def item_pressed(self, button: TextBetterButton):
@@ -241,3 +255,5 @@ class InventoryScreen(Screen, BetterLogger):
 
         if not handled:
             self.log_critical("No know merge option", id_of_clicked)
+
+        self.update_inventory()
