@@ -5,8 +5,10 @@ from kivy.uix.image import Image
 
 from graphics import graphicsConfig
 from graphics.customWidgets.betterButton import TextBetterButton
+from graphics.spaceBuilderMergeGameScreenManager import get_screen
 from lib import ignore_args
 from lib.betterLogger import BetterLogger
+from resources import GameConfig
 
 
 class MergeGUI(BetterLogger, FloatLayout):
@@ -98,6 +100,22 @@ class MergeGUI(BetterLogger, FloatLayout):
 
             else:
                 self.remove(item, 1)
+
+        elif self.mode == "recipes":
+            item = str(button.button_storage)
+
+            if item in GameConfig.get("Items", "recipes"):
+                inventory_screen = get_screen("InventoryScreen")
+
+                recipe = GameConfig.get("Items", "recipes", item)
+                self.log_deep_debug("Creating GUI for recipe of item", item, "| Recipe is", recipe)
+
+                self.set_all(recipe)
+                inventory_screen.current_recipe_button_id = item + "_item"
+                inventory_screen.ids["merge_output_button"].button_id = item + "_item"
+
+            else:
+                self.log_deep_debug("Item", item, "was clicked on but is doesnt have a merge recipe")
 
 
     def on_active(self, _instance, value: bool):
