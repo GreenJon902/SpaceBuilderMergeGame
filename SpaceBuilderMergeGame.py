@@ -54,7 +54,7 @@ if __name__ == "__main__":
     base_logger.log_info("Graphics module setup")
 
     graphics.load_pre_load_kv()
-    base_logger.log_info("Pre load kv_language loaded")
+    base_logger.log_info("Pre load kv language loaded")
 
     base_logger.log_info("Graphics ready too start")
 

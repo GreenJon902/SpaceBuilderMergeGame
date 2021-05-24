@@ -1,4 +1,5 @@
 import os
+
 import appdirs
 
 appname: str = "SpaceBuilderMergeGame"
@@ -19,13 +20,13 @@ config_dir: str = os.path.join(user_data_dir, "config")
 code_dir: str = os.path.dirname(os.path.realpath(__file__))
 resources_dir: str = os.path.join(code_dir, "ResourceFiles")
 default_files_dir: str = os.path.join(resources_dir, "DefaultFiles")
-default_settings_file: str = os.path.join(default_files_dir, "defaultSettings.json")
-default_game_data_file: str = os.path.join(default_files_dir, "defaultGameData.json")
+default_settings_file: str = os.path.join(default_files_dir, "default_settings.json")
+default_game_data_file: str = os.path.join(default_files_dir, "default_game_data.json")
 default_user_data: str = os.path.join(default_files_dir, "defaultUserData.ini")
 settings_file: str = os.path.join(user_data_dir, "settings.json")
 game_data_file: str = os.path.join(user_data_dir, "gameData.json")
 graphics_file: str = os.path.join(resources_dir, "graphicsConfig.ini")
-kv_language_dir: str = os.path.join(resources_dir, "kv_language")
+kv_language_dir: str = os.path.join(resources_dir, "kvLanguage")
 log_dir: str = AppDirs.user_log_dir
 log_name: str = appname + "_%y-%m-%d_%_.log"
 log_class_length: int = 48
