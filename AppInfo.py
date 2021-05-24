@@ -19,6 +19,7 @@ kivy_home_dir: str = os.path.join(user_data_dir, "kivy")
 config_dir: str = os.path.join(user_data_dir, "config")
 code_dir: str = os.path.dirname(os.path.realpath(__file__))
 resources_dir: str = os.path.join(code_dir, "ResourceFiles")
+window_icon_path: str = os.path.join(resources_dir, "appIcon.png")
 default_files_dir: str = os.path.join(resources_dir, "DefaultFiles")
 default_settings_file: str = os.path.join(default_files_dir, "default_settings.json")
 default_game_data_file: str = os.path.join(default_files_dir, "default_game_data.json")
@@ -43,6 +44,7 @@ default_size: [int] = 700, 500
 
 __all__ = ["appname", "appauthor", "version", "roaming",
            "array",
+           "window_icon_path",
            "user_data_dir", "kivy_home_dir", "config_dir", "code_dir", "default_settings_file", "settings_file",
            "log_dir", "resources_dir", "kv_language_dir", "graphics_file", "default_user_data",
            "default_size", "log_name", "log_class_length", "default_game_data_file", "game_data_file",

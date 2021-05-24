@@ -21,6 +21,7 @@ if __name__ == "__main__":
     os.environ["KIVY_HOME"] = AppInfo.kivy_home_dir
     os.environ["KCFG_KIVY_LOG_NAME"] = AppInfo.log_name
     os.environ["KCFG_KIVY_LOG_DIR"] = AppInfo.log_dir
+    os.environ["KCFG_KIVY_WINDOW_ICON"] = AppInfo.window_icon_path
 
     # noinspection PyUnresolvedReferences
     import kivy
