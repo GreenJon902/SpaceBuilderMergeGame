@@ -1,8 +1,8 @@
-from graphics.buildings.buildingbase import BuildingBase
+from graphics.buildings import ResourceMiner
 
 
-class Drill(BuildingBase):
+class Drill(ResourceMiner):
     __type__: str = "drill"
 
     def __init__(self, *args, **kwargs):
-        BuildingBase.__init__(self, *args, **kwargs)
+        ResourceMiner.__init__(self, *args, **kwargs)

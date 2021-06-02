@@ -1,4 +1,5 @@
 from graphics.buildings.drill import Drill
+from graphics.buildings.resourceMiner import ResourceMiner
 from graphics.buildings.rocket import Rocket
 
 str_to_building = {
