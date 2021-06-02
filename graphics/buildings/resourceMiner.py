@@ -15,11 +15,11 @@ class ResourceMiner(BuildingBase):
     mine_item: str = StringProperty("None")
 
     def __init__(self, *args, **kwargs):
-        self.mine_batch_time = kwargs.pop("mine_batch_time", GameConfig.getfloat("Buildings", "resource_miner", "drill",
-                                                                                 "speed"))
+        self.mine_batch_time = kwargs.pop("mine_batch_time", GameConfig.getfloat("Buildings", "resource_miner",
+                                                                                 self.__type__, "speed"))
         self.mine_batch_amount = kwargs.pop("mine_batch_amount", GameConfig.getint("Buildings", "resource_miner",
-                                                                                     "drill", "amount"))
-        self.mine_item = kwargs.pop("mine_item", GameConfig.get("Buildings", "resource_miner", "drill", "item"))
+                                                                                     self.__type__, "amount"))
+        self.mine_item = kwargs.pop("mine_item", GameConfig.get("Buildings", "resource_miner", self.__type__, "item"))
 
         BuildingBase.__init__(self, *args, **kwargs)
 
