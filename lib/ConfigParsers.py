@@ -79,9 +79,6 @@ def del_from_list_of_keys(array, keys, i=0):
     if len(keys) - 1 == i:
         del array[keys[i]]
     else:
-        print(array, keys, i)
-        print(array[keys[i]])
-        print()
         del_from_list_of_keys(array[keys[i]], keys, i+1)
 
 
