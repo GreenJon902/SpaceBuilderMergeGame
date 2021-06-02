@@ -35,6 +35,10 @@ class BuildingBase(EventDispatcher, BetterLogger):
         SaveManager.register_update_game_data_function(self.update_game_data)
 
 
+        if self.__type__ == "None":
+            self.log_warning("BuildingBase needs to have a __type__, this should've be set when overridden")
+
+
     def on_building_id(self, _instance, value):
         self.log_deep_debug("building_id changed to", value)
         self._obj = Models.get(value)
