@@ -5,6 +5,12 @@
             "y": -7,
             "rotation": 0,
             "type": "rocket"
+        },
+        "1": {
+            "x": -9,
+            "y": 2,
+            "rotation": 348,
+            "type": "drill"
         }
     },
     "inventory": {
