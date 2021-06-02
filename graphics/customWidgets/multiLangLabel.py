@@ -38,13 +38,9 @@ class MultiLangLabel(Image, BetterLogger):
         self._label.color = self.color
 
         self._label.texture_update()
-        self.texture = self._label.texture
-        self.texture: Texture
-        try:
+        self.texture: Texture = self._label.texture
+        if self.texture:
             self.texture.bind()
-            # TODO: Find a better way that doesnt slow down the window but still makes the texture not go black
-        except AttributeError:
-            pass
         # self.source = "./ResourceFiles/Textures/buttons/chests.png"
 
     def on_color(self, _instance, _value):
