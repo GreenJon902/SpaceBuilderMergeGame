@@ -43,7 +43,7 @@ class BaseLayout(FloatLayout, BetterLogger):
 
         for building_id in gameData.get("placed_buildings"):
             building_info = gameData.get("placed_buildings", building_id)
-            building_class = str_to_building[building_info["type"]]
+            building_class = str_to_building[building_info.pop("type")]
             building = building_class(**building_info)
             building.id = building_id
 

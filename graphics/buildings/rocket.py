@@ -2,6 +2,8 @@ from graphics.buildings.buildingbase import BuildingBase
 
 
 class Rocket(BuildingBase):
+    __type__: str = "rocket"
+
     movable: bool = False
 
     def __init__(self, *args, **kwargs):
