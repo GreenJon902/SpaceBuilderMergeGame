@@ -68,11 +68,21 @@ def value_from_list_of_keys(array, keys, i=0):
         return value_from_list_of_keys(array[keys[i]], keys, i+1)
 
 
-def set_from_list_of_keys(array, keys, to, i=0,):
+def set_from_list_of_keys(array, keys, to, i=0):
     if len(keys) - 1 == i:
         array[keys[i]] = to
     else:
         set_from_list_of_keys(array[keys[i]], keys, to, i+1)
+
+
+def del_from_list_of_keys(array, keys, i=0):
+    if len(keys) - 1 == i:
+        del array[keys[i]]
+    else:
+        print(array, keys, i)
+        print(array[keys[i]])
+        print()
+        del_from_list_of_keys(array[keys[i]], keys, i+1)
 
 
 class JSONParser(BetterLogger):
@@ -137,8 +147,8 @@ class JSONParser(BetterLogger):
     def getbool(self, *args: any) -> bool:
         return bool(self.get(*args, called_by="t"))
 
-    def delete(self, *args: any):
-        print(value_from_list_of_keys(self.array, args))
+    def remove(self, *args: any):
+        del_from_list_of_keys(self.array, args)
 
 
 

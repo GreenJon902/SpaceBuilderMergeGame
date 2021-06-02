@@ -161,6 +161,9 @@ class InventoryScreen(Screen, BetterLogger):
                     self.ids["merge_gui"].remove(item, amount)
                     gameData.set("inventory", item, to=gameData.getint("inventory", item) - amount)
 
+                    if gameData.getint("inventory", item) == 0:
+                        gameData.remove("inventory", item)
+
                 try:
                     gameData.set("inventory", product, to=gameData.getint("inventory", product) + 1)
 

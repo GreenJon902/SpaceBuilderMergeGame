@@ -1,5 +1,5 @@
 from kivy.input import MotionEvent
-from kivy.properties import BooleanProperty, OptionProperty
+from kivy.properties import BooleanProperty, OptionProperty, ObjectProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.image import Image
 
@@ -15,6 +15,8 @@ class MergeGUI(BetterLogger, FloatLayout):
     active: str = BooleanProperty(None)
     mode: str = OptionProperty(None, options=["merge", "recipes"])
 
+    other_merge_gui: "MergeGUI" = ObjectProperty(None)
+
     def __init__(self, **kwargs):
         BetterLogger.__init__(self)
         FloatLayout.__init__(self, **kwargs)
@@ -25,6 +27,14 @@ class MergeGUI(BetterLogger, FloatLayout):
 
     def on_items(self, *args):
         pass
+
+    def on_touch_down(self, touch, is_second: bool = False):
+        if self.active:
+            for child in self.children[:]:
+                child.dispatch('on_touch_down', touch)
+
+        if not is_second:
+            self.other_merge_gui.dispatch('on_touch_down', touch, True)
 
     def set_all(self, items: dict):
         self.log_deep_debug("Set all to", items)
