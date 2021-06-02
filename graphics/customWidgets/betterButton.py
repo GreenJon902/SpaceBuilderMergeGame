@@ -13,7 +13,7 @@ from lib.betterLogger import BetterLogger
 from resources import Textures
 
 
-class BetterButton(ButtonBehavior, FloatLayout, BetterLogger):  # TODO: Fix bug where functions are ran too many times
+class BetterButton(ButtonBehavior, FloatLayout, BetterLogger):
     button_storage: any = ObjectProperty(None, allownone=True)
     size_type: str = OptionProperty("small", options=["small", "big"])
     bg_type: str = OptionProperty("both_blues", options=["dark_blue", "both_blues", "light_blue",
