@@ -11,6 +11,12 @@
             "y": 2,
             "rotation": 348,
             "type": "drill"
+        },
+        "2": {
+            "x": 9,
+            "y": 5,
+            "rotation": -24,
+            "type": "mine"
         }
     },
     "inventory": {

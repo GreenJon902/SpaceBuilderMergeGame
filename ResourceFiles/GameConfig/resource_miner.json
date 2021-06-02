@@ -3,5 +3,10 @@
     "item": "oil",
     "speed": 10,
     "amount": 2
+  },
+  "mine": {
+    "item": "scrap_metal",
+    "speed": 20,
+    "amount": 4
   }
 }
