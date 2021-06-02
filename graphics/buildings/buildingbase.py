@@ -14,7 +14,7 @@ from resources import Models, GameConfig
 
 class BuildingBase(EventDispatcher, BetterLogger):
     id: int = None
-    type: str = StringProperty(defaultvalue="None")
+    __type__: str = StringProperty(defaultvalue="None")
     _obj: Object3D = None
     x: float = NumericProperty(0)
     y: float = NumericProperty(0)
@@ -28,8 +28,7 @@ class BuildingBase(EventDispatcher, BetterLogger):
     def __init__(self, *args, **kwargs):
         BetterLogger.__init__(self)
         self.log_deep_debug("Creating building with args", args, kwargs)
-        self.type = kwargs.pop("type")
-        self.on_building_id(self, self.type)
+        self.on_building_id(self, self.__type__)
 
         EventDispatcher.__init__(self, *args, **kwargs)
 
@@ -84,7 +83,7 @@ class BuildingBase(EventDispatcher, BetterLogger):
             get_screen("BaseBuildScreen").ids["building_buttons_handler"].redo_buttons(self.button_ids, self)
 
     def __repr__(self) -> str:
-        return "Building(id=" + str(self.id) + ", type=" + str(self.type) + ", pos=" + str((self.x, self.y)) + \
+        return "Building(id=" + str(self.id) + "pos=" + str((self.x, self.y)) + \
                ", selected=" + str(self.selected) + ")"
 
 
@@ -135,13 +134,13 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
         Clock.schedule_once(un_turn, 0)
 
-        for item, amount in dict(GameConfig.get("Buildings", "scrap_products", self.type)).items():
+        for item, amount in dict(GameConfig.get("Buildings", "scrap_products", self.__type__)).items():
             gameData.add_to_inventory(item, amount)
 
 
     @property
     def save_values(self) -> dict[str, any]:
-        return {"x": self.x, "y": self.y, "rotation": self.rotation, "type": self.type}
+        return {"x": self.x, "y": self.y, "rotation": self.rotation, "type": self.__type__}
 
     def update_game_data(self):
         gameData.set_building_info(self.id, self.save_values)
