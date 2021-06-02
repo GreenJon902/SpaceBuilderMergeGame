@@ -1,4 +1,4 @@
-from graphics.buildings import ResourceMiner
+from graphics.buildings.resourceMiner import ResourceMiner
 
 
 class Drill(ResourceMiner):
