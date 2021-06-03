@@ -85,7 +85,8 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
         self.transform_button_2.x, self.transform_button_2.y = x2, y2
 
     def clear_buttons(self):
-        get_screen("BaseBuildScreen").ids["scatter"].unbind(on_transform_with_touch=self.redo_building_move_buttons, size=self.redo_building_move_buttons)
+        get_screen("BaseBuildScreen").ids["scatter"].unbind(on_transform_with_touch=self.redo_building_move_buttons,
+                                                            size=self.redo_building_move_buttons)
 
         self.move_buttons_holder.clear_widgets()
         self.custom_buttons_holder.clear_widgets()
