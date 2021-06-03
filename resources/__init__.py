@@ -80,6 +80,10 @@ class ResourceLoader(BetterLogger):
         return len(self.tasks) \
                + 1  # +1 is order task list
 
+    @property
+    def next_task_info(self) -> dict[any, any]:
+        return self.tasks[self.tasks_completed]
+
     def get_tasks(self):
         ResourceLinks.load_link_files()
         self.get_paths()

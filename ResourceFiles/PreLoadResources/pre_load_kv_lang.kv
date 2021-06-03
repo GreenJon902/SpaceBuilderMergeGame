@@ -101,6 +101,17 @@
             pos_hint: {"center_x": 0.5}
             top: loading_bar.y
 
+        Label:
+            id: loading_label_2
+            text: ""
+            font_name: AppInfo.loading_screen_loading_text_font
+            font_size: "15sp"
+
+            size_hint_x: 1
+            size_hint_y: 0
+            pos_hint: {"center_x": 0.5}
+            y: "15sp"
+
         ProgressBar:
             id: loading_bar
 

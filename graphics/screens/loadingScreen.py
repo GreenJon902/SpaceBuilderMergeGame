@@ -1,3 +1,4 @@
+import ntpath
 import time
 
 # noinspection PyProtectedMember
@@ -44,6 +45,31 @@ class LoadingScreen(Screen, BetterLogger):
 
     def run_next_task(self):
         t: float = time.time()
+        next_task_info = ResourceLoader.next_task_info
+
+        if next_task_info["type"] == "load_resource":
+            text = "Loading " + str(next_task_info["resource_type"]) + "s"
+            small_text = str(ntpath.basename(next_task_info["path"]))
+
+
+        elif next_task_info["type"] == "deal_resource":
+            text = "Dealing " + str(next_task_info["resource_type"]) + "s"
+            small_text = str(next_task_info["section"] + " | " + next_task_info["option"])
+
+        elif next_task_info["type"] == "load_kv_lang":
+            text = "Loading kivy_lang"
+            small_text = str(ntpath.basename(next_task_info["path"]))
+
+        else:
+            text = "Loading"
+            small_text = ""
+
+        if ResourceLoader.tasks_completed == -1:
+            text = "Loading"
+            small_text = ""
+
+        self.ids["loading_label"].text = str(text)
+        self.ids["loading_label_2"].text = str(small_text)
         is_done = ResourceLoader.run_next_task()
 
 
