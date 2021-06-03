@@ -378,4 +378,4 @@ class ResourceLoader(BetterLogger):
 ResourceLoader: ResourceLoader = ResourceLoader()
 ResourceLinks: ResourceLinks = ResourceLinks()
 
-__all__ = ["ResourceLoader", "Lang", "Textures", "Models", "GameConfig"]
+__all__ = ["ResourceLoader", "Lang", "Textures", "Models", "GameConfig", "Audio"]
