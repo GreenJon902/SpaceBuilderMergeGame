@@ -132,7 +132,7 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
                 mouse_dy = mouse_y - building_y  # opposite
 
                 try:
-                    rot = math.degrees(math.atan(mouse_dy / mouse_dx))
+                    rot = math.degrees(math.atan2(mouse_dy, mouse_dx))
                     delta_rot = rot - self.last_rotation
                     building.rotation += delta_rot
                     self.last_rotation = rot
