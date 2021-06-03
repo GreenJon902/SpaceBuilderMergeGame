@@ -4,7 +4,8 @@
   },
 
   "UI": {
-    "language": "en-gb"
+    "language": "en-gb",
+    "volume": 0.1
   },
 
   "controls": {

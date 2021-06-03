@@ -3,6 +3,7 @@ from kivy.uix.screenmanager import ScreenManager, NoTransition, TransitionBase, 
 
 from graphics import graphicsConfig
 from lib.betterLogger import BetterLogger
+from resources import Audio
 
 
 class SpaceBuilderMergeGameScreenManager(ScreenManager, BetterLogger):
@@ -13,6 +14,8 @@ class SpaceBuilderMergeGameScreenManager(ScreenManager, BetterLogger):
         self.log_info("Using NoTransition")
         self.transition: TransitionBase = NoTransition()
         self.transition.duration = 0
+
+        Audio.loop("main_theme")
 
 
     def set_screen(self, screen_name: str):

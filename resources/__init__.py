@@ -2,6 +2,7 @@ import json
 import os
 from configparser import ExtendedInterpolation
 
+from kivy.core.audio import SoundLoader
 from kivy.core.image import Image as CoreImage
 from kivy.core.text import LabelBase
 from kivy.lang import Builder
@@ -10,6 +11,7 @@ import AppInfo
 from AppInfo import resources_dir
 from lib.ConfigParsers import PathConfigParser, JSONParser
 from lib.betterLogger import BetterLogger
+from resources.audio import Audio
 from resources.gameConfig import GameConfig
 from resources.lang import Lang
 from resources.models import Models
@@ -264,7 +266,8 @@ class ResourceLoader(BetterLogger):
                 self.paths_to_resources[task_info["path"]] = obj
 
             elif task_info["resource_type"] == "audio":
-                pass
+                sound = SoundLoader.load(task_info["path"])
+                self.paths_to_resources[task_info["path"]] = sound
 
             elif task_info["resource_type"] == "font":
                 LabelBase.register(name=task_info["section"] + "-" + task_info["option"],
@@ -294,7 +297,7 @@ class ResourceLoader(BetterLogger):
                 Models.register_model(task_info["option"], self.paths_to_resources[task_info["path"]])
 
             elif task_info["resource_type"] == "audio":
-                pass
+                Audio.register(task_info["option"], self.paths_to_resources[task_info["path"]])
 
             elif task_info["resource_type"] == "gameConfig":
                 GameConfig.register(task_info["section"], task_info["option"],
