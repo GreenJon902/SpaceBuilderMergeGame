@@ -93,3 +93,6 @@ class LoadingScreen(Screen, BetterLogger):
         App.get_running_app().root.switch()
         get_sm().current = "BaseBuildScreen"
         get_screen("BaseBuildScreen").fade_in()
+
+
+__all__ = ["LoadingScreen"]

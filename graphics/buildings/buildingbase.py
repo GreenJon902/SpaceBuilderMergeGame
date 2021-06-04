@@ -173,3 +173,6 @@ class BuildingBase(EventDispatcher, BetterLogger):
 # A rather hacky fix to update the canvas, I don't exactly know how the kivy and kivy3 drawing works so i went with this
 def un_turn(_elapsed_time: int):
     get_screen("BaseBuildScreen").ids["scatter"].rotation -= 0.001
+
+
+__all__ = ["BuildingBase"]

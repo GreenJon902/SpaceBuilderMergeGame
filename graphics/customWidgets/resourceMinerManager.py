@@ -7,3 +7,6 @@ class ResourceMinerManager(FloatLayout, BetterLogger):
     def __init__(self, **kwargs):
         BetterLogger.__init__(self)
         FloatLayout.__init__(self, **kwargs)
+
+
+__all__ = ["ResourceMinerManager"]

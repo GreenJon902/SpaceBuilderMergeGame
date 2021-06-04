@@ -23,6 +23,7 @@ class Textures(BetterLogger):
         return self._textures[section][option].texture
 
 
-
-
 Textures: Textures = Textures()
+
+
+__all__ = ["Textures"]

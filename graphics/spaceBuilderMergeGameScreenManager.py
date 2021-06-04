@@ -37,3 +37,6 @@ def get_sm() -> SpaceBuilderMergeGameScreenManager:
 
 def get_screen(screen_name: str) -> Screen:
     return get_sm().get_screen(screen_name)
+
+
+__all__ = ["SpaceBuilderMergeGameScreenManager", "get_screen", "get_sm"]

@@ -21,3 +21,6 @@ class ScreenManagerSwitcher(BoxLayout):
         m = self.manager2()
         self.current = m
         self.add_widget(m)
+
+
+__all__ = ["ScreenManagerSwitcher"]

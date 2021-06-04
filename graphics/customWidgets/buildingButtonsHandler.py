@@ -171,3 +171,6 @@ def button_pressed(better_button: BetterButton):
         return
 
     function(better_button.button_storage)
+
+
+__all__ = ["BuildingButtonsHandler"]

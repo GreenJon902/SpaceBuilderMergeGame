@@ -115,3 +115,6 @@ class BetterScatter(ScatterLayout, BetterLogger):
         self.scale = 1
         self.rotation = 0
         self.pos = 0, 0
+
+
+__all__ = ["BetterScatter"]

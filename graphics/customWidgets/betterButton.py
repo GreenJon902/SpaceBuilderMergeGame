@@ -203,3 +203,6 @@ class FlatBetterButton(BetterLogger, ButtonBehavior, BoxLayout):
 
     def on_label_color(self, _instance, value):
         self.label.color = value
+
+
+__all__ = ["BetterButton", "TextBetterButton", "FlatBetterButton"]

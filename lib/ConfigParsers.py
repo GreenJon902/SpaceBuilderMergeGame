@@ -186,3 +186,6 @@ class GameDataJSONParser(JSONParser):
         self.array["placed_buildings"][str(building_id)] = building_save_values
 
         self.log_config("Set building info for", building_id, "to", building_save_values)
+
+
+__all__ = ["PathConfigParser", "JSONParser", "GameDataJSONParser", "ExtendedConfigParser", "LoggedConfigParser"]

@@ -11,3 +11,6 @@ class BaseBuildScreen(Screen, BetterLogger):
         a = Animation(opacity=1, duration=graphicsConfig.getfloat("General", "transition_length"))
         a.start(self)
         # TODO: Make fade in not look like poop after toilet
+
+
+__all__ = ["BaseBuildScreen"]

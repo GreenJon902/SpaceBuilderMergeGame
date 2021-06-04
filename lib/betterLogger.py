@@ -1,5 +1,6 @@
 import os
 
+# noinspection PyProtectedMember
 from kivy.logger import Logger as _Logger, BLACK
 
 
@@ -149,3 +150,6 @@ def redo_logger_formatting():
 
     _Logger.handlers[2].setFormatter(formatter)
     _Logger.addFilter(DeepDebugFilter())
+
+
+__all__ = ["BetterLogger", "redo_logger_formatting"]

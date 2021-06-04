@@ -107,3 +107,6 @@ class OBJLoader(BetterLogger, kv3OBJLoader):
             meshes.append(mesh.convert_to_mesh())
 
         return meshes
+
+
+__all__ = ["OBJLoader"]

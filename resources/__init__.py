@@ -65,6 +65,9 @@ class ResourceLinks(BetterLogger):
         self.log_info("Loaded link files")
 
 
+ResourceLinks: ResourceLinks = ResourceLinks()
+
+
 class ResourceLoader(BetterLogger):
     # INFO:
     # We have deal resources and load separate increase we have duplicate resources so
@@ -380,6 +383,6 @@ class ResourceLoader(BetterLogger):
 
 
 ResourceLoader: ResourceLoader = ResourceLoader()
-ResourceLinks: ResourceLinks = ResourceLinks()
 
-__all__ = ["ResourceLoader", "Lang", "Textures", "Models", "GameConfig", "Audio"]
+
+__all__ = ["ResourceLoader", "Lang", "Textures", "Models", "GameConfig", "Audio", "ResourceLinks"]

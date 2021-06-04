@@ -45,3 +45,6 @@ class SplashScreen1(Screen, BetterLogger):
         self.rocketSwitchClock.cancel()
         """self.rocketFlyAnimation.stop(self.ids["image_a"])
         self.rocketFlyAnimation.stop(self.ids["image_b"])"""
+
+
+__all__ = ["SplashScreen1"]

@@ -32,7 +32,7 @@ class Audio(BetterLogger):
         self.current_playing.play()
 
 
-
-
-
 Audio: Audio = Audio()
+
+
+__all__ = ["Audio"]

@@ -6,3 +6,6 @@ class Drill(ResourceMiner):
 
     def __init__(self, *args, **kwargs):
         ResourceMiner.__init__(self, *args, **kwargs)
+
+
+__all__ = ["Drill"]

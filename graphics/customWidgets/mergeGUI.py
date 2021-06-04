@@ -42,8 +42,8 @@ class MergeGUI(BetterLogger, FloatLayout):
         self.clear_widgets()
 
         for item, amount in items.items():
-            button = TextBetterButton(button_id=str(item) + "_item", size_type="big", show_amount_text=True, amount=amount,
-                                      bg_visible=False)
+            button = TextBetterButton(button_id=str(item) + "_item", size_type="big", show_amount_text=True,
+                                      amount=amount, bg_visible=False)
             button.bind(on_release=ignore_args(self.item_pressed, button))
             button.button_storage = str(item)
             self.add_widget(button)
@@ -105,7 +105,7 @@ class MergeGUI(BetterLogger, FloatLayout):
         item_large_move_amount = graphicsConfig.getint("InventoryScreen", "item_large_move_amount")
 
         if self.mode == "merge":  # Move back
-            if (touch.is_double_tap or touch.is_triple_tap):
+            if touch.is_double_tap or touch.is_triple_tap:
                 self.remove(item, item_large_move_amount)
 
             else:
@@ -143,7 +143,7 @@ class MergeGUI(BetterLogger, FloatLayout):
         w, h = self.size
         x, y = kwargs.get('pos', self.pos)
 
-        pos_hints: dict[int, float] = graphicsConfig.getdict("InventoryScreen", "merge_gui_pos_hints")
+        pos_hints: dict[int, dict[int, float]] = graphicsConfig.getdict("InventoryScreen", "merge_gui_pos_hints")
 
         c: TextBetterButton
         for i, c in enumerate(self.children):
@@ -196,3 +196,5 @@ class MergeGUI(BetterLogger, FloatLayout):
         self.y = instance.center_y - instance.norm_image_size[1] / 2.
         self.size = instance.get_norm_image_size()
 
+
+__all__ = ["MergeGUI"]

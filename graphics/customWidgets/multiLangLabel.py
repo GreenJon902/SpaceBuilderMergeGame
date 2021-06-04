@@ -45,3 +45,6 @@ class MultiLangLabel(Image, BetterLogger):
 
     def on_color(self, _instance, _value):
         self.do_texture()
+
+
+__all__ = ["MultiLangLabel"]

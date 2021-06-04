@@ -39,3 +39,6 @@ class SplashScreen2(Screen, BetterLogger):
 
     def on_pre_leave(self, *args: any):
         self.animation.stop(self.ids["image_a"])
+
+
+__all__ = ["SplashScreen2"]

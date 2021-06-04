@@ -35,3 +35,6 @@ class ResourceMiner(BuildingBase):
         self.mine_batch_clock.cancel()
         self.mine_batch_clock = Clock.schedule_interval(lambda _elapsed_time: self.mine_batch_finished(),
                                                             value)
+
+
+__all__ = ["ResourceMiner"]

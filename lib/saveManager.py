@@ -68,3 +68,6 @@ class _SaveManager(EventDispatcher, BetterLogger):
 
 
 SaveManager: _SaveManager = _SaveManager()
+
+
+__all__ = ["SaveManager"]

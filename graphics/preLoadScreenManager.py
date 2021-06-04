@@ -26,3 +26,6 @@ class PreLoadScreenManager(ScreenManager, BetterLogger):
 def get_sm() -> PreLoadScreenManager:
     BetterLogger().log_deep_debug("get_sm(): Returning screen manager")
     return App.get_running_app().root.current
+
+
+__all__ = ["PreLoadScreenManager", "get_sm"]

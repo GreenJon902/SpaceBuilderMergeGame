@@ -10,3 +10,6 @@ str_to_building = {
 }
 
 building_to_str = dict(zip(str_to_building.values(), str_to_building.keys()))
+
+
+__all__ = ["str_to_building", building_to_str]

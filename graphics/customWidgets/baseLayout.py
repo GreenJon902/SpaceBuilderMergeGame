@@ -215,3 +215,6 @@ class BaseLayout(FloatLayout, BetterLogger):
             to_select.selected = True
             self.log_debug("Building", to_select,
                            "was clicked on, setting building to selected")
+
+
+__all__ = ["BaseLayout"]

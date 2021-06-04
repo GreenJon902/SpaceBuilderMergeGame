@@ -103,3 +103,6 @@ class WaveObject(BetterLogger, kv3WaveObject):
             material.texture_ratio = 0.0
         mesh = Mesh(geometry, material)
         return mesh
+
+
+__all__ = ["WaveObject"]

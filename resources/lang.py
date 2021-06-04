@@ -76,3 +76,6 @@ class Lang(BetterLogger, EventDispatcher):
 
 
 Lang: Lang = Lang()
+
+
+__all__ = ["Lang"]

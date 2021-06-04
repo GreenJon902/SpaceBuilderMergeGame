@@ -16,3 +16,6 @@ class Rocket(BuildingBase):
         buttons.remove("store")
 
         return buttons
+
+
+__all__ = ["Rocket"]

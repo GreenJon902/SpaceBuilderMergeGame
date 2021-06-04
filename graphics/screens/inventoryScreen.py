@@ -260,3 +260,6 @@ class InventoryScreen(Screen, BetterLogger):
             self.log_critical("No know merge option", id_of_clicked)
 
         self.update_inventory()
+
+
+__all__ = ["InventoryScreen"]

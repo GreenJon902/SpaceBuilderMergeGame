@@ -23,7 +23,7 @@ class GameConfig(JSONParser):
     def save(self):
         self.log_critical("YOU CANNOT SAVE GAME CONFIG, WHAT ARE YOU ON")
 
-    def delete(self, *args: any):
+    def delete(self, *_args: any):
         self.log_critical("YOU CANNOT EDIT GAME CONFIG, WHAT ARE YOU ON")
 
 
@@ -31,3 +31,6 @@ class GameConfig(JSONParser):
 
 
 GameConfig: GameConfig = GameConfig()
+
+
+__all__ = ["GameConfig"]

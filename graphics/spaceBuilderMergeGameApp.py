@@ -27,3 +27,6 @@ class SpaceBuilderMergeGameApp(App, BetterLogger):
 
     def on_start(self):
         SaveManager.start_clock()
+
+
+__all__ = ["SpaceBuilderMergeGameApp"]

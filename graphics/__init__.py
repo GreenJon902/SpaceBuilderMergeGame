@@ -139,3 +139,6 @@ def start():
     app.run()
 
     Logger.info("graphics have ended")
+
+
+__all__ = ["setup", "start", "load_pre_load_kv", "load_kv", "size", "width", "height", "graphicsConfig"]
