@@ -9,6 +9,7 @@ from kivy.logger import Logger
 import AppInfo
 from graphics.config import graphicsConfig
 from graphics.customWidgets.betterScatter import BetterScatter
+from graphics.customWidgets.resourceMinerManager import ResourceMinerManager
 
 
 def size() -> tuple[int, int]:  # because it might have adverts or something, idk
@@ -122,6 +123,10 @@ def setup():
     Factory.register("MergeGUI",
                      cls=MergeGUI,
                      module="graphics.customWidgets.mergeItemHolder")
+
+    Factory.register("ResourceMinerManager",
+                     cls=ResourceMinerManager,
+                     module="graphics.customWidgets.resourceMinerManager")
 
     Logger.info("All classes have been assigned to Factory")
 
