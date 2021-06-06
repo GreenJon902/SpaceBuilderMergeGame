@@ -3,8 +3,8 @@ from kivy._clock import ClockEvent
 from kivy.clock import Clock
 from kivy.properties import NumericProperty, StringProperty
 
-from configurables import gameData
 from graphics.buildings.buildingbase import BuildingBase
+from lib.globalEvents import GlobalEvents
 from resources import GameConfig
 
 
@@ -29,7 +29,7 @@ class ResourceMiner(BuildingBase):
     def mine_batch_finished(self):
         self.log_deep_debug("Finished mining batch of", self.mine_batch_amount, self.mine_item)
 
-        gameData.add_to_inventory(self.mine_item, self.mine_batch_amount)
+        GlobalEvents.dispatch("mine_batch_finished", self)
 
     def on_mine_batch_time(self, _instance, value: float):
         self.mine_batch_clock.cancel()
