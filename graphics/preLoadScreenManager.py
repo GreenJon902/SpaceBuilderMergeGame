@@ -1,3 +1,11 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from kivy.uix.screenmanager import TransitionBase
+
+
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, NoTransition, TransitionBase
 

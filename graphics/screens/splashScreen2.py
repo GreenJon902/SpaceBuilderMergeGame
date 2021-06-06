@@ -1,5 +1,13 @@
-# noinspection PyProtectedMember
-from kivy._clock import ClockEvent
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    # noinspection PyProtectedMember
+    from kivy._clock import ClockEvent
+    from kivy.animation import Animation
+
+
 from kivy.animation import Animation, AnimationTransition
 from kivy.clock import Clock
 from kivy.properties import NumericProperty
@@ -10,11 +18,11 @@ from lib.betterLogger import BetterLogger
 
 
 class SplashScreen2(Screen, BetterLogger):
-    waitBeforeTitleStartShow: NumericProperty = NumericProperty(1)
-    titleShowAnimationLength: NumericProperty = NumericProperty(1)
-    titleShowLength: NumericProperty = NumericProperty(1)
-    titleFadeAnimationLength: NumericProperty = NumericProperty(1)
-    timeTillLoadingScreen: NumericProperty = NumericProperty(4)
+    waitBeforeTitleStartShow: int = NumericProperty(1)
+    titleShowAnimationLength: int = NumericProperty(1)
+    titleShowLength: int = NumericProperty(1)
+    titleFadeAnimationLength: int = NumericProperty(1)
+    timeTillLoadingScreen: int = NumericProperty(4)
 
     timeTillLoadingScreenClock: ClockEvent = None
     animation: Animation = None

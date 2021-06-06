@@ -1,3 +1,11 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from graphics.buildings import ResourceMiner
+
+
 from kivy.uix.floatlayout import FloatLayout
 
 from configurables import gameData
@@ -14,7 +22,7 @@ class ResourceMinerManager(FloatLayout, BetterLogger):
 
     # noinspection PyMethodMayBeStatic
     # ignore because we will do something else with this later
-    def batch_finished(self, resourceMiner: "ResourceMiner"):
+    def batch_finished(self, resourceMiner: ResourceMiner):
         gameData.add_to_inventory(resourceMiner.mine_item, resourceMiner.mine_batch_amount)
 
 

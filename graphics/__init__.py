@@ -1,3 +1,11 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from graphics.spaceBuilderMergeGameApp import SpaceBuilderMergeGameApp
+
+
 import ntpath
 import os
 

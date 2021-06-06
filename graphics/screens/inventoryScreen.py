@@ -1,11 +1,19 @@
-from kivy.input import MotionEvent
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from kivy.input import MotionEvent
+    from graphics.customWidgets.betterButton import FlatBetterButton
+    from graphics.customWidgets.mergeGUI import MergeGUI
+
+
 from kivy.properties import ColorProperty
 from kivy.uix.screenmanager import Screen
 
 from configurables import gameData
 from graphics import graphicsConfig, height
-from graphics.customWidgets.betterButton import TextBetterButton, FlatBetterButton
-from graphics.customWidgets.mergeGUI import MergeGUI
+from graphics.customWidgets.betterButton import TextBetterButton
 from lib import ignore_args
 from lib.betterLogger import BetterLogger
 from resources import GameConfig

@@ -1,3 +1,11 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    pass
+
+
 from graphics.buildings.drill import Drill
 from graphics.buildings.mine import Mine
 from graphics.buildings.resourceMiner import ResourceMiner

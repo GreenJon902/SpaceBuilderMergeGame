@@ -1,10 +1,18 @@
-from os.path import abspath, dirname, join
+from __future__ import annotations
 
-from kivy3 import Mesh
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from kivy3 import Mesh
+
+
 from kivy3.loaders import OBJLoader as kv3OBJLoader
 
 from graphics.betterKv3.waveObject import WaveObject
+
 from lib.betterLogger import BetterLogger
+
+from os.path import abspath, dirname, join
 
 
 class OBJLoader(BetterLogger, kv3OBJLoader):

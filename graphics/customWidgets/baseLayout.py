@@ -1,3 +1,12 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from kivy3 import Renderer, Scene, PerspectiveCamera
+    from graphics.buildings.buildingbase import BuildingBase
+
+
 import os.path
 import random
 
@@ -10,7 +19,6 @@ from kivy3.extras.geometries import BoxGeometry
 import AppInfo
 from configurables import gameData
 from graphics.buildings import str_to_building
-from graphics.buildings.buildingbase import BuildingBase
 from graphics.spaceBuilderMergeGameScreenManager import get_screen
 from lib.betterLogger import BetterLogger
 

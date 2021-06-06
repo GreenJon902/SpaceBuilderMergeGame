@@ -1,8 +1,15 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from kivy3 import Renderer, Scene, Object3D
+
+
 from kivy.clock import Clock
 from kivy.event import EventDispatcher
 from kivy.graphics.transformation import Matrix
 from kivy.properties import StringProperty, NumericProperty, BooleanProperty
-from kivy3 import Renderer, Scene, Object3D
 
 from configurables import gameData
 from graphics import graphicsConfig, height, width

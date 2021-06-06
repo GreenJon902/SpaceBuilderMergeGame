@@ -1,7 +1,15 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    # noinspection PyProtectedMember
+    from kivy._clock import ClockEvent
+
+
 # noinspection PyProtectedMember
 from threading import Thread
 
-from kivy._clock import ClockEvent
 from kivy.clock import Clock
 from kivy.event import EventDispatcher
 

@@ -1,9 +1,16 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from kivy.uix.screenmanager import TransitionBase
+
+
 import json
 import os
 from configparser import ConfigParser
 
 from kivy.uix import screenmanager
-from kivy.uix.screenmanager import TransitionBase
 
 import AppInfo
 from lib.betterLogger import BetterLogger

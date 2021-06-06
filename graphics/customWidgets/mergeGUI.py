@@ -1,7 +1,15 @@
-from kivy.input import MotionEvent
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from graphics.customWidgets.betterButton import TextBetterButton
+    from kivy.input import MotionEvent
+    from kivy.uix.image import Image
+
+
 from kivy.properties import BooleanProperty, OptionProperty, ObjectProperty
 from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.image import Image
 
 from graphics import graphicsConfig
 from graphics.customWidgets.betterButton import TextBetterButton
@@ -15,7 +23,7 @@ class MergeGUI(BetterLogger, FloatLayout):
     active: str = BooleanProperty(None)
     mode: str = OptionProperty(None, options=["merge", "recipes"])
 
-    other_merge_gui: "MergeGUI" = ObjectProperty(None)
+    other_merge_gui: MergeGUI = ObjectProperty(None)
 
     def __init__(self, **kwargs):
         BetterLogger.__init__(self)

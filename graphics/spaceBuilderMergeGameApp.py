@@ -1,8 +1,15 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from graphics.spaceBuilderMergeGameScreenManager import SpaceBuilderMergeGameScreenManager
+    from kivy.uix.screenmanager import Screen
+
+
 from kivy.app import App
 from kivy.factory import Factory
-from kivy.uix.screenmanager import Screen
 
-from graphics.spaceBuilderMergeGameScreenManager import SpaceBuilderMergeGameScreenManager
 from lib.betterLogger import BetterLogger
 from lib.saveManager import SaveManager
 from resources import Lang

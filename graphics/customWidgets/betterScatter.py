@@ -1,5 +1,12 @@
-﻿from kivy.graphics.transformation import Matrix
-from kivy.input import MotionEvent
+﻿from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from kivy.input import MotionEvent
+
+
+from kivy.graphics.transformation import Matrix
 from kivy.properties import NumericProperty
 from kivy.uix.scatterlayout import ScatterLayout
 

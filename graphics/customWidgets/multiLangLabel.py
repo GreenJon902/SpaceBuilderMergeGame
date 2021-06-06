@@ -1,4 +1,11 @@
-from kivy.core.image import Texture
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from kivy.core.image import Texture
+
+
 from kivy.core.text import DEFAULT_FONT
 from kivy.properties import StringProperty, ColorProperty
 from kivy.uix.image import Image

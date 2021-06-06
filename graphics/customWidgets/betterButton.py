@@ -1,3 +1,12 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from kivy.uix.image import Image
+    from kivy.uix.label import Label
+
+
 from kivy.graphics import RoundedRectangle, Color
 from kivy.properties import OptionProperty, StringProperty, NumericProperty, ObjectProperty, BooleanProperty, \
     ColorProperty
@@ -26,7 +35,7 @@ class BetterButton(ButtonBehavior, FloatLayout, BetterLogger):
     bg_image: Image = None
     fg_image: Image = None
 
-    bg_visible = BooleanProperty(True)
+    bg_visible: bool = BooleanProperty(True)
 
     def __init__(self, **kwargs):
         self.bg_image = Image(allow_stretch=True, keep_ratio=True)

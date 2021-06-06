@@ -1,14 +1,25 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from kivy.input import MotionEvent
+    from kivy.uix.widget import Widget
+    from kivy.uix.boxlayout import BoxLayout
+    from kivy.uix.floatlayout import FloatLayout
+
+    from graphics.buildings.buildingbase import BuildingBase
+    from graphics.customWidgets.betterScatter import BetterScatter
+    from graphics.customWidgets.betterButton import BetterButton
+
+
 import math
 
 from kivy.clock import Clock
-from kivy.input import MotionEvent
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.widget import Widget
 
-from graphics.buildings.buildingbase import BuildingBase
-from graphics.customWidgets.betterButton import BetterButton
-from graphics.customWidgets.betterScatter import BetterScatter
 from graphics.spaceBuilderMergeGameScreenManager import get_screen
 from lib.betterLogger import BetterLogger
 
