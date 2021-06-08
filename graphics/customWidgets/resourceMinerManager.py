@@ -31,11 +31,7 @@ class ResourceMinerManager(FloatLayout, BetterLogger):
         GlobalEvents.bind(remove_mine_finished_icon=self.remove_finished_icon)
         GlobalEvents.bind(on_scatter_transformed=self.update_positions)
 
-    # noinspection PyMethodMayBeStatic
-    # ignore because we will do something else with this later
     def batch_finished(self, resourceMiner: ResourceMiner):
-        # gameData.add_to_inventory(resourceMiner.mine_item, resourceMiner.mine_batch_amount)
-
         if resourceMiner.id not in self.resource_miner_finished_icons:
             (x1, y1), (x2, y2) = resourceMiner.get_projected_corners()
             x = x1 + ((x2 - x1) / 2)
