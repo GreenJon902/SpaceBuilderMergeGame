@@ -2,6 +2,8 @@
 
 from typing import TYPE_CHECKING
 
+from lib.globalEvents import GlobalEvents
+
 if TYPE_CHECKING:
     from kivy.input import MotionEvent
 
@@ -25,7 +27,6 @@ class BetterScatter(ScatterLayout, BetterLogger):
     def __init__(self, **kwargs):
         ScatterLayout.__init__(self, **kwargs)
         BetterLogger.__init__(self)
-        self.register_event_type("on_transformed")
 
     def on_touch_down(self, touch: MotionEvent):
         if touch.is_mouse_scrolling:
@@ -60,6 +61,7 @@ class BetterScatter(ScatterLayout, BetterLogger):
             # bdz = self.scale - z
             # self.dispatch("on_transformed", dx, dy, dz)
             self.dispatch("on_transform_with_touch", touch)
+            GlobalEvents.dispatch("on_scatter_transformed")
 
         else:
             ScatterLayout.on_touch_down(self, touch)
@@ -109,19 +111,20 @@ class BetterScatter(ScatterLayout, BetterLogger):
 
         self.apply_transform(Matrix().translate(dx, dy, dz))
         self.dispatch("on_transform_with_touch", touch)
+        GlobalEvents.dispatch("on_scatter_transformed")
 
 
 
     def collide_point(self, x: int, y: int):  # from scatter plane because ScatterPlaneLayout it didn't do layout well
         return True
 
-    def on_transformed(self, dx, dy, dz):
-        pass
 
     def reset(self):
         self.scale = 1
         self.rotation = 0
         self.pos = 0, 0
+
+        GlobalEvents.dispatch("on_scatter_transformed")
 
 
 __all__ = ["BetterScatter"]

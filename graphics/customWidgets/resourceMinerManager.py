@@ -3,6 +3,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from configurables import gameData
+from graphics.customWidgets.betterScatter import BetterScatter
+from graphics.spaceBuilderMergeGameScreenManager import get_screen
 
 if TYPE_CHECKING:
     from graphics.buildings import ResourceMiner
@@ -27,6 +29,7 @@ class ResourceMinerManager(FloatLayout, BetterLogger):
 
         GlobalEvents.bind(mine_batch_finished=self.batch_finished)
         GlobalEvents.bind(remove_mine_finished_icon=self.remove_finished_icon)
+        GlobalEvents.bind(on_scatter_transformed=self.update_positions)
 
     # noinspection PyMethodMayBeStatic
     # ignore because we will do something else with this later
@@ -50,6 +53,18 @@ class ResourceMinerManager(FloatLayout, BetterLogger):
     def remove_finished_icon(self, icon: ResourceMinerFinishedIcon):
         self.remove_widget(icon)
         del self.resource_miner_finished_icons[icon.resource_miner_id]
+
+
+    def update_positions(self):  # TODO: Do something building is moved
+        scatter: BetterScatter = get_screen("BaseBuildScreen").ids["scatter"]
+
+        for building_id, icon in self.resource_miner_finished_icons.items():
+            building = get_screen("BaseBuildScreen").ids["base_layout"].buildings[int(building_id)]
+            (x1, y1), (x2, y2) = building.get_projected_corners()
+            x = x1 + ((x2 - x1) / 2)
+            y = y2
+
+            icon.pos = scatter.to_parent(x, y)
 
 
 class ResourceMinerFinishedIcon(FloatLayout, BetterLogger):

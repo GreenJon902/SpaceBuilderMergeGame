@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from lib.globalEvents import GlobalEvents
+
 if TYPE_CHECKING:
     from kivy.input import MotionEvent
     from kivy.uix.widget import Widget
@@ -75,9 +77,7 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
                                                    on_touch_move=self.button_touch_move,
                                                    on_touch_up=self.button_touch_up,
                                                    button_storage=building)
-            get_screen("BaseBuildScreen").ids["scatter"].bind(
-                on_transform_with_touch=lambda _instance, _value: self.redo_building_move_buttons(building),
-                size=lambda _instance, _value: print(_instance, _value))
+            GlobalEvents.bind(on_scatter_transformed=lambda: self.redo_building_move_buttons(building))
 
             self.move_buttons_holder.add_widget(self.transform_button_1)
             self.move_buttons_holder.add_widget(self.transform_button_2)

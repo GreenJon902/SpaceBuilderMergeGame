@@ -9,6 +9,8 @@ if TYPE_CHECKING:
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, NoTransition, Screen
 
+from kivy.uix.screenmanager import TransitionBase
+
 from graphics import graphicsConfig
 from lib.betterLogger import BetterLogger
 from resources import Audio
