@@ -21,6 +21,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.widget import Widget
 
 from graphics.spaceBuilderMergeGameScreenManager import get_screen
+from graphics.customWidgets.betterButton import BetterButton
 from lib.betterLogger import BetterLogger
 
 
