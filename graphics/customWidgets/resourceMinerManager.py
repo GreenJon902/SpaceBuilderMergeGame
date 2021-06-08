@@ -2,15 +2,16 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from configurables import gameData
+
+if TYPE_CHECKING:
+    from graphics.buildings import ResourceMiner
+    from kivy.input import MotionEvent
+
 from kivy.properties import StringProperty
 from kivy.uix.image import Image
 
 from resources import Textures
-
-if TYPE_CHECKING:
-    from graphics.buildings import ResourceMiner
-
-
 from kivy.uix.floatlayout import FloatLayout
 
 from lib.betterLogger import BetterLogger
@@ -25,6 +26,7 @@ class ResourceMinerManager(FloatLayout, BetterLogger):
         FloatLayout.__init__(self, **kwargs)
 
         GlobalEvents.bind(mine_batch_finished=self.batch_finished)
+        GlobalEvents.bind(remove_mine_finished_icon=self.remove_finished_icon)
 
     # noinspection PyMethodMayBeStatic
     # ignore because we will do something else with this later
@@ -36,13 +38,18 @@ class ResourceMinerManager(FloatLayout, BetterLogger):
             x = x1 + ((x2 - x1) / 2)
             y = y2
 
-            finished_icon = ResourceMinerFinishedIcon(pos=(x, y), resource_name=resourceMiner.mine_item)
+            finished_icon = ClickableResourceMinerFinishedIcon(pos=(x, y), resource_name=resourceMiner.mine_item)
+            finished_icon.resource_miner_id = resourceMiner.id
             self.resource_miner_finished_icons[resourceMiner.id] = finished_icon
             self.add_widget(finished_icon)
 
 
         self.resource_miner_finished_icons[resourceMiner.id].amount_that_has_been_mined += \
             resourceMiner.mine_batch_amount
+
+    def remove_finished_icon(self, icon: ResourceMinerFinishedIcon):
+        self.remove_widget(icon)
+        del self.resource_miner_finished_icons[icon.resource_miner_id]
 
 
 class ResourceMinerFinishedIcon(FloatLayout, BetterLogger):
@@ -52,6 +59,7 @@ class ResourceMinerFinishedIcon(FloatLayout, BetterLogger):
     fg_image: Image = None
 
     resource_name: str = StringProperty("None")
+    resource_miner_id: int = None
 
     def __init__(self, **kwargs):
         self.bg_image = Image(allow_stretch=True, keep_ratio=True)
@@ -94,6 +102,15 @@ class ResourceMinerFinishedIcon(FloatLayout, BetterLogger):
     def on_width(self, _instance, width):
         self.bg_image.width = width
         self.fg_image.width = width
+
+
+class ClickableResourceMinerFinishedIcon(ResourceMinerFinishedIcon):
+    def on_touch_down(self, touch: MotionEvent):
+        if self.collide_point(*touch.pos):
+            gameData.add_to_inventory(self.resource_name, self.amount_that_has_been_mined)
+            GlobalEvents.dispatch("remove_mine_finished_icon", self)
+            self.log_deep_debug("Clicked on, added", self.amount_that_has_been_mined, "of", self.resource_name,
+                                "to the inventory")
 
 
 __all__ = ["ResourceMinerManager"]

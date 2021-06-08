@@ -6,7 +6,7 @@
   },
   "mine": {
     "item": "scrap_metal",
-    "speed": 1,
+    "speed": 20,
     "amount": 4
   }
 }
