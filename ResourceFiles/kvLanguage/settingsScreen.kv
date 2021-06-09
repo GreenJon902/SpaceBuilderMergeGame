@@ -1,1 +1,62 @@
 <SettingsScreen>:
+    BoxLayout: # Main Holder
+        orientation: "vertical"
+
+        BoxLayout: # Control bar / Bar at top
+            orientation: "horizontal"
+
+            canvas.before:
+                Color:
+                    rgb: 0.29019607843, 0.56470588235, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            size_hint_y: graphicsConfig.getfloat("InventoryScreen", "control_bar_size_hint_y")
+
+
+            BetterButton:
+                size_type: "small"
+                button_id: "exit"
+                bg_type: "dark_blue"
+
+                let_parent_size: True
+
+                on_release: get_sm().set_screen("BaseBuildScreen")
+
+            Widget:
+                id: spacer
+
+
+        StackLayout:
+            id: inventory_items_holder
+
+            orientation: "tb-lr"
+
+            canvas.before:
+                Color:
+                    rgb: 0, 0.10588235294, 0.27058823529
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+
+            BoxLayout:
+                orientation: "horizontal"
+
+                height: volume_label.norm_image_size[1]
+
+                MultiLangLabel:
+                    id: volume_label
+                    size_hint_x: 0.3
+
+                    text_id: "Settings.Volume"
+                    text_suffix: "0"
+
+                Slider:
+                    min: 0
+                    top: 100
+
+                    on_value: volume_label.text_suffix = str(int(self.value))

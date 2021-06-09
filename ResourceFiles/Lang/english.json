@@ -10,5 +10,8 @@
       "Merge": "Merge",
       "Recipes": "Recipes"
     }
+  },
+  "Settings": {
+    "Volume": "Volume - "
   }
 }

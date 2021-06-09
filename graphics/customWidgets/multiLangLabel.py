@@ -17,6 +17,7 @@ from resources import Lang
 
 class MultiLangLabel(Image, BetterLogger):
     text_id: str = StringProperty("General.NoTextId")
+    text_suffix: str = StringProperty("")
     font_name: str = StringProperty(DEFAULT_FONT)
     color: dict = ColorProperty([1, 1, 1, 1])
     _text: str = ""
@@ -29,8 +30,12 @@ class MultiLangLabel(Image, BetterLogger):
         self.on_text_id(self, self.text_id)
 
     def on_text_id(self, instance, value: str):
-        self._text: str = Lang.get(value)
+        self._text: str = Lang.get(value) + str(self.text_id)
         self.log_debug("Switching text of", instance, "to \"", value, "\" which is \"", self._text, " \"")
+        self.do_texture()
+
+    def on_text_suffix(self, _instance, value: str):
+        self._text: str = Lang.get(self.text_id) + str(value)
         self.do_texture()
 
     def on_font_name(self, _instance, _value):
