@@ -56,6 +56,7 @@ def setup():
     from graphics.screens.loadingScreen import LoadingScreen
     from graphics.screens.baseBuildScreen import BaseBuildScreen
     from graphics.screens.inventoryScreen import InventoryScreen
+    from graphics.screens.settingsScreen import SettingsScreen
     from graphics.customWidgets.multiLangLabel import MultiLangLabel
     from graphics.customWidgets.baseLayout import BaseLayout
     from graphics.customWidgets.betterButton import BetterButton, TextBetterButton, FlatBetterButton
@@ -97,6 +98,10 @@ def setup():
     Factory.register("InventoryScreen",
                      cls=InventoryScreen,
                      module="graphics.screens.inventoryScreen")
+
+    Factory.register("SettingsScreen",
+                     cls=SettingsScreen,
+                     module="graphics.screens.settingsScreen")
 
 
 

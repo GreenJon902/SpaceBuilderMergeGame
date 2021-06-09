@@ -64,12 +64,24 @@
 
 
         BetterButton:
+            id: inventory_button
+
             on_release: get_sm().set_screen("InventoryScreen")
 
             size_type: "big"
             button_id: "inventory"
 
             pos_hint: {"right": 1, "y":0}
+
+
+        BetterButton:
+            on_release: get_sm().set_screen("SettingsScreen")
+
+            size_type: "small"
+            button_id: "settings"
+
+            pos_hint: {"right": 1}
+            y: inventory_button.top
 
 
         BuildingButtonsHandler:
