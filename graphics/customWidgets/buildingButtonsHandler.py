@@ -13,6 +13,7 @@ if TYPE_CHECKING:
     from graphics.buildings.buildingbase import BuildingBase
     from graphics.customWidgets.betterScatter import BetterScatter
     from graphics.customWidgets.betterButton import BetterButton
+    from graphics.customWidgets.baseLayout import BaseLayout
 
 
 import math
@@ -127,12 +128,34 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
 
 
     def button_touch_move(self, button: BetterButton, touch: MotionEvent):
+        self.canvas.after.clear()
+
         if touch.grab_current == button:
             building: BuildingBase = button.button_storage
 
             if button.button_id == "move":  # TODO: Make this a bit better
-                building.x += touch.dx / (15 * self.scatter.scale)
-                building.y += touch.dy / (15 * self.scatter.scale)
+                dx = touch.dx / (15 * self.scatter.scale)
+                dy = touch.dy / (15 * self.scatter.scale)
+
+                building.x += dx
+                building.y += dy
+
+                base_layout: BaseLayout = get_screen("BaseBuildScreen").ids["base_layout"]
+                (b1x1, b1y1), (b1x2, b1y2) = building.get_projected_corners()
+
+                for other_building in base_layout.buildings:
+                    if other_building.id != building.id:
+                        (b2x1, b2y1), (b2x2, b2y2) = other_building.get_projected_corners()
+
+                        if (b2x1 <= b1x1 <= b2x2 and b2y1 <= b1y1 <= b2y2) or \
+                           (b2x1 <= b1x2 <= b2x2 and b2y1 <= b1y1 <= b2y2) or \
+                           (b2x1 <= b1x1 <= b2x2 and b2y1 <= b1y2 <= b2y2) or \
+                           (b2x1 <= b1x2 <= b2x2 and b2y1 <= b1y2 <= b2y2):
+                            self.log_deep_debug("Building collided with other building while being moved")
+
+                            building.x -= dx
+                            building.y -= dy
+
 
 
             elif button.button_id == "rotate":
