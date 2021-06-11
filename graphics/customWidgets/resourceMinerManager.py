@@ -2,7 +2,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from kivy.animation import Animation
+
 from configurables import gameData
+from graphics import graphicsConfig
 from graphics.customWidgets.betterScatter import BetterScatter
 from graphics.spaceBuilderMergeGameScreenManager import get_screen
 
@@ -10,7 +13,7 @@ if TYPE_CHECKING:
     from graphics.buildings import ResourceMiner
     from kivy.input import MotionEvent
 
-from kivy.properties import StringProperty
+from kivy.properties import StringProperty, NumericProperty
 from kivy.uix.image import Image
 
 from resources import Textures
@@ -72,6 +75,8 @@ class ResourceMinerFinishedIcon(FloatLayout, BetterLogger):
     resource_name: str = StringProperty("None")
     resource_miner_id: int = None
 
+    float_up_amount: int = NumericProperty(0)
+
     def __init__(self, **kwargs):
         self.bg_image = Image(allow_stretch=True, keep_ratio=True)
         self.fg_image = Image(allow_stretch=True, keep_ratio=True)
@@ -107,21 +112,35 @@ class ResourceMinerFinishedIcon(FloatLayout, BetterLogger):
         self.fg_image.width = height
 
     def on_pos(self, _instance, pos):
-        self.bg_image.pos = pos
-        self.fg_image.pos = pos
+        self.bg_image.pos = pos[0], pos[1] + self.float_up_amount
+        self.fg_image.pos = pos[0], pos[1] + self.float_up_amount
+
+    def on_float_up_amount(self, _instance, value):
+        self.bg_image.pos = self.pos[0], self.pos[1] + value
+        self.fg_image.pos = self.pos[0], self.pos[1] + value
 
     def on_width(self, _instance, width):
         self.bg_image.width = width
         self.fg_image.width = width
 
 
+    def remove(self):
+        a = Animation(**graphicsConfig.getdict("ResourceMiner", "icon_remove_animation"),
+                      duration=graphicsConfig.getfloat("ResourceMiner", "icon_remove_animation_duration"))
+        a.bind(on_complete=lambda _animation, _instance: self.done_removing())
+        a.start(self)
+
+    def done_removing(self):
+        GlobalEvents.dispatch("remove_mine_finished_icon", self)
+
+
 class ClickableResourceMinerFinishedIcon(ResourceMinerFinishedIcon):
     def on_touch_down(self, touch: MotionEvent):
         if self.collide_point(*touch.pos):
             gameData.add_to_inventory(self.resource_name, self.amount_that_has_been_mined)
-            GlobalEvents.dispatch("remove_mine_finished_icon", self)
             self.log_deep_debug("Clicked on, added", self.amount_that_has_been_mined, "of", self.resource_name,
                                 "to the inventory")
+            self.remove()
 
 
 __all__ = ["ResourceMinerManager"]
