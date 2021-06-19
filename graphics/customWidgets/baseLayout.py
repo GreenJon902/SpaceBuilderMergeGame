@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from kivy.graphics import Rectangle, Color
+from kivy.graphics import Rectangle, Color, Line
 
 from lib.globalEvents import GlobalEvents
 
@@ -64,6 +64,8 @@ class BaseLayout(FloatLayout, BetterLogger):
                 Rectangle(pos=(r, t), size=[10, 10])
                 Rectangle(pos=(l, b), size=[10, 10])
                 Rectangle(pos=(r, b), size=[10, 10])
+                Color(0, 1, 0)
+                Line(points=[l, t, r, t, r, b, l, b], close=True)
                 Color(1, 0, 1)
                 Rectangle(pos=building.get_projected_origin(), size=[10, 10])
             Color(1, 1, 1)
