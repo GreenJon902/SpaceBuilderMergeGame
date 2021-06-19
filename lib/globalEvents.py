@@ -35,8 +35,6 @@ class GlobalEvents:
         for function in cls.bindings[event_name]:
             function(*args, **kwargs)
 
-        logger.log_deep_debug("Event '", event_name, "' was dispatched to", cls.bindings[event_name])
-
     @classmethod
     def check_binding(cls, event_name: str):
         if event_name not in cls.bindings:

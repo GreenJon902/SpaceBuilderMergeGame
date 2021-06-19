@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from shapely.geometry import Polygon
+
 from lib.globalEvents import GlobalEvents
 
 if TYPE_CHECKING:
@@ -85,13 +87,12 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
 
             # TODO: Find better solution
             Clock.schedule_once(lambda _elapsed_time: self.redo_building_move_buttons(building), 0)
-            print("12323")
 
 
         self.log_deep_debug("Added buttons to self, they are", self.custom_buttons_holder.children)
 
     def redo_building_move_buttons(self, building):
-        (x, y), (x2, y2) = building.get_projected_corners()
+        (x, y), (x2, y2) = building.get_projected_tl_br()
         x, y = self.scatter.to_parent(x, y)
         x2, y2 = self.scatter.to_parent(x2, y2)
 
@@ -142,16 +143,14 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
                 building.y += dy
 
                 base_layout: BaseLayout = get_screen("BaseBuildScreen").ids["base_layout"]
-                (b1x1, b1y1), (b1x2, b1y2) = building.get_projected_corners()
+
+                polygon = Polygon(building.get_projected_tl_tr_br_bl())
 
                 for other_building in base_layout.buildings:
                     if other_building.id != building.id:
-                        (b2x1, b2y1), (b2x2, b2y2) = other_building.get_projected_corners()
+                        other_polygon = Polygon(other_building.get_projected_tl_tr_br_bl())
 
-                        if (b2x1 <= b1x1 <= b2x2 and b2y1 <= b1y1 <= b2y2) or \
-                           (b2x1 <= b1x2 <= b2x2 and b2y1 <= b1y1 <= b2y2) or \
-                           (b2x1 <= b1x1 <= b2x2 and b2y1 <= b1y2 <= b2y2) or \
-                           (b2x1 <= b1x2 <= b2x2 and b2y1 <= b1y2 <= b2y2):
+                        if polygon.intersects(other_polygon) or polygon.contains(other_polygon):
                             self.log_deep_debug("Building collided with other building while being moved")
 
                             building.x -= dx

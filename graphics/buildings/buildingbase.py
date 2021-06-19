@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from lib import rotate
 from lib.globalEvents import GlobalEvents
 
 if TYPE_CHECKING:
@@ -51,7 +52,6 @@ class BuildingBase(EventDispatcher, BetterLogger):
         self.log_deep_debug("building___tpe__ changed to", value)
         self._obj = Models.get(value)
         self._obj.pos.z = graphicsConfig.getint("BaseLayout", "building_start_z")
-        self._obj.projection_func = self.get_projected_corners
 
     def on_x(self, _instance, value):
         self._obj.pos.x = value
@@ -63,6 +63,7 @@ class BuildingBase(EventDispatcher, BetterLogger):
 
     def on_rotation(self, _instance, value):
         self._obj.rotation.z = value
+        GlobalEvents.dispatch("building_rotated", self, value)
 
     def set_renderer_and_scene(self, renderer: Renderer, scene: Scene):
         self.renderer = renderer
@@ -160,38 +161,53 @@ class BuildingBase(EventDispatcher, BetterLogger):
     def update_game_data(self):
         gameData.set_building_info(self.id, self.save_values)
 
-    def get_projected_corners(self) -> tuple[tuple[float, float], tuple[float, float]]:
-        import math
-
-        def rotate(origin, point, angle):
-            """
-            Rotate a point counterclockwise by a given angle around a given origin.
-
-            The angle should be given in radians.
-            """
-            ox, oy = origin
-            px, py = point
-
-            qx = ox + math.cos(angle) * (px - ox) - math.sin(angle) * (py - oy)
-            qy = oy + math.sin(angle) * (px - ox) + math.cos(angle) * (py - oy)
-            return qx, qy
-
-
-        pos1 = rotate((self._obj.pos[0], self._obj.pos[1]), (self._obj.pos[0] - 5, self._obj.pos[1] - 5), self.rotation)
-        pos2 = rotate((self._obj.pos[0], self._obj.pos[1]), (self._obj.pos[0] + 5, self._obj.pos[1] + 5), self.rotation)
-
-
-        m = Matrix()  # m.project(*pos1, self._obj.pos[1],
+    def get_projected_tl_br(self) -> tuple[tuple[float, float], tuple[float, float]]:
+        m = Matrix()
         x, y, z = m.project(self._obj.pos[0] - 5, self._obj.pos[1] - 5, self._obj.pos[2] - 5,
                             self.parent.camera.model_matrix, self.parent.camera.projection_matrix,
                             self.parent.camera.pos.x, self.parent.camera.pos.y, width(), height())
 
-        # m.project(*pos2, self._obj.pos[1],
+
         x2, y2, z2 = m.project(self._obj.pos[0] + 5, self._obj.pos[1] + 5, self._obj.pos[2],
                                self.parent.camera.model_matrix, self.parent.camera.projection_matrix,
                                self.parent.camera.pos.x, self.parent.camera.pos.y, width(), height())
 
+
+
         return (x, y), (x2, y2)
+
+    def get_projected_tl_tr_bl_br(self) -> tuple[tuple[float, float], tuple[float, float], tuple[float, float],
+                                                 tuple[float, float]]:
+        tl = rotate((self._obj.pos[0], self._obj.pos[1]), (self._obj.pos[0] - 5, self._obj.pos[1] - 5), self.rotation)
+        tr = rotate((self._obj.pos[0], self._obj.pos[1]), (self._obj.pos[0] + 5, self._obj.pos[1] - 5), self.rotation)
+        bl = rotate((self._obj.pos[0], self._obj.pos[1]), (self._obj.pos[0] - 5, self._obj.pos[1] + 5), self.rotation)
+        br = rotate((self._obj.pos[0], self._obj.pos[1]), (self._obj.pos[0] + 5, self._obj.pos[1] + 5), self.rotation)
+
+        m = Matrix()
+        tl = m.project(*tl, self._obj.pos[2],
+                            self.parent.camera.model_matrix, self.parent.camera.projection_matrix,
+                            self.parent.camera.pos.x, self.parent.camera.pos.y, width(), height())
+
+
+        tr = m.project(*tr, self._obj.pos[2],
+                               self.parent.camera.model_matrix, self.parent.camera.projection_matrix,
+                               self.parent.camera.pos.x, self.parent.camera.pos.y, width(), height())
+
+        bl = m.project(*bl, self._obj.pos[2],
+                       self.parent.camera.model_matrix, self.parent.camera.projection_matrix,
+                       self.parent.camera.pos.x, self.parent.camera.pos.y, width(), height())
+
+        br = m.project(*br, self._obj.pos[2],
+                       self.parent.camera.model_matrix, self.parent.camera.projection_matrix,
+                       self.parent.camera.pos.x, self.parent.camera.pos.y, width(), height())
+
+
+        return tl[0:2], tr[0:2], bl[0:2], br[0:2]
+
+    def get_projected_tl_tr_br_bl(self) -> tuple[tuple[float, float], tuple[float, float], tuple[float, float],
+                                                 tuple[float, float]]:
+        points = self.get_projected_tl_tr_bl_br()
+        return points[0], points[1], points[3], points[2]
 
     def get_projected_origin(self) -> tuple[int, int]:
         m = Matrix()

@@ -36,7 +36,7 @@ class ResourceMinerManager(FloatLayout, BetterLogger):
 
     def batch_finished(self, resourceMiner: ResourceMiner):
         if resourceMiner.id not in self.resource_miner_finished_icons:
-            (x1, y1), (x2, y2) = resourceMiner.get_projected_corners()
+            (x1, y1), (x2, y2) = resourceMiner.get_projected_tl_br()
             x = x1 + ((x2 - x1) / 2)
             y = y2
 
@@ -59,7 +59,7 @@ class ResourceMinerManager(FloatLayout, BetterLogger):
 
         for building_id, icon in self.resource_miner_finished_icons.items():
             building = get_screen("BaseBuildScreen").ids["base_layout"].buildings[int(building_id)]
-            (x1, y1), (x2, y2) = building.get_projected_corners()
+            (x1, y1), (x2, y2) = building.get_projected_tl_br()
             x = x1 + ((x2 - x1) / 2)
             y = y2
 

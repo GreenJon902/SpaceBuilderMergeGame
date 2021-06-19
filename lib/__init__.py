@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -17,4 +18,16 @@ def ignore_args(func, *args, **kwargs):
     return newfunc
 
 
-__all__ = ["ignore_args"]
+def rotate(origin: tuple[float, float], point: tuple[float, float], angle: float) -> tuple[float, float]:
+    ox, oy = origin
+    px, py = point
+
+    angle = math.radians(angle)
+
+    qx = ox + math.cos(angle) * (px - ox) - math.sin(angle) * (py - oy)
+    qy = oy + math.sin(angle) * (px - ox) + math.cos(angle) * (py - oy)
+    return qx, qy
+
+
+
+__all__ = ["ignore_args", "rotate"]

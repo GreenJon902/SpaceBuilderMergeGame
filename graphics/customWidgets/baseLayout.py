@@ -11,6 +11,9 @@ if TYPE_CHECKING:
     from graphics.buildings.buildingbase import BuildingBase
 
 
+from shapely.geometry import Point
+from shapely.geometry.polygon import Polygon
+
 import os.path
 import random
 
@@ -46,30 +49,31 @@ class BaseLayout(FloatLayout, BetterLogger):
         self.renderer.camera.aspect = aspect
 
 
-    def redraw_hit_box(self):
+    def redraw_hit_boxes(self):
         self.canvas.after.clear()
         with self.canvas.after:
             building: BuildingBase
             for building in self.buildings:
+                proj_tl_br = building.get_projected_tl_br()
+                t = proj_tl_br[0][1]
+                b = proj_tl_br[1][1]
+                l = proj_tl_br[0][0]
+                r = proj_tl_br[1][0]
                 Color(0, 0, 1)
-                proj_corners = building.get_projected_corners()
-                print("BaseLayout", building.get_projected_origin())
+                Line(points=[l, t, r, t, r, b, l, b], close=True, width=3)
 
-                t = proj_corners[0][1]
-                b = proj_corners[1][1]
-                l = proj_corners[0][0]
-                r = proj_corners[1][0]
+                proj_tl_tr_bl_br = building.get_projected_tl_tr_bl_br()
+                tl_x, tl_y = proj_tl_tr_bl_br[0]
+                tr_x, tr_y = proj_tl_tr_bl_br[1]
+                bl_x, bl_y = proj_tl_tr_bl_br[2]
+                br_x, br_y = proj_tl_tr_bl_br[3]
 
-                Rectangle(pos=(l, t), size=[10, 10])
-                Rectangle(pos=(r, t), size=[10, 10])
-                Rectangle(pos=(l, b), size=[10, 10])
-                Rectangle(pos=(r, b), size=[10, 10])
                 Color(0, 1, 0)
-                Line(points=[l, t, r, t, r, b, l, b], close=True)
+                Line(points=[tl_x, tl_y, tr_x, tr_y, br_x, br_y, bl_x, bl_y], close=True, width=3)
+
                 Color(1, 0, 1)
                 Rectangle(pos=building.get_projected_origin(), size=[10, 10])
             Color(1, 1, 1)
-        print()
 
     def __init__(self, **kwargs):
         BetterLogger.__init__(self)
@@ -77,8 +81,9 @@ class BaseLayout(FloatLayout, BetterLogger):
 
         self.create_renderer()
         if userSettings.get("debug", "building_hit_boxes"):
-            self.bind(buildings=lambda _instance, _value: self.redraw_hit_box())
-            GlobalEvents.bind(building_moved=lambda _instance, _x, _y: self.redraw_hit_box())
+            self.bind(buildings=lambda _instance, _value: self.redraw_hit_boxes())
+            GlobalEvents.bind(building_moved=lambda _instance, _x, _y: self.redraw_hit_boxes(),
+                              building_rotated=lambda _instance, _rotation: self.redraw_hit_boxes())
 
         self.log_info("Created renderer, starting to create building objects")
 
@@ -163,6 +168,8 @@ class BaseLayout(FloatLayout, BetterLogger):
         # noinspection PyTypeChecker
         to_select: BuildingBase = None
 
+        point = Point(tx, ty)
+
         building: BuildingBase
         for building in self.buildings:
             # I want my long time and effort to be remembered, this to so long, AND THE ANSWER WAS SO SIMPLE OMG
@@ -227,17 +234,8 @@ class BaseLayout(FloatLayout, BetterLogger):
                   self.camera.pos.x, self.camera.pos.y, width(), height()))"""
 
 
-            (x, y), (x2, y2) = building.get_projected_corners()
-            print(x, y, x2, y2,)
-
-
-            # Will leave here for debug
-            """with self.canvas.after:
-                Color(rgba=(0, 1, 0, 0.5))
-
-                Rectangle(pos=(x, y), size=(x2 - x, y2 - y))"""
-
-            if x <= tx <= x2 and y <= ty <= y2:
+            polygon = Polygon(building.get_projected_tl_tr_br_bl())
+            if polygon.contains(point):
                 to_select = building
                 break
 
