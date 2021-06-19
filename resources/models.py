@@ -1,4 +1,11 @@
-from kivy3 import Object3D, Mesh
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from kivy3 import Object3D, Mesh
+
+from kivy3 import Mesh, Object3D
 
 from graphics import graphicsConfig
 from graphics.betterKv3.objLoader import OBJLoader

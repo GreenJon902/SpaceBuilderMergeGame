@@ -85,6 +85,7 @@ class BuildingButtonsHandler(FloatLayout, BetterLogger):
 
             # TODO: Find better solution
             Clock.schedule_once(lambda _elapsed_time: self.redo_building_move_buttons(building), 0)
+            print("12323")
 
 
         self.log_deep_debug("Added buttons to self, they are", self.custom_buttons_holder.children)

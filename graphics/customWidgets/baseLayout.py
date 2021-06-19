@@ -2,6 +2,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from kivy.graphics import Rectangle, Color
+
+from lib.globalEvents import GlobalEvents
+
 if TYPE_CHECKING:
     from kivy3 import Renderer, Scene, PerspectiveCamera
     from graphics.buildings.buildingbase import BuildingBase
@@ -17,7 +21,7 @@ from kivy3 import Mesh, Scene, Renderer, Material, PerspectiveCamera
 from kivy3.extras.geometries import BoxGeometry
 
 import AppInfo
-from configurables import gameData
+from configurables import gameData, userSettings
 from graphics.buildings import str_to_building
 from graphics.spaceBuilderMergeGameScreenManager import get_screen
 from lib.betterLogger import BetterLogger
@@ -41,11 +45,38 @@ class BaseLayout(FloatLayout, BetterLogger):
         aspect = rsize[0] / float(rsize[1])
         self.renderer.camera.aspect = aspect
 
+
+    def redraw_hit_box(self):
+        self.canvas.after.clear()
+        with self.canvas.after:
+            building: BuildingBase
+            for building in self.buildings:
+                Color(0, 0, 1)
+                proj_corners = building.get_projected_corners()
+                print("BaseLayout", building.get_projected_origin())
+
+                t = proj_corners[0][1]
+                b = proj_corners[1][1]
+                l = proj_corners[0][0]
+                r = proj_corners[1][0]
+
+                Rectangle(pos=(l, t), size=[10, 10])
+                Rectangle(pos=(r, t), size=[10, 10])
+                Rectangle(pos=(l, b), size=[10, 10])
+                Rectangle(pos=(r, b), size=[10, 10])
+                Color(1, 0, 1)
+                Rectangle(pos=building.get_projected_origin(), size=[10, 10])
+            Color(1, 1, 1)
+        print()
+
     def __init__(self, **kwargs):
         BetterLogger.__init__(self)
         FloatLayout.__init__(self, **kwargs)
 
         self.create_renderer()
+        if userSettings.get("debug", "building_hit_boxes"):
+            self.bind(buildings=lambda _instance, _value: self.redraw_hit_box())
+            GlobalEvents.bind(building_moved=lambda _instance, _x, _y: self.redraw_hit_box())
 
         self.log_info("Created renderer, starting to create building objects")
 
@@ -195,6 +226,7 @@ class BaseLayout(FloatLayout, BetterLogger):
 
 
             (x, y), (x2, y2) = building.get_projected_corners()
+            print(x, y, x2, y2,)
 
 
             # Will leave here for debug

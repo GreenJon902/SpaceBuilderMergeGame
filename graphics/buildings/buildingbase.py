@@ -2,9 +2,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from lib.globalEvents import GlobalEvents
+
 if TYPE_CHECKING:
     from kivy3 import Renderer, Scene, Object3D
-
 
 from kivy.clock import Clock
 from kivy.event import EventDispatcher
@@ -35,7 +36,7 @@ class BuildingBase(EventDispatcher, BetterLogger):
     def __init__(self, *args, **kwargs):
         BetterLogger.__init__(self)
         self.log_deep_debug("Creating building with args", args, kwargs)
-        self.on_building_id(self, self.__type__)
+        self.on_building___type__(self, self.__type__)
 
         EventDispatcher.__init__(self, *args, **kwargs)
 
@@ -46,16 +47,19 @@ class BuildingBase(EventDispatcher, BetterLogger):
             self.log_warning("BuildingBase needs to have a __type__, this should've be set when overridden")
 
 
-    def on_building_id(self, _instance, value):
-        self.log_deep_debug("building_id changed to", value)
+    def on_building___type__(self, _instance, value):
+        self.log_deep_debug("building___tpe__ changed to", value)
         self._obj = Models.get(value)
         self._obj.pos.z = graphicsConfig.getint("BaseLayout", "building_start_z")
+        self._obj.projection_func = self.get_projected_corners
 
     def on_x(self, _instance, value):
         self._obj.pos.x = value
+        GlobalEvents.dispatch("building_moved", self, value, self.y)
 
     def on_y(self, _instance, value):
         self._obj.pos.y = value
+        GlobalEvents.dispatch("building_moved", self, self.x, value)
 
     def on_rotation(self, _instance, value):
         self._obj.rotation.z = value
@@ -94,7 +98,7 @@ class BuildingBase(EventDispatcher, BetterLogger):
             get_screen("BaseBuildScreen").ids["building_buttons_handler"].redo_buttons(self.button_ids, self)
 
     def __repr__(self) -> str:
-        return "Building(id=" + str(self.id) + "pos=" + str((self.x, self.y)) + \
+        return "Building(id=" + str(self.id) + ", pos=" + str((self.x, self.y)) + \
                ", selected=" + str(self.selected) + ")"
 
 
@@ -157,11 +161,32 @@ class BuildingBase(EventDispatcher, BetterLogger):
         gameData.set_building_info(self.id, self.save_values)
 
     def get_projected_corners(self) -> tuple[tuple[float, float], tuple[float, float]]:
-        m = Matrix()
+        import math
+
+        def rotate(origin, point, angle):
+            """
+            Rotate a point counterclockwise by a given angle around a given origin.
+
+            The angle should be given in radians.
+            """
+            ox, oy = origin
+            px, py = point
+
+            qx = ox + math.cos(angle) * (px - ox) - math.sin(angle) * (py - oy)
+            qy = oy + math.sin(angle) * (px - ox) + math.cos(angle) * (py - oy)
+            return qx, qy
+
+
+        pos1 = rotate((self._obj.pos[0], self._obj.pos[1]), (self._obj.pos[0] - 5, self._obj.pos[1] - 5), self.rotation)
+        pos2 = rotate((self._obj.pos[0], self._obj.pos[1]), (self._obj.pos[0] + 5, self._obj.pos[1] + 5), self.rotation)
+
+
+        m = Matrix()  # m.project(*pos1, self._obj.pos[1],
         x, y, z = m.project(self._obj.pos[0] - 5, self._obj.pos[1] - 5, self._obj.pos[2] - 5,
                             self.parent.camera.model_matrix, self.parent.camera.projection_matrix,
                             self.parent.camera.pos.x, self.parent.camera.pos.y, width(), height())
 
+        # m.project(*pos2, self._obj.pos[1],
         x2, y2, z2 = m.project(self._obj.pos[0] + 5, self._obj.pos[1] + 5, self._obj.pos[2],
                                self.parent.camera.model_matrix, self.parent.camera.projection_matrix,
                                self.parent.camera.pos.x, self.parent.camera.pos.y, width(), height())

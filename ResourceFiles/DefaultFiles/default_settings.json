@@ -1,6 +1,7 @@
 {
   "debug": {
-    "log_level": "info"
+    "log_level": "info",
+    "building_hit_boxes": 0
   },
 
   "UI": {
